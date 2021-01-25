@@ -9,6 +9,8 @@ module.exports = {
       },
       instances: 'max',
       exec_mode: 'cluster',
+      interpreter: './node_modules/babel-cli/bin/babel-node.js',
+      interpreter_args: '--harmony',
     },
   ],
 };
