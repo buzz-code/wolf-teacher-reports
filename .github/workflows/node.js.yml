@@ -20,5 +20,5 @@ jobs:
             cd ~/listen-report
             git pull origin master
             npm install --production
-            npm run build:prod
+            npm run webpack:prod
             pm2 restart listen-report
