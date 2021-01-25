@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'listen-report',
-      script: './server/app.js.js',
+      script: './server/app.js',
       watch: true,
       env: {
         NODE_ENV: 'production',
