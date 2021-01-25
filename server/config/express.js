@@ -12,10 +12,10 @@ const app = express();
 
 require('dotenv').config();
 
-app.set('port',  process.env.APP_PORT || 3000);
-app.set('host',  process.env.APP_HOST || 'localhost');
+app.set('port', process.env.APP_PORT || 3000);
+app.set('host', process.env.APP_HOST || 'localhost');
 
-app.use(express.static(constant.distDir));
+app.use('/dist', express.static(constant.distDir));
 
 app.use(cors());
 app.use(helmet());
