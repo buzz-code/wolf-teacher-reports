@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'listen-report',
       script: './index.js',
-      watch: true,
+      watch: false,
       env: {
         NODE_ENV: 'production',
       },
