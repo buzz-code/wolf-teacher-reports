@@ -53,7 +53,9 @@ export class CallBase {
         });
     }
     async process(params, res) {
-        Object.assign(this.params, params);
+        for (const key in params) {
+            this.params[key] = Array.isArray(params[key]) ? params[key].pop() : params[key];
+        }
         this.res = res;
         if (params.hangup === 'yes') {
             this.action.reject();
@@ -72,7 +74,7 @@ export class CallBase {
         let res = [param];
         switch (mode) {
             case 'tap':
-                res.push(options.re_enter_if_exists ? "yes" : "no");
+                res.push(options.use_previous_if_exists ? "yes" : "no");
                 res.push(options.max || "*");
                 res.push(options.min || "1");
                 res.push(options.sec_wait || 7);
@@ -87,7 +89,7 @@ export class CallBase {
                 break;
 
             case "record":
-                res.push(options.re_enter_if_exists ? "yes" : "no");
+                res.push(options.use_previous_if_exists ? "yes" : "no");
                 res.push("record");
                 res.push(options.path || "");
                 res.push(options.file_name || "");
