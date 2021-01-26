@@ -21,17 +21,21 @@ export class CallBase {
     async start() {
         try {
             await this.send(this.read({ type: 'text', text: 'הקש 10' }, 'number'));
-            this.send(this.id_list_message({ type: 'text', text: 'הקשת ' + this.params.number }), this.hangup());
+            await this.send(this.id_list_message({ type: 'text', text: 'הקשת ' + this.params.number }), this.hangup());
         }
         catch (e) {
-            this.res.send(this.hangup());
-            console.log('catch yemot exeption', e);
+            if (e) {
+                console.log('catch yemot exeption', e);
+            }
         } finally {
             this.end();
         }
     }
     async end() {
+        console.log('end call', this.params);
         CallListHandler.deleteCallById(this.callId);
+        if (!this.res._headerSent)
+            this.res.send(this.hangup())
     }
     send(message) {
         if (!this.res)
