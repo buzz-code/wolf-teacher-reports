@@ -16,7 +16,7 @@ const products = [
 const Dashboard = () => {
   return (
     <div>
-      <h2 style={{ paddingBottom: '15px' }}>Dashboard</h2>
+      <h2 style={{ paddingBottom: '15px' }}>לוח הבקרה</h2>
 
       <Grid container spacing={4} style={{ marginBottom: '15px' }}>
         <Grid item lg={3} sm={6} xl={3} xs={12}>

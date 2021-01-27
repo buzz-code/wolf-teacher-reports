@@ -9,17 +9,16 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
 } from '@material-ui/core';
 import {
   ChevronRight,
   Dashboard,
   ShoppingCart,
   People,
-  BarChart,
   Layers,
   Assignment,
 } from '@material-ui/icons';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -55,6 +54,22 @@ const useStyles = makeStyles((theme) => ({
 
 const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
   const classes = useStyles();
+  const location = useLocation();
+
+  const activeRoute = (routeName) => {
+    return location.pathname === routeName ? true : false;
+  };
+
+  const getNavLinkItem = (url, Icon, text) => (
+    <NavLink style={{ textDecoration: 'none', color: 'initial' }} to={url}>
+      <ListItem button selected={location.pathname === url}>
+        <ListItemIcon>
+          <Icon />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItem>
+    </NavLink>
+  );
 
   return (
     <Drawer
@@ -72,62 +87,14 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
       <Divider />
       <List>
         <div>
-          <ListItem button>
-            <ListItemIcon>
-              <Dashboard />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <ShoppingCart />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <People />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <BarChart />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <Layers />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
-          </ListItem>
+          {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
+          {getNavLinkItem('/orders', ShoppingCart, 'Orders')}
+          {getNavLinkItem('/customers', People, 'Customers')}
+          {getNavLinkItem('/reports', Assignment, 'נתוני הבנות')}
+          {getNavLinkItem('/integrations', Layers, 'Integrations')}
         </div>
       </List>
       <Divider />
-      <List>
-        <div>
-          <ListSubheader inset>Saved reports</ListSubheader>
-          <ListItem button>
-            <ListItemIcon>
-              <Assignment />
-            </ListItemIcon>
-            <ListItemText primary="Current month" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <Assignment />
-            </ListItemIcon>
-            <ListItemText primary="Last quarter" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <Assignment />
-            </ListItemIcon>
-            <ListItemText primary="Year-end sale" />
-          </ListItem>
-        </div>
-      </List>
     </Drawer>
   );
 };
