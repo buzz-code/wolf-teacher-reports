@@ -15,5 +15,5 @@ export default {
         tableName: 'migrations',
         directory: process.cwd() + '/server/migrations',
     },
-    debug: true
+    debug: process.env.DB_DEBUG === 'true'
 };
