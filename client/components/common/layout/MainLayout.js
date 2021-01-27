@@ -11,6 +11,7 @@ const styles = (theme) => ({
   root: {
     width: '100%',
     height: 'auto',
+    minHeight: '100%',
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -19,6 +20,7 @@ const styles = (theme) => ({
     display: 'flex',
     width: '100%',
     height: '100%',
+    minHeight: '100vh',
   },
   content: {
     width: '100%',
@@ -43,10 +45,10 @@ const MainLayout = (props) => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <Header navDrawerOpen={open} handleToggleDrawer={handleToggle} />
-        <MiniDrawer navDrawerOpen={open} />
+        <MiniDrawer navDrawerOpen={open} handleToggleDrawer={handleToggle} />
         <main className={classes.content}>{children}</main>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
