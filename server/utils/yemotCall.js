@@ -22,9 +22,9 @@ export class YemotCall extends CallBase {
         askForOtherStudentsNumber: 'כמה בנות צפו בשיעור חוץ ממך?',
         chooseAttendanceTypeByLesson: 'בחרי את סוג הנוכחות, ',
         forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
-        askIfHasAnotherTeacher: 'האם צפית היום אצל מורה נוספת? לאישור הקישי 1, לסיום הקישי 2',
+        askIfHasAnotherTeacher: 'האם צפית היום אצל מורה נוספת? אם כן הקישי 1, אם לא הקישי 2',
         recordWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
-        recordWasSavedSuccessfully: 'תיקוף השיחה הסתיים בהצלחה',
+        recordWasSavedSuccessfully: 'תיקוף הנוכחות הסתיים בהצלחה',
     }
 
     async start() {
@@ -92,7 +92,7 @@ export class YemotCall extends CallBase {
         const types = await queryHelper.getReportTypeByUserId(this.user.id);
         let reportTypeMessage = this.texts.chooseAttendanceTypeByLesson;
         for (const index in types) {
-            reportTypeMessage += format(this.texts.forAttendanceTypeXPressY, types[index].name, (index + 1))
+            reportTypeMessage += format(this.texts.forAttendanceTypeXPressY, types[index].name, (Number(index) + 1))
         }
 
         for (let i = 0; i < lessonNumber; i++) {
