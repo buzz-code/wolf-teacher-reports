@@ -12,7 +12,7 @@ import {
   ListSubheader,
 } from '@material-ui/core';
 import {
-  ChevronLeft,
+  ChevronRight,
   Dashboard,
   ShoppingCart,
   People,
@@ -21,7 +21,7 @@ import {
   Assignment,
 } from '@material-ui/icons';
 
-const drawerWidth = 250;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
@@ -66,7 +66,7 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
     >
       <div className={classes.toolbarIcon}>
         <IconButton onClick={handleToggleDrawer}>
-          <ChevronLeft />
+          <ChevronRight />
         </IconButton>
       </div>
       <Divider />

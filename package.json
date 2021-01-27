@@ -49,6 +49,7 @@
     "history": "^4.10.1",
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
+    "jss-rtl": "^0.3.0",
     "jwt-decode": "^2.2.0",
     "knex": "^0.21.2",
     "method-override": "^3.0.0",

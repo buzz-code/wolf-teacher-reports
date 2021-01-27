@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import * as authService from '../../../services/authService';
 
-const drawerWidth = 250;
+const drawerWidth = 240;
 
 const styles = (theme) => ({
   appBar: {
