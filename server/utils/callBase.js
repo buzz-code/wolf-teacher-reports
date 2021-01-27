@@ -1,8 +1,11 @@
+import * as queryHelper from './queryHelper';
+
 export class CallListHandler {
     static calls = {};
-    static getCallById(callId, callType) {
+    static async getCallById(callId, params, callType) {
         if (!CallListHandler.calls[callId]) {
-            CallListHandler.calls[callId] = new callType(callId);
+            const user = await queryHelper.getUserByPhone(params.ApiDID);
+            CallListHandler.calls[callId] = new callType(params, callId, user);
         }
         return CallListHandler.calls[callId];
     }
@@ -12,9 +15,10 @@ export class CallListHandler {
 }
 
 export class CallBase {
-    constructor(callId) {
+    constructor(params, callId, user) {
         this.callId = callId;
-        this.params = {};
+        this.user = user;
+        this.params = params;
         this.res = null;
         this.waitForResponse().then(this.start.bind(this))
     }

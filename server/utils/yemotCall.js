@@ -1,15 +1,13 @@
 import { CallBase } from "./callBase";
 import format from 'string-format';
+import * as queryHelper from './queryHelper';
 
 // todo: replace mock
-const Student = { findByPhone: async (phone) => ({ Name: 'שושנה' }) }
 const Report = { createReport: async (params) => true }
-const Teacher = { findByTz: async (id) => ({ Name: 'ברכה' }) }
-const ReportType = { fetchAll: async () => ([{ Name: 'צפיה' }, { Name: 'מסירה' }]) }
 
 export class YemotCall extends CallBase {
-    constructor(callId) {
-        super(callId);
+    constructor(params, callId, user) {
+        super(params, callId, user);
     }
 
     texts = {
@@ -31,15 +29,16 @@ export class YemotCall extends CallBase {
 
     async start() {
         try {
-            const student = await Student.findByPhone(this.params.ApiPhone);
+            const student = await queryHelper.getStudentByUserIdAndPhone(this.user.id, this.params.ApiPhone);
             if (!student) {
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.phoneIsNotRecognizedInTheSystem }),
                     this.hangup()
                 );
             }
+            this.params.student = student;
             await this.send(
-                this.read({ type: 'text', text: format(this.texts.welcomeAndTypeEnterHour, student.Name) },
+                this.read({ type: 'text', text: format(this.texts.welcomeAndTypeEnterHour, student.name) },
                     'enterHour', 'tap', { max: 4, min: 4, block_asterisk: true })
             );
             await this.send(
@@ -72,13 +71,13 @@ export class YemotCall extends CallBase {
     async getTeacherDetails() {
         await this.send(
             this.read({ type: 'text', text: this.texts.typeTzOfTeacher },
-                'teacherId', 'tap', { max: 9, min: 9, block_asterisk: true })
+                'teacherTz', 'tap', { max: 9, min: 9, block_asterisk: true })
         );
 
-        const teacher = await Teacher.findByTz(this.params.teacherId);
+        const teacher = await queryHelper.getTeacherByUserIdAndTz(this.user.id, this.params.teacherTz);
         if (teacher) {
             await this.send(
-                this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, teacher.Name) },
+                this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, teacher.name) },
                     'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
         } else {
@@ -90,10 +89,10 @@ export class YemotCall extends CallBase {
         }
         const lessonNumber = Number(this.params.lessonNumber);
         const lessons = [];
-        const types = await ReportType.fetchAll();
+        const types = await queryHelper.getReportTypeByUserId(this.user.id);
         let reportTypeMessage = this.texts.chooseAttendanceTypeByLesson;
         for (const index in types) {
-            reportTypeMessage += format(this.texts.forAttendanceTypeXPressY, types[index].Name, index + 1)
+            reportTypeMessage += format(this.texts.forAttendanceTypeXPressY, types[index].name, (index + 1))
         }
 
         for (let i = 0; i < lessonNumber; i++) {
@@ -108,13 +107,13 @@ export class YemotCall extends CallBase {
                     'reportType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             const reportType = Number(this.params.reportType);
-            lessons.push({ otherStudents, reportType });
+            lessons.push({ otherStudents, reportType: types[reportType - 1] });
         }
 
         if (!this.params.teacherReport) {
             this.params.teacherReport = [];
         }
-        this.params.teacherReport.push({ teacherId: this.params.teacherId, lessons });
+        this.params.teacherReport.push({ teacherTz: this.params.teacherTz, teacher, lessons });
 
         await this.send(
             this.read({ type: 'text', text: this.texts.askIfHasAnotherTeacher },
