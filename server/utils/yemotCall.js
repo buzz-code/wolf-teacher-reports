@@ -1,9 +1,7 @@
 import { CallBase } from "./callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
-
-// todo: replace mock
-const Report = { createReport: async (params) => true }
+import Report from "../models/report.model";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -36,7 +34,6 @@ export class YemotCall extends CallBase {
                     this.hangup()
                 );
             }
-            this.params.student = student;
             await this.send(
                 this.read({ type: 'text', text: format(this.texts.welcomeAndTypeEnterHour, student.name) },
                     'enterHour', 'tap', { max: 4, min: 4, block_asterisk: true })
@@ -46,13 +43,37 @@ export class YemotCall extends CallBase {
                     'exitHour', 'tap', { max: 4, min: 4, block_asterisk: true })
             );
             await this.getTeacherDetails();
-            const isSuccess = await Report.createReport(this.params);
-            if (isSuccess) {
+            try {
+                const baseReport = {
+                    user_id: this.user.id,
+                    student_id: student.id,
+                    enter_hour: this.params.enterHour,
+                    exit_hour: this.params.exitHour,
+                    reprot_date: new Date().toISOString().substr(0, 10),
+                };
+                let lessonIndex = 1;
+                for (const teacherReport of this.params.teacherReport) {
+                    const baseTeacherReport = {
+                        ...baseReport,
+                        teacher_id: teacherReport.teacher?.id,
+                        teacher_tz: teacherReport.teacherTz,
+                    };
+                    for (const lesson of teacherReport.lessons) {
+                        await new Report({
+                            ...baseTeacherReport,
+                            lesson_number: lessonIndex++,
+                            other_students: lesson.otherStudents,
+                            report_type_id: lesson.reportType.id,
+                        })
+                            .save();
+                    }
+                }
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.recordWasSavedSuccessfully }),
                     this.hangup()
                 );
-            } else {
+            }
+            catch {
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.recordWasNotSaved }),
                     this.hangup()
@@ -82,7 +103,7 @@ export class YemotCall extends CallBase {
             );
         } else {
             await this.send(
-                this.id_list_message({ typs: 'text', text: this.texts.teacherTzIsNotInTheSystem }),
+                this.id_list_message({ type: 'text', text: this.texts.teacherTzIsNotInTheSystem }),
                 this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, '') },
                     'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
