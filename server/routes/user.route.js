@@ -6,6 +6,8 @@ import schema from '../utils/validator';
 
 const router = express.Router();
 
+router.use(isAuthenticated);
+
 /**
  * @swagger
  * tags:
@@ -218,7 +220,7 @@ router.route('/:id')
      *         description: Invalid user
      */
 
-    .put(isAuthenticated, (req, res) => {
+    .put((req, res) => {
         userCtrl.update(req, res);
     })
 
@@ -247,7 +249,7 @@ router.route('/:id')
      *          description: "Invalid ID"
      */
 
-    .delete(isAuthenticated, (req, res) => {
+    .delete((req, res) => {
         userCtrl.destroy(req, res);
     });
 

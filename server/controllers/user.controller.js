@@ -13,14 +13,12 @@ export function findAll(req, res) {
     User.forge()
         .fetchAll()
         .then(user => res.json({
-                error: false,
-                data: user.toJSON()
-            })
-        )
+            error: false,
+            data: user.toJSON()
+        }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            error: err
+        }));
 }
 
 /**
@@ -31,8 +29,8 @@ export function findAll(req, res) {
  * @returns {*}
  */
 export function findById(req, res) {
-    User.forge({id: req.params.id})
-        .fetch()
+    User.forge({ id: req.params.id })
+        .fetch({ require: false })
         .then(user => {
             if (!user) {
                 res.status(HttpStatus.NOT_FOUND).json({
@@ -47,9 +45,8 @@ export function findById(req, res) {
             }
         })
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            error: err
+        }));
 }
 
 /**
@@ -60,21 +57,19 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-    const {first_name, last_name, email} = req.body;
+    const { first_name, last_name, email } = req.body;
     const password = bcrypt.hashSync(req.body.password, 10);
 
     User.forge({
         first_name, last_name, email, password
     }).save()
         .then(user => res.json({
-                success: true,
-                data: user.toJSON()
-            })
-        )
+            success: true,
+            data: user.toJSON()
+        }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            error: err
+        }));
 }
 
 /**
@@ -85,28 +80,21 @@ export function store(req, res) {
  * @returns {*}
  */
 export function update(req, res) {
-    User.forge({id: req.params.id})
-        .fetch({require: true})
+    User.forge({ id: req.params.id })
+        .fetch({ require: true })
         .then(user => user.save({
-                first_name: req.body.first_name || user.get('first_name'),
-                last_name: req.body.last_name || user.get('last_name'),
-                email: req.body.email || user.get('email')
-            })
-                .then(() => res.json({
-                        error: false,
-                        data: user.toJSON()
-                    })
-                )
-                .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                        error: true,
-                        data: {message: err.message}
-                    })
-                )
-        )
+            first_name: req.body.first_name || user.get('first_name'),
+            last_name: req.body.last_name || user.get('last_name'),
+            email: req.body.email || user.get('email')
+        }))
+        .then(user => res.json({
+            error: false,
+            data: user.toJSON()
+        }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            error: true,
+            data: { message: err.message }
+        }));
 }
 
 /**
@@ -117,22 +105,15 @@ export function update(req, res) {
  * @returns {*}
  */
 export function destroy(req, res) {
-    User.forge({id: req.params.id})
-        .fetch({require: true})
-        .then(user => user.destroy()
-            .then(() => res.json({
-                    error: false,
-                    data: {message: 'User deleted successfully.'}
-                })
-            )
-            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                    error: true,
-                    data: {message: err.message}
-                })
-            )
-        )
+    User.forge({ id: req.params.id })
+        .fetch({ require: true })
+        .then(user => user.destroy())
+        .then(() => res.json({
+            error: false,
+            data: { message: 'User deleted successfully.' }
+        }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            error: true,
+            data: { message: err.message }
+        }));
 }

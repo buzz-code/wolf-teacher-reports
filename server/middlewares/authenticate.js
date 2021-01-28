@@ -22,14 +22,14 @@ export default (req, res, next) => {
     if (token) {
         jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
             if (err) {
-                res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
+                res.status(HttpStatus.UNAUTHORIZED).json({ error: 'You are not authorized to perform this operation!' });
             } else {
                 User.query({
-                    where: {id: decoded.id},
+                    where: { id: decoded.id },
                     select: ['email', 'id']
-                }).fetch().then(user => {
+                }).fetch({ require: false }).then(user => {
                     if (!user) {
-                        res.status(HttpStatus.NOT_FOUND).json({error: 'No such user'});
+                        res.status(HttpStatus.NOT_FOUND).json({ error: 'No such user' });
                     } else {
                         req.currentUser = user;
                         next();

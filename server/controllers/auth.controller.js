@@ -12,10 +12,10 @@ import logger from '../config/winston';
  * @returns {*}
  */
 export function login(req, res) {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     User.query({
-        where: {email: email},
-    }).fetch().then(user => {
+        where: { email: email },
+    }).fetch({ require: false }).then(user => {
         if (user) {
             if (bcrypt.compareSync(password, user.get('password'))) {
 
@@ -27,7 +27,7 @@ export function login(req, res) {
                 res.json({
                     success: true,
                     token,
-                    email:  user.get('email')
+                    email: user.get('email')
                 });
             } else {
                 logger.log('error', 'Authentication failed. Invalid password.');
