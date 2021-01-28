@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blueGrey } from '@material-ui/core/colors';
+import { heIL } from '@material-ui/core/locale';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
@@ -16,15 +17,18 @@ const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const mountNode = document.getElementById('root');
 
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
+const theme = createMuiTheme(
+  {
+    typography: {
+      useNextVariants: true,
+    },
+    palette: {
+      primary: blueGrey,
+    },
+    direction: 'rtl',
   },
-  palette: {
-    primary: blueGrey,
-  },
-  direction: 'rtl',
-});
+  heIL
+);
 
 // Used to log in if token is valid
 store.dispatch(verifyToken());

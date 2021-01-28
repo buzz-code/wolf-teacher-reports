@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
+import heLocale from 'date-fns/locale/he';
 
 import { REPORTS } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
@@ -26,15 +27,22 @@ const Reports = () => {
     dispatch(crudAction.fetchAll(REPORTS));
   }, []);
 
-  const getSaveItem = console.log; // (rowData)=>({ ...rowData, tableData: undefined, report_date: rowData.report_date.toISOString().substr(0, 10) })
+  const getSaveItem = (rowData) => ({
+    ...rowData,
+    report_date:
+      rowData.report_date instanceof Date
+        ? rowData.report_date.toISOString().substr(0, 10)
+        : rowData.report_date.substr(0, 10),
+    tableData: undefined,
+  });
   const onRowAdd = (rowData) => dispatch(crudAction.storeItem(REPORTS, getSaveItem(rowData)));
-  const onRowUpdate = (oldData, newData) =>
+  const onRowUpdate = (newData, oldData) =>
     dispatch(crudAction.updateItem(REPORTS, getSaveItem(newData), newData.id));
   const onRowDelete = (rowData) => dispatch(crudAction.destroyItem(REPORTS, rowData.id));
 
   return (
     <div>
-      <h2 style={{ paddingBottom: '15px' }}>נתוני הבנות</h2>
+      <h2 style={{ paddingBottom: '15px' }}>צפיות</h2>
 
       {data && (
         <MaterialTable
@@ -43,6 +51,11 @@ const Reports = () => {
           data={data}
           editable={{ onRowAdd, onRowUpdate, onRowDelete }}
           options={{ actionsColumnIndex: -1 }}
+          localization={{
+            body: {
+              dateTimePickerLocalization: heLocale,
+            },
+          }}
         />
       )}
     </div>

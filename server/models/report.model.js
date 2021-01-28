@@ -1,3 +1,4 @@
+import moment from 'moment';
 import bookshelf from '../config/bookshelf';
 import User from './user.model';
 
@@ -17,6 +18,12 @@ class Report extends bookshelf.Model {
 
     user() {
         return this.belongsTo(User);
+    }
+
+    toJSON() {
+        var attrs = bookshelf.Model.prototype.toJSON.apply(this, arguments);
+        attrs.report_date = moment(this.get('report_date')).format('YYYY-MM-DD');
+        return attrs;
     }
 }
 

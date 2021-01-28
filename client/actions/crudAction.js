@@ -22,7 +22,7 @@ export const fetchAll = (entity) => {
     return httpService
       .fetchEntity(entity)
       .then((response) => {
-        dispatch(commonAction.fetch(entity, response.data));
+        return dispatch(commonAction.fetch(entity, response.data));
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error));
@@ -35,7 +35,7 @@ export const fetchById = (entity, id) => {
     return httpService
       .fetchEntityById(entity, id)
       .then((response) => {
-        dispatch(commonAction.selectItem(entity, response.data));
+        return dispatch(commonAction.selectItem(entity, response.data));
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error));
@@ -48,7 +48,7 @@ export const storeItem = (entity, data) => {
     return httpService
       .storeEntity(entity, data)
       .then((response) => {
-        dispatch(fetchAll(entity, data));
+        return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error));
@@ -61,7 +61,7 @@ export const updateItem = (entity, data, id) => {
     return httpService
       .updateEntity(entity, data, id)
       .then((response) => {
-        dispatch(fetchAll(entity, data));
+        return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error));
@@ -74,7 +74,7 @@ export const destroyItem = (entity, id, data) => {
     return httpService
       .destroyEntity(entity, id)
       .then((response) => {
-        dispatch(fetchAll(entity, data));
+        return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error));
@@ -85,9 +85,9 @@ export const destroyItem = (entity, id, data) => {
 export const submitForm = (entity, data, id) => {
   return (dispatch) => {
     if (id) {
-      dispatch(updateItem(entity, data, id));
+      return dispatch(updateItem(entity, data, id));
     } else {
-      dispatch(storeItem(entity, data));
+      return dispatch(storeItem(entity, data));
     }
   };
 };
