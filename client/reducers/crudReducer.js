@@ -1,4 +1,5 @@
 import {
+  ENTITY_FAILURE,
   ENTITY_CREATE,
   ENTITY_UPDATE,
   ENTITY_FETCH,
@@ -8,46 +9,66 @@ import {
 } from '../constants/actionType';
 
 let initialState = {
-  products: [],
-  selectedItem: {
-    product: {},
-  },
+  error: null,
+  data: null,
+  selectedItem: null,
 };
 
 /**
  * A reducer takes two arguments, the current state and an action.
  */
-export default function (state, action) {
-  state = state || initialState;
-  let newState;
-
-  switch (action.type) {
-    case ENTITY_CREATE:
-      newState[action.entity] = Object.assign({}, state, action.data);
-      return newState;
-
-    case ENTITY_UPDATE:
-      newState[action.entity] = Object.assign({}, state, action.data);
-      return newState;
-
-    case ENTITY_FETCH:
-      newState[action.entity] = Object.assign({}, state, action.data);
-      return newState;
-
-    case ENTITY_DELETE:
-      const data = Object.assign({}, state);
-      newState[action.entity] = data.filter((data) => data.id !== action.data.id);
-      return newState;
-
-    case SELECT_ENTITY_ITEM:
-      newState.selectedItem[action.entity] = Object.assign({}, state, action.data);
-      return newState;
-
-    case CLEAR_ENTITY_LIST:
-      newState[action.entity] = {};
-      return newState;
-
-    default:
+export default function (entity) {
+  return function (state = initialState, action) {
+    if (action.entity !== entity) {
       return state;
-  }
+    }
+
+    switch (action.type) {
+      case ENTITY_FAILURE:
+        return {
+          ...state,
+          error: action.error,
+        };
+
+      case ENTITY_CREATE:
+        return {
+          ...state,
+          selectedItem: action.data.data,
+        };
+
+      case ENTITY_UPDATE:
+        return {
+          ...state,
+          selectedItem: action.data.data,
+        };
+
+      case ENTITY_FETCH:
+        return {
+          ...state,
+          error: null,
+          data: action.data.data,
+        };
+
+      case ENTITY_DELETE:
+        return {
+          ...state,
+          selectedItem: null,
+        };
+
+      case SELECT_ENTITY_ITEM:
+        return {
+          ...state,
+          selectedItem: action.data,
+        };
+
+      case CLEAR_ENTITY_LIST:
+        return {
+          ...state,
+          data: null,
+        };
+
+      default:
+        return state;
+    }
+  };
 }
