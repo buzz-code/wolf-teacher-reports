@@ -12,8 +12,8 @@ const CURRENT_WORKING_DIR = process.cwd();
 const config = {
     context: path.resolve(CURRENT_WORKING_DIR, 'client'),
     entry: {
-        app: [
-            'webpack-hot-middleware/client', // bundle the client for hot reloading
+        main: [
+            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true', // bundle the client for hot reloading
             './main.js'  // the entry point of app
         ]
     },
@@ -24,6 +24,7 @@ const config = {
         publicPath: '/dist/'
     },
     plugins: [
+        new webpack.optimize.OccurrenceOrderPlugin(), // OccurrenceOrderPlugin is needed for webpack 1.x only
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally
         new webpack.NoEmitOnErrorsPlugin(),  // do not emit compiled assets that include errors
         new Dotenv()
