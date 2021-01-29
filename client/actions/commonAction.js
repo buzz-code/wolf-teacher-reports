@@ -6,6 +6,7 @@ import {
   ENTITY_DELETE,
   SELECT_ENTITY_ITEM,
   CLEAR_ENTITY_LIST,
+  GET_EDIT_DATA,
 } from '../constants/actionType';
 
 export const failure = (entity, error) => {
@@ -60,5 +61,13 @@ export const clearList = (entity) => {
   return {
     type: CLEAR_ENTITY_LIST,
     entity: entity,
+  };
+};
+
+export const getEditData = (entity, data) => {
+  return {
+    type: GET_EDIT_DATA,
+    entity: entity,
+    data: data,
   };
 };

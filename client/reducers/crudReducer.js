@@ -6,12 +6,14 @@ import {
   SELECT_ENTITY_ITEM,
   ENTITY_DELETE,
   CLEAR_ENTITY_LIST,
+  GET_EDIT_DATA,
 } from '../constants/actionType';
 
 let initialState = {
   error: null,
   data: null,
   selectedItem: null,
+  editData: null,
 };
 
 /**
@@ -58,13 +60,19 @@ export default function (entity) {
       case SELECT_ENTITY_ITEM:
         return {
           ...state,
-          selectedItem: action.data,
+          selectedItem: action.data.data,
         };
 
       case CLEAR_ENTITY_LIST:
         return {
           ...state,
           data: null,
+        };
+
+      case GET_EDIT_DATA:
+        return {
+          ...state,
+          editData: action.data.data,
         };
 
       default:

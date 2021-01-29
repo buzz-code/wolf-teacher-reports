@@ -1,5 +1,3 @@
-import history from '../utils/history';
-
 /**
  * Import all commonAction as an object.
  */
@@ -25,7 +23,7 @@ export const fetchAll = (entity) => {
         return dispatch(commonAction.fetch(entity, response.data));
       })
       .catch((error) => {
-        dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error));
       });
   };
 };
@@ -38,7 +36,7 @@ export const fetchById = (entity, id) => {
         return dispatch(commonAction.selectItem(entity, response.data));
       })
       .catch((error) => {
-        dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error));
       });
   };
 };
@@ -51,7 +49,7 @@ export const storeItem = (entity, data) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error));
       });
   };
 };
@@ -64,7 +62,7 @@ export const updateItem = (entity, data, id) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error));
       });
   };
 };
@@ -77,7 +75,7 @@ export const destroyItem = (entity, id, data) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error));
       });
   };
 };
@@ -89,5 +87,18 @@ export const submitForm = (entity, data, id) => {
     } else {
       return dispatch(storeItem(entity, data));
     }
+  };
+};
+
+export const getEditData = (entity) => {
+  return (dispatch) => {
+    return httpService
+      .getEditData(entity)
+      .then((response) => {
+        return dispatch(commonAction.getEditData(entity, response.data));
+      })
+      .catch((error) => {
+        return dispatch(commonAction.failure(entity, error));
+      });
   };
 };

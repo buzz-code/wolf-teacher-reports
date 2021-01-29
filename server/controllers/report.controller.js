@@ -1,5 +1,8 @@
 import HttpStatus from 'http-status-codes';
 import Report from '../models/report.model';
+import ReportType from '../models/reportType.model';
+import Student from '../models/student.model';
+import Teacher from '../models/teacher.model';
 
 /**
  * Find all the reports
@@ -111,4 +114,30 @@ export function destroy(req, res) {
             error: true,
             data: { message: err.message }
         }));
+}
+
+/**
+ * Get edit data
+ *
+ * @param {object} req
+ * @param {object} res
+ * @returns {*}
+ */
+export async function getEditData(req, res) {
+    const [reportTypes, students, teachers] = await Promise.all([
+        getListFromTable(ReportType, req.currentUser.id),
+        getListFromTable(Student, req.currentUser.id),
+        getListFromTable(Teacher, req.currentUser.id),
+    ]);
+    res.json({
+        success: true,
+        data: { reportTypes, students, teachers }
+    });
+}
+
+function getListFromTable(table, user_id) {
+    return new table({ user_id })
+        .query({ select: ['id', 'name'] })
+        .fetchAll()
+        .then(result => result.toJSON());
 }

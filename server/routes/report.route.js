@@ -16,6 +16,11 @@ router.route('/')
         reportCtrl.findAll(req, res);
     });
 
+router.route('/getEditData')
+    .get((req, res) => {
+        reportCtrl.getEditData(req, res);
+    });
+
 router.route('/:id')
     .get((req, res) => {
         reportCtrl.findById(req, res);
