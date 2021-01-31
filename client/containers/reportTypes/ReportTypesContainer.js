@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 
-import ReportTypes from '../../components/reportTypes/ReportTypes';
+import Table from '../../components/table/Table';
+import { REPORT_TYPES } from '../../constants/entity';
 
-class ReportTypesContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+const getColumns = () => [{ field: 'name', title: 'סוג צפיה' }];
 
-  render() {
-    return <ReportTypes />;
-  }
-}
+const ReportTypesContainer = () => {
+  const title = 'סוגי צפיה';
+  const entity = REPORT_TYPES;
+  const columns = useMemo(() => getColumns(), []);
+
+  return <Table entity={entity} title={title} columns={columns} />;
+};
 
 export default ReportTypesContainer;

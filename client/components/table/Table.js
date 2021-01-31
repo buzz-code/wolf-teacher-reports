@@ -2,44 +2,42 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import MaterialTable from 'material-table';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
-import { REPORT_TYPES } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 
-const getColumns = () => [{ field: 'name', title: 'סוג צפיה' }];
-
-const ReportTypes = () => {
+const Texts = ({ entity, title, columns, manipulateDataToSave }) => {
   const dispatch = useDispatch();
-  const { data, error } = useSelector((state) => state[REPORT_TYPES]);
+  const { data, error } = useSelector((state) => state[entity]);
 
   useEffect(() => {
-    dispatch(crudAction.fetchAll(REPORT_TYPES));
+    dispatch(crudAction.fetchAll(entity));
   }, []);
 
-  const columns = useMemo(() => getColumns(), []);
-
   const getSaveItem = (rowData) => {
-    const dataToSave = {
+    let dataToSave = {
       ...rowData,
       tableData: undefined,
     };
-    return dispatch(crudAction.submitForm(REPORT_TYPES, dataToSave, dataToSave.id));
+    if (manipulateDataToSave) {
+      dataToSave = manipulateDataToSave(dataToSave);
+    }
+    return dispatch(crudAction.submitForm(entity, dataToSave, dataToSave.id));
   };
   const onRowAdd = useCallback(getSaveItem);
   const onRowUpdate = useCallback(getSaveItem);
   const onRowDelete = useCallback((rowData) =>
-    dispatch(crudAction.destroyItem(REPORT_TYPES, rowData.id))
+    dispatch(crudAction.destroyItem(entity, rowData.id))
   );
 
   return (
     <div>
-      <h2 style={{ paddingBottom: '15px' }}>סוגי צפיה</h2>
+      <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
 
       {error && <CustomizedSnackbar variant="error" message={error} />}
 
       <MaterialTable
-        title="נתונים"
+        title={'רשימת ' + title}
         columns={columns}
         data={data || []}
         isLoading={!data}
@@ -51,4 +49,4 @@ const ReportTypes = () => {
   );
 };
 
-export default ReportTypes;
+export default Texts;

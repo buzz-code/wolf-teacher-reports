@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 
-import Teachers from '../../components/teachers/Teachers';
+import Table from '../../components/table/Table';
+import { TEACHERS } from '../../constants/entity';
 
-class TeachersContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+const getColumns = () => [
+  { field: 'tz', title: 'תעודת זהות' },
+  { field: 'name', title: 'שם' },
+];
 
-  render() {
-    return <Teachers />;
-  }
-}
+const TeachersContainer = () => {
+  const title = 'מורות';
+  const entity = TEACHERS;
+  const columns = useMemo(() => getColumns(), []);
+
+  return <Table entity={entity} title={title} columns={columns} />;
+};
 
 export default TeachersContainer;

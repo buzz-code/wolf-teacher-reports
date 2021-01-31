@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 
-import Students from '../../components/students/Students';
+import Table from '../../components/table/Table';
+import { STUDENTS } from '../../constants/entity';
 
-class StudentsContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+const getColumns = () => [
+  { field: 'tz', title: 'תעודת זהות' },
+  { field: 'name', title: 'שם' },
+  { field: 'phone_number', title: 'מספר טלפון' },
+];
 
-  render() {
-    return <Students />;
-  }
-}
+const StudentsContainer = () => {
+  const title = 'תלמידות';
+  const entity = STUDENTS;
+  const columns = useMemo(() => getColumns(), []);
+
+  return <Table entity={entity} title={title} columns={columns} />;
+};
 
 export default StudentsContainer;

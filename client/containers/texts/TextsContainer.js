@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 
-import Texts from '../../components/texts/Texts';
+import Table from '../../components/table/Table';
+import { TEXTS } from '../../constants/entity';
 
-class TextsContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+const getColumns = () => [
+  { field: 'name', title: 'שם' },
+  { field: 'description', title: 'תיאור' },
+  { field: 'value', title: 'ערך' },
+];
 
-  render() {
-    return <Texts />;
-  }
-}
+const TextsContainer = () => {
+  const title = 'הודעות';
+  const entity = TEXTS;
+  const columns = useMemo(() => getColumns(), []);
+
+  return <Table entity={entity} title={title} columns={columns} />;
+};
 
 export default TextsContainer;
