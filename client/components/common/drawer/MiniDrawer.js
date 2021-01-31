@@ -18,6 +18,7 @@ import {
   SupervisedUserCircle,
   List as ListIcon,
   Chat,
+  Assignment,
 } from '@material-ui/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -93,6 +94,13 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
         </div>
       </List>
       <Divider />
+      <List>
+        <div>
+          {getNavLinkItem('/student-reports', Assignment, 'דו"ח לתלמידה')}
+          {getNavLinkItem('/teacher-reports', Assignment, 'דו"ח למורה')}
+          {getNavLinkItem('/organization-reports', Assignment, 'דו"ח לארגון צפיה')}
+        </div>
+      </List>
     </Drawer>
   );
 };

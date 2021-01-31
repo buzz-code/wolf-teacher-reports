@@ -4,3 +4,6 @@ export const REPORT_TYPES = 'report-types';
 export const STUDENTS = 'students';
 export const TEACHERS = 'teachers';
 export const TEXTS = 'texts';
+export const STUDENT_REPORTS = 'reports/getStudentReport';
+export const TEACHER_REPORTS = 'reports/getTeacherReport';
+export const ORGANIATION_REPORTS = 'reports/getOrganizationReport';

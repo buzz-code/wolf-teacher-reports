@@ -6,7 +6,7 @@ import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 
-const Texts = ({ entity, title, columns, manipulateDataToSave }) => {
+const Table = ({ entity, title, columns, manipulateDataToSave, readOnly }) => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state[entity]);
 
@@ -41,7 +41,7 @@ const Texts = ({ entity, title, columns, manipulateDataToSave }) => {
         columns={columns}
         data={data || []}
         isLoading={!data}
-        editable={{ onRowAdd, onRowUpdate, onRowDelete }}
+        editable={readOnly ? null : { onRowAdd, onRowUpdate, onRowDelete }}
         options={materialTableOptions}
         localization={materialTableLocalizations}
       />
@@ -49,4 +49,4 @@ const Texts = ({ entity, title, columns, manipulateDataToSave }) => {
   );
 };
 
-export default Texts;
+export default Table;

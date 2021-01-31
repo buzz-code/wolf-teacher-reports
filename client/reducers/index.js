@@ -5,7 +5,16 @@ import { reducer as formReducer } from 'redux-form';
 // Import custom components
 import authReducer from './authReducer';
 import crudReducer from './crudReducer';
-import { REPORTS, REPORT_TYPES, STUDENTS, TEACHERS, TEXTS } from '../constants/entity';
+import {
+  REPORTS,
+  REPORT_TYPES,
+  STUDENTS,
+  TEACHERS,
+  TEXTS,
+  STUDENT_REPORTS,
+  TEACHER_REPORTS,
+  ORGANIATION_REPORTS,
+} from '../constants/entity';
 
 const appReducer = (history) =>
   combineReducers({
@@ -17,6 +26,9 @@ const appReducer = (history) =>
     [STUDENTS]: crudReducer(STUDENTS),
     [TEACHERS]: crudReducer(TEACHERS),
     [TEXTS]: crudReducer(TEXTS),
+    [STUDENT_REPORTS]: crudReducer(STUDENT_REPORTS),
+    [TEACHER_REPORTS]: crudReducer(TEACHER_REPORTS),
+    [ORGANIATION_REPORTS]: crudReducer(ORGANIATION_REPORTS),
   });
 
 const rootReducer = (state, action) => {

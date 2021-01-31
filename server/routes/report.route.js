@@ -21,6 +21,21 @@ router.route('/getEditData')
         reportCtrl.getEditData(req, res);
     });
 
+router.route('/getStudentReport')
+    .get((req, res) => {
+        reportCtrl.getStudentReport(req, res);
+    });
+
+router.route('/getTeacherReport')
+    .get((req, res) => {
+        reportCtrl.getTeacherReport(req, res);
+    });
+
+router.route('/getOrganizationReport')
+    .get((req, res) => {
+        reportCtrl.getOrganizationReport(req, res);
+    });
+
 router.route('/:id')
     .get((req, res) => {
         reportCtrl.findById(req, res);
