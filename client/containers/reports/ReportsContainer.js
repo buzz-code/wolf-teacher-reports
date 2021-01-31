@@ -33,7 +33,7 @@ const ReportsContainer = () => {
   const editDataLists = useMemo(
     () => ({
       students: getEditLookup(editData && editData.students),
-      teachers: getEditLookup(editData && editData.teachers),
+      teachers: { ...getEditLookup(editData && editData.teachers), null: 'לא נבחר' },
       reportTypes: getEditLookup(editData && editData.reportTypes),
     }),
     [editData]
@@ -46,6 +46,7 @@ const ReportsContainer = () => {
       dataToSave.report_date instanceof Date
         ? dataToSave.report_date.toISOString().substr(0, 10)
         : dataToSave.report_date.substr(0, 10),
+    teacher_id: dataToSave.teacher_id === 'null' ? null : dataToSave.teacher_id,
   });
 
   return (
