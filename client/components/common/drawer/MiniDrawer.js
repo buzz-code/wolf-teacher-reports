@@ -85,7 +85,7 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
         <div>
           {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
           {getNavLinkItem('/orders', ShoppingCart, 'Orders')}
-          {getNavLinkItem('/customers', People, 'Customers')}
+          {getNavLinkItem('/report-types', People, 'סוגי צפיה')}
           {getNavLinkItem('/reports', Assignment, 'צפיות')}
           {getNavLinkItem('/integrations', Layers, 'Integrations')}
         </div>

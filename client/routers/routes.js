@@ -12,6 +12,7 @@ const AsyncLoginForm = loadable(() => import('../containers/auth/LoginContainer'
 const AsyncSignUpForm = loadable(() => import('../containers/auth/SignUpContainer'));
 const AsyncDashboard = loadable(() => import('../containers/dashboard/DashboardContainer'));
 const AsyncReports = loadable(() => import('../containers/reports/ReportsContainer'));
+const AsyncReportTypes = loadable(() => import('../containers/reportTypes/ReportTypesContainer'));
 
 const Router = () => (
   <Fragment>
@@ -21,6 +22,7 @@ const Router = () => (
 
       <PrivateRoute exact path="/dashboard" layout={MainLayout} component={AsyncDashboard} />
       <PrivateRoute exact path="/reports" layout={MainLayout} component={AsyncReports} />
+      <PrivateRoute exact path="/report-types" layout={MainLayout} component={AsyncReportTypes} />
 
       <Route component={NotFound} />
     </Switch>
