@@ -5,7 +5,7 @@ import { reducer as formReducer } from 'redux-form';
 // Import custom components
 import authReducer from './authReducer';
 import crudReducer from './crudReducer';
-import { REPORTS, REPORT_TYPES } from '../constants/entity';
+import { REPORTS, REPORT_TYPES, STUDENTS } from '../constants/entity';
 
 const appReducer = (history) =>
   combineReducers({
@@ -14,6 +14,7 @@ const appReducer = (history) =>
     auth: authReducer,
     [REPORTS]: crudReducer(REPORTS),
     [REPORT_TYPES]: crudReducer(REPORT_TYPES),
+    [STUDENTS]: crudReducer(STUDENTS),
   });
 
 const rootReducer = (state, action) => {
