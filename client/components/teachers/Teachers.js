@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 import { TEACHERS } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 
 const getColumns = () => [
   { field: 'tz', title: 'תעודת זהות' },
@@ -43,7 +44,8 @@ const Teachers = () => {
         data={data || []}
         isLoading={!data}
         editable={{ onRowAdd, onRowUpdate, onRowDelete }}
-        options={{ actionsColumnIndex: -1, exportButton: true }}
+        options={materialTableOptions}
+        localization={materialTableLocalizations}
       />
     </div>
   );

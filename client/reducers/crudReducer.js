@@ -29,18 +29,20 @@ export default function (entity) {
       case ENTITY_FAILURE:
         return {
           ...state,
-          error: action.error,
+          error: action.error.error,
         };
 
       case ENTITY_CREATE:
         return {
           ...state,
+          error: null,
           selectedItem: action.data.data,
         };
 
       case ENTITY_UPDATE:
         return {
           ...state,
+          error: null,
           selectedItem: action.data.data,
         };
 
@@ -54,24 +56,28 @@ export default function (entity) {
       case ENTITY_DELETE:
         return {
           ...state,
+          error: null,
           selectedItem: null,
         };
 
       case SELECT_ENTITY_ITEM:
         return {
           ...state,
+          error: null,
           selectedItem: action.data.data,
         };
 
       case CLEAR_ENTITY_LIST:
         return {
           ...state,
+          error: null,
           data: null,
         };
 
       case GET_EDIT_DATA:
         return {
           ...state,
+          error: null,
           editData: action.data.data,
         };
 

@@ -42,22 +42,20 @@ const LoginForm = (props) => {
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} title="Login" />
-        {errorMessage && (
-          <CustomizedSnackbar variant="error" className={classes.margin} message={errorMessage} />
-        )}
+        <CardHeader className={classes.cardHeader} title="התחבר" />
+        {errorMessage && <CustomizedSnackbar variant="error" message={errorMessage} />}
         <CardContent>
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
-            <Field type="text" name="email" component={renderText} label="Username" />
+            <Field type="text" name="email" component={renderText} label="שם משתמש" />
             <br />
-            <Field type="password" name="password" component={renderText} label="Password" />
+            <Field type="password" name="password" component={renderText} label="סיסמא" />
             <br />
             <div className={classes.btnDiv}>
               <Button className={classes.btn} type="submit" variant="contained" color="primary">
-                Login
+                התחבר
               </Button>
               <p>
-                Don't have an account? <Link to={'/signup'}>Create one</Link>.
+                אין לך חשבון? <Link to={'/signup'}>צור חשבון</Link>.
               </p>
             </div>
           </form>

@@ -76,7 +76,7 @@ class Header extends Component {
             >
               תיקופון
             </Typography>
-            <Button onClick={this.logOut.bind(this)}>Logout</Button>
+            <Button onClick={this.logOut.bind(this)}>התנתק</Button>
           </Toolbar>
         </AppBar>
       </div>

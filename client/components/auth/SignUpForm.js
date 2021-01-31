@@ -41,23 +41,23 @@ const SignUpForm = (props) => {
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} title="Sign Up" />
+        <CardHeader className={classes.cardHeader} title="הרשמה" />
         <CardContent>
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
-            <Field type="text" name="first_name" component={renderText} label="First Name" />
+            <Field type="text" name="first_name" component={renderText} label="שם פרטי" />
             <br />
-            <Field type="text" name="last_name" component={renderText} label="Last Name" />
+            <Field type="text" name="last_name" component={renderText} label="שם משפחה" />
             <br />
-            <Field type="text" name="email" component={renderText} label="Email" />
+            <Field type="text" name="email" component={renderText} label="כתובת מייל" />
             <br />
-            <Field type="password" name="password" component={renderText} label="Password" />
+            <Field type="password" name="password" component={renderText} label="סיסמא" />
             <br />
             <div className={classes.btnDiv}>
               <Button className={classes.btn} type="submit" variant="contained" color="primary">
-                Create New Account
+                צור חשבון חדש
               </Button>
               <p>
-                Already have an account? <Link to={'/'}>Login</Link>.
+                יש לך כבר חשבון? <Link to={'/'}>התחבר</Link>.
               </p>
             </div>
           </form>

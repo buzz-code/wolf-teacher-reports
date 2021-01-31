@@ -23,7 +23,7 @@ export const fetchAll = (entity) => {
         return dispatch(commonAction.fetch(entity, response.data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };
@@ -36,7 +36,7 @@ export const fetchById = (entity, id) => {
         return dispatch(commonAction.selectItem(entity, response.data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };
@@ -49,7 +49,7 @@ export const storeItem = (entity, data) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };
@@ -62,7 +62,7 @@ export const updateItem = (entity, data, id) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };
@@ -75,7 +75,7 @@ export const destroyItem = (entity, id, data) => {
         return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };
@@ -98,7 +98,7 @@ export const getEditData = (entity) => {
         return dispatch(commonAction.getEditData(entity, response.data));
       })
       .catch((error) => {
-        return dispatch(commonAction.failure(entity, error));
+        return dispatch(commonAction.failure(entity, error.response.data));
       });
   };
 };

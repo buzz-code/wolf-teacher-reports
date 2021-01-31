@@ -61,7 +61,7 @@ export function store(req, res) {
         .save()
         .then(() => res.json({
             success: true,
-            data: { message: 'Text added successfully.' }
+            data: { message: 'הרשומה נוספה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: err
@@ -84,7 +84,7 @@ export function update(req, res) {
         }))
         .then(() => res.json({
             error: false,
-            data: { message: 'Text updated successfully.' }
+            data: { message: 'הרשומה נשמרה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: true,
@@ -105,7 +105,7 @@ export function destroy(req, res) {
         .then(text => text.destroy())
         .then(() => res.json({
             error: false,
-            data: { message: 'Text deleted successfully.' }
+            data: { message: 'הרשומה נמחקה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: true,

@@ -110,7 +110,7 @@ export function destroy(req, res) {
         .then(user => user.destroy())
         .then(() => res.json({
             error: false,
-            data: { message: 'User deleted successfully.' }
+            data: { message: 'משתמש נמחק בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: true,

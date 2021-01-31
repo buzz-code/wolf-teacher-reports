@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import MaterialTable from 'material-table';
-import heLocale from 'date-fns/locale/he';
 
 import { REPORTS } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 
 const getColumns = (lookups) => [
   { field: 'student_id', title: 'תלמידה', lookup: lookups.students },
@@ -67,12 +67,8 @@ const Reports = () => {
         data={data || []}
         isLoading={!data}
         editable={{ onRowAdd, onRowUpdate, onRowDelete }}
-        options={{ actionsColumnIndex: -1, exportButton: true }}
-        localization={{
-          body: {
-            dateTimePickerLocalization: heLocale,
-          },
-        }}
+        options={materialTableOptions}
+        localization={materialTableLocalizations}
       />
     </div>
   );

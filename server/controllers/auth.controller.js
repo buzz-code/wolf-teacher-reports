@@ -30,18 +30,18 @@ export function login(req, res) {
                     email: user.get('email')
                 });
             } else {
-                logger.log('error', 'Authentication failed. Invalid password.');
+                logger.log('error', 'ההתחברות נכשלה. סיסמא לא תקינה.');
 
                 res.status(HttpStatus.UNAUTHORIZED).json({
                     success: false,
-                    message: 'Authentication failed. Invalid password.'
+                    message: 'ההתחברות נכשלה. סיסמא לא תקינה.'
                 });
             }
         } else {
-            logger.log('error', 'Invalid username or password.');
+            logger.log('error', 'ההתחברות נכשלה. שם משתמש או סיסמא לא תואמים.');
 
             res.status(HttpStatus.UNAUTHORIZED).json({
-                success: false, message: 'Invalid username or password.'
+                success: false, message: 'ההתחברות נכשלה. שם משתמש או סיסמא לא תואמים.'
             });
         }
     });
