@@ -13,10 +13,11 @@ import {
 import {
   ChevronRight,
   Dashboard,
-  ShoppingCart,
+  ListAlt,
   People,
-  Layers,
-  Assignment,
+  SupervisedUserCircle,
+  List as ListIcon,
+  Chat,
 } from '@material-ui/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -84,11 +85,11 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
       <List>
         <div>
           {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
+          {getNavLinkItem('/reports', ListAlt, 'צפיות')}
           {getNavLinkItem('/students', People, 'תלמידות')}
-          {getNavLinkItem('/report-types', ShoppingCart, 'סוגי צפיה')}
-          {getNavLinkItem('/reports', Assignment, 'צפיות')}
-          {getNavLinkItem('/teachers', Layers, 'מורות')}
-          {getNavLinkItem('/texts', Layers, 'טקסטים')}
+          {getNavLinkItem('/teachers', SupervisedUserCircle, 'מורות')}
+          {getNavLinkItem('/report-types', ListIcon, 'סוגי צפיה')}
+          {getNavLinkItem('/texts', Chat, 'טקסטים')}
         </div>
       </List>
       <Divider />
