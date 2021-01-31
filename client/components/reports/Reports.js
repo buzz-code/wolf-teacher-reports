@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import MaterialTable from 'material-table';
 
+import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import { REPORTS } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +24,7 @@ const getEditLookup = (data) =>
 
 const Reports = () => {
   const dispatch = useDispatch();
-  const { data, editData } = useSelector((state) => state[REPORTS]);
+  const { data, editData, error } = useSelector((state) => state[REPORTS]);
 
   useEffect(() => {
     dispatch(crudAction.fetchAll(REPORTS));
@@ -60,6 +61,8 @@ const Reports = () => {
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>צפיות</h2>
+
+      {error && <CustomizedSnackbar variant="error" message={error} />}
 
       <MaterialTable
         title="נתונים"

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import MaterialTable from 'material-table';
 
+import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import { TEXTS } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +15,7 @@ const getColumns = () => [
 
 const Texts = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state[TEXTS]);
+  const { data, error } = useSelector((state) => state[TEXTS]);
 
   useEffect(() => {
     dispatch(crudAction.fetchAll(TEXTS));
@@ -36,6 +37,8 @@ const Texts = () => {
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>טקסטים</h2>
+
+      {error && <CustomizedSnackbar variant="error" message={error} />}
 
       <MaterialTable
         title="נתונים"

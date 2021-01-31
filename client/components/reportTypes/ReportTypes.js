@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import MaterialTable from 'material-table';
 
+import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import { REPORT_TYPES } from '../../constants/entity';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +11,7 @@ const getColumns = () => [{ field: 'name', title: 'סוג צפיה' }];
 
 const ReportTypes = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state[REPORT_TYPES]);
+  const { data, error } = useSelector((state) => state[REPORT_TYPES]);
 
   useEffect(() => {
     dispatch(crudAction.fetchAll(REPORT_TYPES));
@@ -34,6 +35,8 @@ const ReportTypes = () => {
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>סוגי צפיה</h2>
+
+      {error && <CustomizedSnackbar variant="error" message={error} />}
 
       <MaterialTable
         title="נתונים"

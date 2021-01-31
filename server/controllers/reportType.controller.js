@@ -12,11 +12,11 @@ export function findAll(req, res) {
     new ReportType({ user_id: req.currentUser.id })
         .fetchAll()
         .then(reportType => res.json({
-            error: false,
+            error: null,
             data: reportType.toJSON()
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -33,18 +33,18 @@ export function findById(req, res) {
         .then(reportType => {
             if (!reportType) {
                 res.status(HttpStatus.NOT_FOUND).json({
-                    error: true, data: {}
+                    error: 'לא נמצא'
                 });
             }
             else {
                 res.json({
-                    error: false,
+                    error: null,
                     data: reportType.toJSON()
                 });
             }
         })
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -60,11 +60,11 @@ export function store(req, res) {
     new ReportType({ ...item, user_id: req.currentUser.id })
         .save()
         .then(() => res.json({
-            success: true,
+            error: null,
             data: { message: 'הרשומה נוספה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -83,12 +83,11 @@ export function update(req, res) {
             ...item,
         }))
         .then(() => res.json({
-            error: false,
+            error: null,
             data: { message: 'הרשומה נשמרה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: true,
-            data: { message: err.message }
+            error: err.message.message
         }));
 }
 
@@ -104,11 +103,10 @@ export function destroy(req, res) {
         .fetch({ require: true })
         .then(reportType => reportType.destroy())
         .then(() => res.json({
-            error: false,
+            error: null,
             data: { message: 'הרשומה נמחקה בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: true,
-            data: { message: err.message }
+            error: err.message
         }));
 }

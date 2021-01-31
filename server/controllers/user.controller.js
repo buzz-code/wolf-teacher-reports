@@ -13,11 +13,11 @@ export function findAll(req, res) {
     User.forge()
         .fetchAll()
         .then(user => res.json({
-            error: false,
+            error: null,
             data: user.toJSON()
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -34,18 +34,18 @@ export function findById(req, res) {
         .then(user => {
             if (!user) {
                 res.status(HttpStatus.NOT_FOUND).json({
-                    error: true, data: {}
+                    error: 'לא נמצא'
                 });
             }
             else {
                 res.json({
-                    error: false,
+                    error: null,
                     data: user.toJSON()
                 });
             }
         })
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -64,11 +64,11 @@ export function store(req, res) {
         first_name, last_name, email, password
     }).save()
         .then(user => res.json({
-            success: true,
+            error: null,
             data: user.toJSON()
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err
+            error: err.message
         }));
 }
 
@@ -88,12 +88,11 @@ export function update(req, res) {
             email: req.body.email || user.get('email')
         }))
         .then(user => res.json({
-            error: false,
+            error: null,
             data: user.toJSON()
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: true,
-            data: { message: err.message }
+            error: err.message
         }));
 }
 
@@ -109,11 +108,10 @@ export function destroy(req, res) {
         .fetch({ require: true })
         .then(user => user.destroy())
         .then(() => res.json({
-            error: false,
+            error: null,
             data: { message: 'משתמש נמחק בהצלחה.' }
         }))
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: true,
-            data: { message: err.message }
+            error: err.message
         }));
 }
