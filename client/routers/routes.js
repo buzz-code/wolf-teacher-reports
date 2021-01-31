@@ -14,6 +14,7 @@ const AsyncDashboard = loadable(() => import('../containers/dashboard/DashboardC
 const AsyncReports = loadable(() => import('../containers/reports/ReportsContainer'));
 const AsyncReportTypes = loadable(() => import('../containers/reportTypes/ReportTypesContainer'));
 const AsyncStudents = loadable(() => import('../containers/students/StudentsContainer'));
+const AsyncTeachers = loadable(() => import('../containers/teachers/TeachersContainer'));
 
 const Router = () => (
   <Fragment>
@@ -25,6 +26,7 @@ const Router = () => (
       <PrivateRoute exact path="/reports" layout={MainLayout} component={AsyncReports} />
       <PrivateRoute exact path="/report-types" layout={MainLayout} component={AsyncReportTypes} />
       <PrivateRoute exact path="/students" layout={MainLayout} component={AsyncStudents} />
+      <PrivateRoute exact path="/teachers" layout={MainLayout} component={AsyncTeachers} />
 
       <Route component={NotFound} />
     </Switch>

@@ -87,7 +87,7 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
           {getNavLinkItem('/students', People, 'תלמידות')}
           {getNavLinkItem('/report-types', ShoppingCart, 'סוגי צפיה')}
           {getNavLinkItem('/reports', Assignment, 'צפיות')}
-          {getNavLinkItem('/integrations', Layers, 'Integrations')}
+          {getNavLinkItem('/teachers', Layers, 'מורות')}
         </div>
       </List>
       <Divider />

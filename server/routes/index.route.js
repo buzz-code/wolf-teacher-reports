@@ -5,6 +5,7 @@ import yemotRoutes from './yemot.route';
 import reportRoutes from './report.route';
 import reportTypeRoutes from './reportType.route';
 import studentRoutes from './student.route';
+import teacherRoutes from './teacher.route';
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use('/yemot', yemotRoutes);
 router.use('/reports', reportRoutes);
 router.use('/report-types', reportTypeRoutes);
 router.use('/students', studentRoutes);
+router.use('/teachers', teacherRoutes);
 
 export default router;
