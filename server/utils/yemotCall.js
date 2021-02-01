@@ -74,7 +74,7 @@ export class YemotCall extends CallBase {
                 );
             }
             catch (e) {
-                console.log('catch yemot exeption', e);
+                console.log('catch yemot exception', e);
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.recordWasNotSaved }),
                     this.hangup()
@@ -83,7 +83,7 @@ export class YemotCall extends CallBase {
         }
         catch (e) {
             if (e) {
-                console.log('catch yemot exeption', e);
+                console.log('catch yemot exception', e);
             }
         } finally {
             this.end();
