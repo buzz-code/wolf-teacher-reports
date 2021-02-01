@@ -49,7 +49,7 @@ export class YemotCall extends CallBase {
                     student_id: student.id,
                     enter_hour: this.params.enterHour,
                     exit_hour: this.params.exitHour,
-                    reprot_date: new Date().toISOString().substr(0, 10),
+                    report_date: new Date().toISOString().substr(0, 10),
                 };
                 let lessonIndex = 1;
                 for (const teacherReport of this.params.teacherReport) {
