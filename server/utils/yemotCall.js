@@ -8,24 +8,24 @@ export class YemotCall extends CallBase {
         super(params, callId, user);
     }
 
-    texts = {
-        phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
-        welcomeAndTypeEnterHour: 'שלום {0} הגעת למוקד תיקוף נוכחות בצפיה, נא הקישי את שעת הכניסה שלך בארבע ספרות',
-        typeExitHour: 'נא הקישי את שעת היציאה שלך בארבע ספרות',
-        // hourIsNotValidAndTryAgain: 'השעה שהוזנה אינה תקינה, נסי שנית',
-        typeTzOfTeacher: 'נא הקישי את מספר הזיהוי של המורה המאמנת',
-        teacherTzIsNotInTheSystem: 'מספר הזיהוי לא קיים במערכת, להשלמת התיקוף צרי קשר עם המורה המנחה',
-        askForNumberOfLessons: 'כמה שיעורים צפית אצל המורה {0}?',
-        lessonNumber: 'שיעור {0}:',
-        askForOtherStudentsNumber: 'כמה בנות צפו בשיעור חוץ ממך?',
-        chooseAttendanceTypeByLesson: 'בחרי את סוג הנוכחות, ',
-        forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
-        askIfHasAnotherTeacher: 'האם צפית היום אצל מורה נוספת? אם כן הקישי 1, אם לא הקישי 2',
-        recordWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
-        recordWasSavedSuccessfully: 'תיקוף הנוכחות הסתיים בהצלחה',
-    }
+    // texts = {
+    //     phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
+    //     welcomeAndTypeEnterHour: 'שלום {0} הגעת למוקד תיקוף נוכחות בצפיה, נא הקישי את שעת הכניסה שלך בארבע ספרות',
+    //     typeExitHour: 'נא הקישי את שעת היציאה שלך בארבע ספרות',
+    //     typeTzOfTeacher: 'נא הקישי את מספר הזיהוי של המורה המאמנת',
+    //     teacherTzIsNotInTheSystem: 'מספר הזיהוי לא קיים במערכת, להשלמת התיקוף צרי קשר עם המורה המנחה',
+    //     askForNumberOfLessons: 'כמה שיעורים צפית אצל המורה {0}?',
+    //     lessonNumber: 'שיעור {0}:',
+    //     askForOtherStudentsNumber: 'כמה בנות צפו בשיעור חוץ ממך?',
+    //     chooseAttendanceTypeByLesson: 'בחרי את סוג הנוכחות, ',
+    //     forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
+    //     askIfHasAnotherTeacher: 'האם צפית היום אצל מורה נוספת? אם כן הקישי 1, אם לא הקישי 2',
+    //     recordWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
+    //     recordWasSavedSuccessfully: 'תיקוף הנוכחות הסתיים בהצלחה',
+    // }
 
     async start() {
+        await this.getTexts();
         try {
             const student = await queryHelper.getStudentByUserIdAndPhone(this.user.id, this.params.ApiPhone);
             if (!student) {
