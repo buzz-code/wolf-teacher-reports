@@ -16,7 +16,16 @@ const TeacherReportsContainer = () => {
   const entity = TEACHER_REPORTS;
   const columns = useMemo(() => getColumns(), []);
 
-  return <Table entity={entity} title={title} columns={columns} readOnly={true} />;
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      disableAdd={true}
+      disableUpdate={true}
+      disableDelete={true}
+    />
+  );
 };
 
 export default TeacherReportsContainer;

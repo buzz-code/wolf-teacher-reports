@@ -4,8 +4,8 @@ import Table from '../../components/table/Table';
 import { TEXTS } from '../../constants/entity';
 
 const getColumns = () => [
-  { field: 'name', title: 'שם' },
-  { field: 'description', title: 'תיאור' },
+  { field: 'name', title: 'שם', editable: 'onAdd' },
+  { field: 'description', title: 'תיאור', editable: 'onAdd' },
   { field: 'value', title: 'ערך' },
 ];
 
@@ -14,7 +14,9 @@ const TextsContainer = () => {
   const entity = TEXTS;
   const columns = useMemo(() => getColumns(), []);
 
-  return <Table entity={entity} title={title} columns={columns} />;
+  return (
+    <Table entity={entity} title={title} columns={columns} disableAdd={true} disableDelete={true} />
+  );
 };
 
 export default TextsContainer;

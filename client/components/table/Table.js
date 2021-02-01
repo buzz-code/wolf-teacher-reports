@@ -6,7 +6,15 @@ import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 
-const Table = ({ entity, title, columns, manipulateDataToSave, readOnly }) => {
+const Table = ({
+  entity,
+  title,
+  columns,
+  manipulateDataToSave,
+  disableAdd,
+  disableUpdate,
+  disableDelete,
+}) => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state[entity]);
 
@@ -41,7 +49,11 @@ const Table = ({ entity, title, columns, manipulateDataToSave, readOnly }) => {
         columns={columns}
         data={data || []}
         isLoading={!data}
-        editable={readOnly ? null : { onRowAdd, onRowUpdate, onRowDelete }}
+        editable={{
+          onRowAdd: disableAdd ? null : onRowAdd,
+          onRowUpdate: disableUpdate ? null : onRowUpdate,
+          onRowDelete: disableDelete ? null : onRowDelete,
+        }}
         options={materialTableOptions}
         localization={materialTableLocalizations}
       />
