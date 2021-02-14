@@ -70,8 +70,8 @@ export function getTeacherReport(req, res) {
     new Report({ user_id: req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'reports.teacher_id')
-            qb.groupBy('teacher_tz', 'teacher_name', 'report_date', 'lesson_number')
-            qb.select('reports.teacher_tz as teacher_tz', 'teachers.name as teacher_name', 'report_date', 'lesson_number')
+            qb.groupBy('teacher_full_phone', 'teacher_name', 'report_date', 'lesson_number')
+            qb.select('reports.teacher_full_phone as teacher_full_phone', 'teachers.name as teacher_name', 'report_date', 'lesson_number')
             qb.count({ count: 'reports.id' })
             qb.avg({ avg: 'other_students' })
         })
@@ -97,8 +97,8 @@ export function getOrganizationReport(req, res) {
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'reports.teacher_id')
             qb.leftJoin('students', 'students.id', 'reports.student_id')
-            qb.groupBy('teacher_tz', 'teacher_name', 'report_date')
-            qb.select('reports.teacher_tz as teacher_tz', 'teachers.name as teacher_name', 'report_date',
+            qb.groupBy('teacher_full_phone', 'teacher_name', 'report_date')
+            qb.select('reports.teacher_full_phone as teacher_full_phone', 'teachers.name as teacher_name', 'report_date',
                 bookshelf.knex.raw('GROUP_CONCAT(distinct students.name SEPARATOR ", ") as students'))
         })
         .fetchAll()

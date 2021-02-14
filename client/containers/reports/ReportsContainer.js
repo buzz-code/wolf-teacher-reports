@@ -11,7 +11,7 @@ const getColumns = (lookups) => [
   { field: 'exit_hour', title: 'שעת יציאה' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'teacher_id', title: 'מורה', lookup: lookups.teachers },
-  { field: 'teacher_tz', title: 'תז מורה' },
+  { field: 'teacher_full_phone', title: 'טלפון מורה' },
   { field: 'lesson_number', title: 'מספר שיעור' },
   { field: 'other_students', title: 'תלמידות נוספות' },
   { field: 'report_type_id', title: 'סוג דיווח', lookup: lookups.reportTypes },

@@ -6,6 +6,7 @@ import { TEACHERS } from '../../constants/entity';
 const getColumns = () => [
   { field: 'tz', title: 'תעודת זהות' },
   { field: 'name', title: 'שם' },
+  { field: 'full_phone', title: 'מספר טלפון' },
 ];
 
 const TeachersContainer = () => {

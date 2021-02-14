@@ -4,7 +4,7 @@ import Table from '../../components/table/Table';
 import { TEACHER_REPORTS } from '../../constants/entity';
 
 const getColumns = () => [
-  { field: 'teacher_tz', title: 'תעודת זהות' },
+  { field: 'teacher_full_phone', title: 'טלפון מורה' },
   { field: 'teacher_name', title: 'שם' },
   { field: 'report_date', title: 'תאריך' },
   { field: 'lesson_number', title: 'מספר שיעור' },

@@ -15,8 +15,9 @@ export function getStudentByUserIdAndPhone(user_id, phone_number) {
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getTeacherByUserIdAndTz(user_id, tz) {
-    return new Teacher({ user_id, tz })
+export function getTeacherByUserIdAndLastDigits(user_id, lastDigits) {
+    return new Teacher({ user_id })
+        .where('full_phone', 'like', '*' + lastDigits)
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }

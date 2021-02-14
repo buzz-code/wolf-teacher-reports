@@ -12,8 +12,8 @@ export class YemotCall extends CallBase {
     //     phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
     //     welcomeAndTypeEnterHour: 'שלום {0} הגעת למוקד תיקוף נוכחות בצפיה, נא הקישי את שעת הכניסה שלך בארבע ספרות',
     //     typeExitHour: 'נא הקישי את שעת היציאה שלך בארבע ספרות',
-    //     typeTzOfTeacher: 'נא הקישי את מספר הזיהוי של המורה המאמנת',
-    //     teacherTzIsNotInTheSystem: 'מספר הזיהוי לא קיים במערכת, להשלמת התיקוף צרי קשר עם המורה המנחה',
+    //     typeLastDigitsOfTeacher: 'נא הקישי ארבע ספרות אחרונות של מספר הטלפון של המורה המאמנת',
+    //     teacherLastDigitIsNotInTheSystem: 'מספר הטלפון לא קיים במערכת, הקישי את מספר הטלפון המלא',
     //     askForNumberOfLessons: 'כמה שיעורים צפית אצל המורה {0}?',
     //     lessonNumber: 'שיעור {0}:',
     //     askForOtherStudentsNumber: 'כמה בנות צפו בשיעור חוץ ממך?',
@@ -56,7 +56,8 @@ export class YemotCall extends CallBase {
                     const baseTeacherReport = {
                         ...baseReport,
                         teacher_id: teacherReport.teacher?.id,
-                        teacher_tz: teacherReport.teacherTz,
+                        teacher_full_phone: teacherReport.teacherFullPhone,
+                        teacher_last_digits: teacherReport.teacherLastDigits,
                     };
                     for (const lesson of teacherReport.lessons) {
                         await new Report({
@@ -92,11 +93,11 @@ export class YemotCall extends CallBase {
 
     async getTeacherDetails() {
         await this.send(
-            this.read({ type: 'text', text: this.texts.typeTzOfTeacher },
-                'teacherTz', 'tap', { max: 9, min: 9, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.typeLastDigitsOfTeacher },
+                'teacherLastDigits', 'tap', { max: 4, min: 4, block_asterisk: true })
         );
 
-        const teacher = await queryHelper.getTeacherByUserIdAndTz(this.user.id, this.params.teacherTz);
+        const teacher = await queryHelper.getTeacherByUserIdAndLastDigits(this.user.id, this.params.teacherLastDigits);
         if (teacher) {
             await this.send(
                 this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, teacher.name) },
@@ -104,7 +105,10 @@ export class YemotCall extends CallBase {
             );
         } else {
             await this.send(
-                this.id_list_message({ type: 'text', text: this.texts.teacherTzIsNotInTheSystem }),
+                this.read({ type: 'text', text: this.texts.teacherLastDigitIsNotInTheSystem },
+                    'teacherFullPhone', 'tap', { max: 10, min: 9, block_asterisk: true })
+            );
+            await this.send(
                 this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, '') },
                     'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
@@ -135,7 +139,12 @@ export class YemotCall extends CallBase {
         if (!this.params.teacherReport) {
             this.params.teacherReport = [];
         }
-        this.params.teacherReport.push({ teacherTz: this.params.teacherTz, teacher, lessons });
+        this.params.teacherReport.push({
+            teacherLastDigits: this.params.teacherLastDigits,
+            teacherFullPhone: teacher?.full_phone || this.params.teacherFullPhone,
+            teacher,
+            lessons,
+        });
 
         await this.send(
             this.read({ type: 'text', text: this.texts.askIfHasAnotherTeacher },
