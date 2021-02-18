@@ -4,7 +4,7 @@ import Report from '../models/report.model';
 import ReportType from '../models/reportType.model';
 import Student from '../models/student.model';
 import Teacher from '../models/teacher.model';
-import genericController from './generic.controller';
+import genericController, { fetchPage } from './generic.controller';
 
 export const { findAll, findById, store, update, destroy } = genericController(Report);
 
@@ -42,21 +42,14 @@ function getListFromTable(table, user_id) {
  * @returns {*}
  */
 export function getStudentReport(req, res) {
-    new Report({ user_id: req.currentUser.id })
+    const dbQuery = new Report({ user_id: req.currentUser.id })
         .query(qb => {
             qb.innerJoin('students', 'students.id', 'reports.student_id')
             qb.groupBy('student_id', 'report_date', 'enter_hour', 'exit_hour')
             qb.select('students.tz as student_tz', 'students.name as student_name', 'report_date', 'enter_hour', 'exit_hour')
             qb.count({ count: 'reports.id' })
         })
-        .fetchAll()
-        .then(item => res.json({
-            error: null,
-            data: item.toJSON()
-        }))
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err.message
-        }));
+    fetchPage(dbQuery, req.query, res);
 }
 
 /**
@@ -67,22 +60,15 @@ export function getStudentReport(req, res) {
  * @returns {*}
  */
 export function getTeacherReport(req, res) {
-    new Report({ user_id: req.currentUser.id })
+    const dbQuery = new Report({ user_id: req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'reports.teacher_id')
             qb.groupBy('teacher_full_phone', 'teacher_name', 'report_date', 'lesson_number')
             qb.select('reports.teacher_full_phone as teacher_full_phone', 'teachers.name as teacher_name', 'report_date', 'lesson_number')
             qb.count({ count: 'reports.id' })
             qb.avg({ avg: 'other_students' })
-        })
-        .fetchAll()
-        .then(item => res.json({
-            error: null,
-            data: item.toJSON()
-        }))
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err.message
-        }));
+        });
+    fetchPage(dbQuery, req.query, res);
 }
 
 /**
@@ -93,20 +79,13 @@ export function getTeacherReport(req, res) {
  * @returns {*}
  */
 export function getOrganizationReport(req, res) {
-    new Report({ user_id: req.currentUser.id })
+    const dbQuery = new Report({ user_id: req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'reports.teacher_id')
             qb.leftJoin('students', 'students.id', 'reports.student_id')
             qb.groupBy('teacher_full_phone', 'teacher_name', 'report_date')
             qb.select('reports.teacher_full_phone as teacher_full_phone', 'teachers.name as teacher_name', 'report_date',
                 bookshelf.knex.raw('GROUP_CONCAT(distinct students.name SEPARATOR ", ") as students'))
-        })
-        .fetchAll()
-        .then(item => res.json({
-            error: null,
-            data: item.toJSON()
-        }))
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            error: err.message
-        }));
+        });
+    fetchPage(dbQuery, req.query, res);
 }

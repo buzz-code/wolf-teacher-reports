@@ -1,5 +1,28 @@
 import HttpStatus from 'http-status-codes';
 
+export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection }, res) => {
+    if (orderBy) {
+        dbQuery = dbQuery.query('orderBy', orderBy, orderDirection);
+    }
+
+    const countQuery = dbQuery.clone();
+    dbQuery.query(qb => qb.offset(pageSize * +page).limit(pageSize));
+    try {
+        const [count, result] = await Promise.all([countQuery.count(), dbQuery.fetchAll()])
+        res.json({
+            error: null,
+            data: result,
+            page: +page,
+            total: count,
+        });
+    }
+    catch (err) {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            error: err.message
+        });
+    }
+};
+
 export default (model) => ({
     /**
      * Find all the items
@@ -9,15 +32,8 @@ export default (model) => ({
      * @returns {*}
      */
     findAll: function (req, res) {
-        new model({ user_id: req.currentUser.id })
-            .fetchAll()
-            .then(item => res.json({
-                error: null,
-                data: item.toJSON()
-            }))
-            .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err.message
-            }));
+        const dbQuery = new model({ user_id: req.currentUser.id });
+        fetchPage(dbQuery, req.query, res);
     },
 
     /**

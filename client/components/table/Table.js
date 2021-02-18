@@ -1,10 +1,19 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { createRef, useCallback, useMemo } from 'react';
 import MaterialTable from 'material-table';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
+
+const getActions = (tableRef) => [
+  {
+    icon: 'refresh',
+    tooltip: 'Refresh Data',
+    isFreeAction: true,
+    onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+  },
+];
 
 const Table = ({
   entity,
@@ -17,10 +26,9 @@ const Table = ({
 }) => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state[entity]);
+  const tableRef = createRef();
 
-  useEffect(() => {
-    dispatch(crudAction.fetchAll(entity));
-  }, []);
+  const actions = useMemo(() => getActions(tableRef), [tableRef]);
 
   const getSaveItem = (rowData) => {
     let dataToSave = {
@@ -38,6 +46,18 @@ const Table = ({
     dispatch(crudAction.destroyItem(entity, rowData.id))
   );
 
+  const getData = (query) => {
+    return dispatch(crudAction.fetchAll(entity, query))
+      .then((res) => res.data)
+      .then((result) => {
+        return {
+          data: result.data,
+          page: result.page,
+          totalCount: result.total,
+        };
+      });
+  };
+
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
@@ -46,8 +66,10 @@ const Table = ({
 
       <MaterialTable
         title={'רשימת ' + title}
+        tableRef={tableRef}
         columns={columns}
-        data={data || []}
+        actions={actions}
+        data={getData}
         isLoading={!data}
         editable={{
           onRowAdd: disableAdd ? null : onRowAdd,

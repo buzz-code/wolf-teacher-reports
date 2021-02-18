@@ -15,10 +15,10 @@ import * as httpService from '../services/httpService';
  * entity = 'Product', 'Employee', ...
  */
 
-export const fetchAll = (entity) => {
+export const fetchAll = (entity, query) => {
   return (dispatch) => {
     return httpService
-      .fetchEntity(entity)
+      .fetchEntity(entity, query)
       .then((response) => {
         return dispatch(commonAction.fetch(entity, response.data));
       })
