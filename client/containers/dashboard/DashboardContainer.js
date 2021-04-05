@@ -13,7 +13,7 @@ const DashboardContainer = () => {
   const { data, error } = useSelector((state) => state[entity]);
 
   useEffect(() => {
-    dispatch(crudAction.fetchAll(entity));
+    dispatch(crudAction.fetchAll(entity, {}));
   }, []);
 
   return <Dashboard stats={data || {}} />;
