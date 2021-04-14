@@ -14,5 +14,5 @@ export default {
             password: Joi.string().required()
         }),
 
-    storeReport: Joi.any(),
+    any: Joi.any(),
 };

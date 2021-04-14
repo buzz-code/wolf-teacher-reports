@@ -9,7 +9,7 @@ export default (ctrl) => {
     router.use(isAuthenticated);
 
     router.route('/')
-        .post(validate(schema.storeReport), (req, res) => {
+        .post(validate(schema.any), (req, res) => {
             ctrl.store(req, res);
         })
         .get((req, res) => {
