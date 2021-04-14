@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status-codes';
 
-export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection }, res) => {
+export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection }, res, fromServerToClient) => {
     if (orderBy) {
         dbQuery = dbQuery.query('orderBy', orderBy, orderDirection);
     }
@@ -9,9 +9,10 @@ export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirecti
     dbQuery.query(qb => qb.offset(Number(pageSize) * Number(page)).limit(Number(pageSize)));
     try {
         const [count, result] = await Promise.all([countQuery.count(), dbQuery.fetchAll()])
+        const resultToSend = fromServerToClient ? result.toJSON().map(fromServerToClient) : result.toJSON();
         res.json({
             error: null,
-            data: result,
+            data: resultToSend,
             page: +page,
             total: count,
         });
@@ -23,7 +24,7 @@ export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirecti
     }
 };
 
-export default (model) => ({
+export default (model, fromClientToServer, fromServerToClient) => ({
     /**
      * Find all the items
      *
@@ -33,7 +34,7 @@ export default (model) => ({
      */
     findAll: function (req, res) {
         const dbQuery = new model({ user_id: req.currentUser.id });
-        fetchPage(dbQuery, req.query, res);
+        fetchPage(dbQuery, req.query, res, fromServerToClient);
     },
 
     /**
@@ -47,6 +48,7 @@ export default (model) => ({
         new model({ id: req.params.id, user_id: req.currentUser.id })
             .fetch()
             .then(item => {
+                let itemToReturn = fromServerToClient ? fromServerToClient(item.toJSON()) : item.toJSON();
                 if (!item) {
                     res.status(HttpStatus.NOT_FOUND).json({
                         error: 'לא נמצא'
@@ -55,7 +57,7 @@ export default (model) => ({
                 else {
                     res.json({
                         error: null,
-                        data: item.toJSON()
+                        data: itemToReturn
                     });
                 }
             })
@@ -72,7 +74,7 @@ export default (model) => ({
      * @returns {*}
      */
     store: function (req, res) {
-        const itemToSave = req.body;
+        const itemToSave = fromClientToServer ? fromClientToServer(req.body) : req.body;
         new model({ user_id: req.currentUser.id, ...itemToSave })
             .save()
             .then(() => res.json({
@@ -92,8 +94,7 @@ export default (model) => ({
      * @returns {*}
      */
     update: function (req, res) {
-        const itemToSave = req.body;
-        console.log(req.currentUser.id)
+        const itemToSave = fromClientToServer ? fromClientToServer(req.body) : req.body;
         new model({ id: req.params.id, user_id: req.currentUser.id })
             .fetch({ require: true })
             .then(item => item.save({
