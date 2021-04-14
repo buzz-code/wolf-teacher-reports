@@ -17,9 +17,9 @@ class User extends bookshelf.Model {
     /**
      * Table has timestamps.
      */
-    get hasTimestamps() {
-        return true;
-    }
+    // get hasTimestamps() {
+    //     return true;
+    // }
 
     verifyPassword(password) {
         return this.get('password') === password;

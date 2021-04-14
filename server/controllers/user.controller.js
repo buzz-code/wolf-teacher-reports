@@ -57,11 +57,11 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-    const { first_name, last_name, email } = req.body;
+    const { name, email } = req.body;
     const password = bcrypt.hashSync(req.body.password, 10);
 
     User.forge({
-        first_name, last_name, email, password
+        name, email, password
     }).save()
         .then(user => res.json({
             error: null,
@@ -83,8 +83,7 @@ export function update(req, res) {
     User.forge({ id: req.params.id })
         .fetch({ require: true })
         .then(user => user.save({
-            first_name: req.body.first_name || user.get('first_name'),
-            last_name: req.body.last_name || user.get('last_name'),
+            name: req.body.name || user.get('name'),
             email: req.body.email || user.get('email')
         }))
         .then(user => res.json({

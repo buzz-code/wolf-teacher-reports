@@ -15,6 +15,10 @@ class Teacher extends bookshelf.Model {
         return TABLE_NAME;
     }
 
+    // get hasTimestamps() {
+    //     return true;
+    // }
+
     user() {
         return this.belongsTo(User);
     }

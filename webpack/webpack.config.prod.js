@@ -19,7 +19,7 @@ var config = {
     output: {
         path: path.resolve(CURRENT_WORKING_DIR, 'dist'), //  destination
         filename: 'client.bundle.js',
-        publicPath: '/listen-report/dist/',
+        publicPath: '/att-manager/dist/',
     },
     plugins: [
         new Dotenv()

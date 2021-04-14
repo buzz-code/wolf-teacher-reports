@@ -11,20 +11,25 @@ import NotFound from '../components/error/NotFound';
 const AsyncLoginForm = loadable(() => import('../containers/auth/LoginContainer'));
 const AsyncSignUpForm = loadable(() => import('../containers/auth/SignUpContainer'));
 const AsyncDashboard = loadable(() => import('../containers/dashboard/DashboardContainer'));
-const AsyncReports = loadable(() => import('../containers/reports/ReportsContainer'));
-const AsyncReportTypes = loadable(() => import('../containers/reportTypes/ReportTypesContainer'));
 const AsyncStudents = loadable(() => import('../containers/students/StudentsContainer'));
 const AsyncTeachers = loadable(() => import('../containers/teachers/TeachersContainer'));
-const AsyncTexts = loadable(() => import('../containers/texts/TextsContainer'));
-const AsyncStudentReports = loadable(() =>
-  import('../containers/studentReports/StudentReportsContainer')
+const AsyncGroups = loadable(() => import('../containers/groups/GroupsContainer'));
+const AsyncStudentGroups = loadable(() =>
+  import('../containers/student-groups/StudentGroupsContainer')
 );
-const AsyncTeacherReports = loadable(() =>
-  import('../containers/teacherReports/TeacherReportsContainer')
-);
-const AsyncOrganizationReports = loadable(() =>
-  import('../containers/organizationReports/OrganizationReportsContainer')
-);
+const AsyncLessons = loadable(() => import('../containers/lessons/LessonsContainer'));
+const AsyncLessonTimes = loadable(() => import('../containers/lesson-times/LessonTimesContainer'));
+const AsyncAttTypes = loadable(() => import('../containers/att-types/AttTypesContainer'));
+const AsyncAttReports = loadable(() => import('../containers/att-reports/AttReportsContainer'));
+// const AsyncStudentReports = loadable(() =>
+//   import('../containers/studentReports/StudentReportsContainer')
+// );
+// const AsyncTeacherReports = loadable(() =>
+//   import('../containers/teacherReports/TeacherReportsContainer')
+// );
+// const AsyncOrganizationReports = loadable(() =>
+//   import('../containers/organizationReports/OrganizationReportsContainer')
+// );
 
 const Router = () => (
   <Fragment>
@@ -33,13 +38,21 @@ const Router = () => (
       <RestrictRoute exact path="/signup" component={AsyncSignUpForm} />
 
       <PrivateRoute exact path="/dashboard" layout={MainLayout} component={AsyncDashboard} />
-      <PrivateRoute exact path="/reports" layout={MainLayout} component={AsyncReports} />
-      <PrivateRoute exact path="/report-types" layout={MainLayout} component={AsyncReportTypes} />
       <PrivateRoute exact path="/students" layout={MainLayout} component={AsyncStudents} />
       <PrivateRoute exact path="/teachers" layout={MainLayout} component={AsyncTeachers} />
-      <PrivateRoute exact path="/texts" layout={MainLayout} component={AsyncTexts} />
-
+      <PrivateRoute exact path="/groups" layout={MainLayout} component={AsyncGroups} />
       <PrivateRoute
+        exact
+        path="/student-groups"
+        layout={MainLayout}
+        component={AsyncStudentGroups}
+      />
+      <PrivateRoute exact path="/lessons" layout={MainLayout} component={AsyncLessons} />
+      <PrivateRoute exact path="/lesson-times" layout={MainLayout} component={AsyncLessonTimes} />
+      <PrivateRoute exact path="/att-types" layout={MainLayout} component={AsyncAttTypes} />
+      <PrivateRoute exact path="/att-reports" layout={MainLayout} component={AsyncAttReports} />
+
+      {/* <PrivateRoute
         exact
         path="/student-reports"
         layout={MainLayout}
@@ -56,7 +69,7 @@ const Router = () => (
         path="/organization-reports"
         layout={MainLayout}
         component={AsyncOrganizationReports}
-      />
+      /> */}
 
       <Route component={NotFound} />
     </Switch>

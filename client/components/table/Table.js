@@ -34,6 +34,8 @@ const Table = ({
     let dataToSave = {
       ...rowData,
       tableData: undefined,
+      created_at: undefined,
+      updated_at: undefined,
     };
     if (manipulateDataToSave) {
       dataToSave = manipulateDataToSave(dataToSave);

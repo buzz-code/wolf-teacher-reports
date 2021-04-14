@@ -1,7 +1,7 @@
 import { CallBase } from "./callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
-import Report from "../models/report.model";
+// import Report from "../models/report.model";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -60,13 +60,13 @@ export class YemotCall extends CallBase {
                         teacher_last_digits: teacherReport.teacherLastDigits,
                     };
                     for (const lesson of teacherReport.lessons) {
-                        await new Report({
-                            ...baseTeacherReport,
-                            lesson_number: lessonIndex++,
-                            other_students: lesson.otherStudents,
-                            report_type_id: lesson.reportType.id,
-                        })
-                            .save();
+                        // await new Report({
+                        //     ...baseTeacherReport,
+                        //     lesson_number: lessonIndex++,
+                        //     other_students: lesson.otherStudents,
+                        //     report_type_id: lesson.reportType.id,
+                        // })
+                        //     .save();
                     }
                 }
                 await this.send(

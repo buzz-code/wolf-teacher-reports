@@ -1,20 +1,19 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { TEACHERS } from '../../constants/entity';
+import { GROUPS } from '../../constants/entity';
 
 const getColumns = () => [
-  { field: 'tz', title: 'תעודת זהות' },
   { field: 'name', title: 'שם' },
-  { field: 'phone', title: 'מספר טלפון' },
+  { field: 'is_klass', title: 'כיתה?', type: 'boolean' },
 ];
 
-const TeachersContainer = () => {
-  const title = 'מורות';
-  const entity = TEACHERS;
+const GroupsContainer = () => {
+  const title = 'קבוצות';
+  const entity = GROUPS;
   const columns = useMemo(() => getColumns(), []);
 
   return <Table entity={entity} title={title} columns={columns} />;
 };
 
-export default TeachersContainer;
+export default GroupsContainer;

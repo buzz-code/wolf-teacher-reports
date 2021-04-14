@@ -1,5 +1,5 @@
 import * as queryHelper from './queryHelper';
-import Text from "../models/text.model";
+// import Text from "../models/text.model";
 
 export class CallListHandler {
     static calls = {};
@@ -25,8 +25,8 @@ export class CallBase {
         this.waitForResponse().then(this.start.bind(this))
     }
     async getTexts() {
-        const response = await new Text({ user_id: this.user.id }).query({ select: ['name', 'value'] }).fetchAll();
-        response.toJSON().forEach(item => this.texts[item.name] = item.value);
+        // const response = await new Text({ user_id: this.user.id }).query({ select: ['name', 'value'] }).fetchAll();
+        // response.toJSON().forEach(item => this.texts[item.name] = item.value);
     }
     async start() {
         try {

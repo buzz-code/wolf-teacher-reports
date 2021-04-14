@@ -1,12 +1,12 @@
 import bookshelf from '../config/bookshelf';
 import User from './user.model';
 
-const TABLE_NAME = 'students';
+const TABLE_NAME = 'att_types';
 
 /**
- * Student model.
+ * AttType model.
  */
-class Student extends bookshelf.Model {
+class AttType extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -24,4 +24,4 @@ class Student extends bookshelf.Model {
     }
 }
 
-export default Student;
+export default AttType;

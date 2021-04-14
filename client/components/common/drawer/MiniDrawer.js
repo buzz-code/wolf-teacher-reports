@@ -86,21 +86,24 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
       <List>
         <div>
           {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
-          {getNavLinkItem('/reports', ListAlt, 'צפיות')}
           {getNavLinkItem('/students', People, 'תלמידות')}
           {getNavLinkItem('/teachers', SupervisedUserCircle, 'מורות')}
-          {getNavLinkItem('/report-types', ListIcon, 'סוגי צפיה')}
-          {getNavLinkItem('/texts', Chat, 'הודעות')}
+          {getNavLinkItem('/groups', SupervisedUserCircle, 'קבוצות')}
+          {getNavLinkItem('/student-groups', SupervisedUserCircle, 'שיוך תלמידות לקבוצות')}
+          {getNavLinkItem('/lessons', SupervisedUserCircle, 'שיעורים')}
+          {getNavLinkItem('/lesson-times', SupervisedUserCircle, 'זמני שיעור')}
+          {getNavLinkItem('/att-types', SupervisedUserCircle, 'סוגי דיווח')}
+          {getNavLinkItem('/att-reports', SupervisedUserCircle, 'דיווחים')}
         </div>
       </List>
       <Divider />
-      <List>
+      {/* <List>
         <div>
           {getNavLinkItem('/student-reports', Assignment, 'דו"ח לתלמידה')}
           {getNavLinkItem('/teacher-reports', Assignment, 'דו"ח למורה')}
           {getNavLinkItem('/organization-reports', Assignment, 'דו"ח לארגון צפיה')}
         </div>
-      </List>
+      </List> */}
     </Drawer>
   );
 };

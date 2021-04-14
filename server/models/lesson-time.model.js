@@ -1,12 +1,12 @@
 import bookshelf from '../config/bookshelf';
 import User from './user.model';
 
-const TABLE_NAME = 'report_types';
+const TABLE_NAME = 'lesson_times';
 
 /**
- * ReportType model.
+ * LessonTime model.
  */
-class ReportType extends bookshelf.Model {
+class LessonTime extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -15,9 +15,13 @@ class ReportType extends bookshelf.Model {
         return TABLE_NAME;
     }
 
+    // get hasTimestamps() {
+    //     return true;
+    // }
+
     user() {
         return this.belongsTo(User);
     }
 }
 
-export default ReportType;
+export default LessonTime;

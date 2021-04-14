@@ -46,7 +46,7 @@ export const storeItem = (entity, data) => {
     return httpService
       .storeEntity(entity, data)
       .then((response) => {
-        return dispatch(fetchAll(entity, data));
+        // return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         return dispatch(commonAction.failure(entity, error.response.data));
@@ -59,7 +59,7 @@ export const updateItem = (entity, data, id) => {
     return httpService
       .updateEntity(entity, data, id)
       .then((response) => {
-        return dispatch(fetchAll(entity, data));
+        // return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         return dispatch(commonAction.failure(entity, error.response.data));
@@ -72,7 +72,7 @@ export const destroyItem = (entity, id, data) => {
     return httpService
       .destroyEntity(entity, id)
       .then((response) => {
-        return dispatch(fetchAll(entity, data));
+        // return dispatch(fetchAll(entity, data));
       })
       .catch((error) => {
         return dispatch(commonAction.failure(entity, error.response.data));

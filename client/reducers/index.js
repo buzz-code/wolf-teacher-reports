@@ -6,14 +6,17 @@ import { reducer as formReducer } from 'redux-form';
 import authReducer from './authReducer';
 import crudReducer from './crudReducer';
 import {
-  REPORTS,
-  REPORT_TYPES,
   STUDENTS,
   TEACHERS,
-  TEXTS,
-  STUDENT_REPORTS,
-  TEACHER_REPORTS,
-  ORGANIATION_REPORTS,
+  GROUPS,
+  STUDENT_GROUPS,
+  LESSONS,
+  LESSON_TIMES,
+  ATT_TYPES,
+  ATT_REPORTS,
+  // STUDENT_REPORTS,
+  // TEACHER_REPORTS,
+  // ORGANIATION_REPORTS,
   DASHBOARD,
 } from '../constants/entity';
 
@@ -22,14 +25,17 @@ const appReducer = (history) =>
     router: connectRouter(history),
     form: formReducer, // ← redux-form
     auth: authReducer,
-    [REPORTS]: crudReducer(REPORTS),
-    [REPORT_TYPES]: crudReducer(REPORT_TYPES),
     [STUDENTS]: crudReducer(STUDENTS),
     [TEACHERS]: crudReducer(TEACHERS),
-    [TEXTS]: crudReducer(TEXTS),
-    [STUDENT_REPORTS]: crudReducer(STUDENT_REPORTS),
-    [TEACHER_REPORTS]: crudReducer(TEACHER_REPORTS),
-    [ORGANIATION_REPORTS]: crudReducer(ORGANIATION_REPORTS),
+    [GROUPS]: crudReducer(GROUPS),
+    [STUDENT_GROUPS]: crudReducer(STUDENT_GROUPS),
+    [LESSONS]: crudReducer(LESSONS),
+    [LESSON_TIMES]: crudReducer(LESSON_TIMES),
+    [ATT_TYPES]: crudReducer(ATT_TYPES),
+    [ATT_REPORTS]: crudReducer(ATT_REPORTS),
+    // [STUDENT_REPORTS]: crudReducer(STUDENT_REPORTS),
+    // [TEACHER_REPORTS]: crudReducer(TEACHER_REPORTS),
+    // [ORGANIATION_REPORTS]: crudReducer(ORGANIATION_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
   });
 

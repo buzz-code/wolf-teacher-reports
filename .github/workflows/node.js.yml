@@ -17,8 +17,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           username: ${{ secrets.USERNAME }}
           script: |
-            cd ~/listen-report
+            cd ~/att-manager
             git pull origin master
             npm install --production
             npm run webpack:prod
-            pm2 restart listen-report
+            pm2 restart att-manager

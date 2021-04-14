@@ -1,9 +1,12 @@
 export const USERS = 'users';
-export const REPORTS = 'reports';
-export const REPORT_TYPES = 'report-types';
 export const STUDENTS = 'students';
 export const TEACHERS = 'teachers';
-export const TEXTS = 'texts';
+export const GROUPS = 'groups';
+export const STUDENT_GROUPS = 'student-groups';
+export const LESSONS = 'lessons';
+export const LESSON_TIMES = 'lesson-times';
+export const ATT_TYPES = 'att-types';
+export const ATT_REPORTS = 'att-reports';
 export const STUDENT_REPORTS = 'reports/getStudentReport';
 export const TEACHER_REPORTS = 'reports/getTeacherReport';
 export const ORGANIATION_REPORTS = 'reports/getOrganizationReport';

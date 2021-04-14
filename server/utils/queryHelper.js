@@ -1,6 +1,6 @@
 import Student from "../models/student.model";
 import Teacher from "../models/teacher.model";
-import ReportType from "../models/reportType.model";
+// import ReportType from "../models/reportType.model";
 import User from "../models/user.model";
 
 export function getUserByPhone(phone_number) {
@@ -23,7 +23,7 @@ export function getTeacherByUserIdAndLastDigits(user_id, lastDigits) {
 }
 
 export function getReportTypeByUserId(userId) {
-    return new ReportType({ user_id: userId })
-        .fetchAll()
-        .then(res => res.toJSON());
+//     return new ReportType({ user_id: userId })
+//         .fetchAll()
+//         .then(res => res.toJSON());
 }

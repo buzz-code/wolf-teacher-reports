@@ -6,7 +6,7 @@ export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirecti
     }
 
     const countQuery = dbQuery.clone();
-    dbQuery.query(qb => qb.offset(pageSize * +page).limit(pageSize));
+    dbQuery.query(qb => qb.offset(Number(pageSize) * Number(page)).limit(Number(pageSize)));
     try {
         const [count, result] = await Promise.all([countQuery.count(), dbQuery.fetchAll()])
         res.json({

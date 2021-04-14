@@ -25,14 +25,10 @@ router.use(isAuthenticated);
  *         type: integer
  *         description: Unique identifier representing a specific user
  *         example: 2
- *       first_name:
+ *       name:
  *         type: string
- *         description: first name of the user
+ *         description: name of the user
  *         example: Krishna
- *       last_name:
- *         type: string
- *         description: last name of the user
- *         example: Timilsina
  *       email:
  *         type: string
  *         description: email of the user
@@ -121,7 +117,7 @@ router.route('/')
  *             $ref: '#/definitions/Error'
  */
 
-    .post(validate(schema.storeUser), (req, res) => {
+    .post(validate(schema.user), (req, res) => {
         userCtrl.store(req, res);
     })
 

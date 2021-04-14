@@ -44,9 +44,7 @@ const SignUpForm = (props) => {
         <CardHeader className={classes.cardHeader} title="הרשמה" />
         <CardContent>
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
-            <Field type="text" name="first_name" component={renderText} label="שם פרטי" />
-            <br />
-            <Field type="text" name="last_name" component={renderText} label="שם משפחה" />
+            <Field type="text" name="name" component={renderText} label="שם" />
             <br />
             <Field type="text" name="email" component={renderText} label="כתובת מייל" />
             <br />
@@ -70,7 +68,7 @@ const SignUpForm = (props) => {
 const validateSignUp = (values) => {
   const errors = {};
 
-  const requiredFields = ['first_name', 'last_name', 'email', 'password'];
+  const requiredFields = ['name', 'email', 'password'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = '(The ' + field + ' field is required.)';
