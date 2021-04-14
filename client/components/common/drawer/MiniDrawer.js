@@ -17,8 +17,14 @@ import {
   People,
   SupervisedUserCircle,
   List as ListIcon,
+  Group,
   Chat,
   Assignment,
+  GroupAdd,
+  FormatListNumberedRtl,
+  AssignmentTurnedIn,
+  EventNote,
+  Menu,
 } from '@material-ui/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -88,12 +94,12 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
           {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
           {getNavLinkItem('/students', People, 'תלמידות')}
           {getNavLinkItem('/teachers', SupervisedUserCircle, 'מורות')}
-          {getNavLinkItem('/groups', SupervisedUserCircle, 'קבוצות')}
-          {getNavLinkItem('/student-groups', SupervisedUserCircle, 'שיוך תלמידות לקבוצות')}
-          {getNavLinkItem('/lessons', SupervisedUserCircle, 'שיעורים')}
-          {getNavLinkItem('/lesson-times', SupervisedUserCircle, 'זמני שיעור')}
-          {getNavLinkItem('/att-types', SupervisedUserCircle, 'סוגי דיווח')}
-          {getNavLinkItem('/att-reports', SupervisedUserCircle, 'דיווחים')}
+          {getNavLinkItem('/groups', Group, 'קבוצות')}
+          {getNavLinkItem('/student-groups', GroupAdd, 'שיוך תלמידות לקבוצות')}
+          {getNavLinkItem('/lessons', EventNote, 'שיעורים')}
+          {getNavLinkItem('/lesson-times', FormatListNumberedRtl, 'זמני שיעור')}
+          {getNavLinkItem('/att-types', Menu, 'סוגי דיווח')}
+          {getNavLinkItem('/att-reports', AssignmentTurnedIn, 'דיווחים')}
         </div>
       </List>
       <Divider />
