@@ -26,6 +26,7 @@ export const destroyEntity = (entityName, dataId) => {
   return destroy(getPathParam(entityName.toLowerCase(), dataId));
 };
 
-export const getEditData = (entityName) => {
-  return fetch(getPathParam(entityName.toLowerCase(), 'getEditData'));
+export const customHttpRequest = (entityName, method, url, data, dataId) => {
+  const mapping = { GET: fetch, POST: store, PUT: update, DELETE: destroy };
+  return mapping[method](getPathParam(entityName.toLowerCase(), url, dataId), data);
 };

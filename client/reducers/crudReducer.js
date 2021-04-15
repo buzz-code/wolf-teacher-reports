@@ -6,14 +6,17 @@ import {
   SELECT_ENTITY_ITEM,
   ENTITY_DELETE,
   CLEAR_ENTITY_LIST,
-  GET_EDIT_DATA,
+  CUSTOM_HTTP_REQUEST,
 } from '../constants/actionType';
 
 let initialState = {
   error: null,
   data: null,
   selectedItem: null,
-  editData: null,
+  GET: {},
+  POST: {},
+  PUT: {},
+  DELETE: {},
 };
 
 /**
@@ -74,11 +77,13 @@ export default function (entity) {
           data: null,
         };
 
-      case GET_EDIT_DATA:
+      case CUSTOM_HTTP_REQUEST:
         return {
           ...state,
           error: null,
-          editData: action.data.data,
+          [action.method]: {
+            [action.url]: action.data.data,
+          },
         };
 
       default:

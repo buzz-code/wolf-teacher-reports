@@ -95,12 +95,12 @@ export const submitForm = (entity, data, id) => {
   };
 };
 
-export const getEditData = (entity) => {
+export const customHttpRequest = (entity, method, url, data, id) => {
   return (dispatch) => {
     return httpService
-      .getEditData(entity)
+      .customHttpRequest(entity, method, url, data, id)
       .then((response) => {
-        return dispatch(commonAction.getEditData(entity, response.data));
+        return dispatch(commonAction.customHttpRequest(entity, method, url, response.data));
       })
       .catch((error) => {
         return dispatch(commonAction.failure(entity, error.response.data));

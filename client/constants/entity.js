@@ -7,6 +7,7 @@ export const LESSONS = 'lessons';
 export const LESSON_TIMES = 'lesson-times';
 export const ATT_TYPES = 'att-types';
 export const ATT_REPORTS = 'att-reports';
+export const REPORT_EDIT = 'report-edit';
 export const STUDENT_REPORTS = 'reports/getStudentReport';
 export const TEACHER_REPORTS = 'reports/getTeacherReport';
 export const ORGANIATION_REPORTS = 'reports/getOrganizationReport';

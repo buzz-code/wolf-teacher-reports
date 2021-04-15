@@ -10,6 +10,7 @@ import lessonRoutes from './lesson.route';
 import lessonTimeRoutes from './lesson-time.route';
 import attTypeRoutes from './att-type.route';
 import attReportRoutes from './att-report.route';
+import reportEditRoutes from './report-edit.route';
 import dashboardRoutes from './dashboard.route';
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.use('/lessons', lessonRoutes);
 router.use('/lesson-times', lessonTimeRoutes);
 router.use('/att-types', attTypeRoutes);
 router.use('/att-reports', attReportRoutes);
+router.use('/report-edit', reportEditRoutes);
 router.use('/dashboard', dashboardRoutes);
 
 export default router;

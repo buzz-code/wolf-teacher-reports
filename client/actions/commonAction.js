@@ -6,7 +6,7 @@ import {
   ENTITY_DELETE,
   SELECT_ENTITY_ITEM,
   CLEAR_ENTITY_LIST,
-  GET_EDIT_DATA,
+  CUSTOM_HTTP_REQUEST,
 } from '../constants/actionType';
 
 export const failure = (entity, error) => {
@@ -64,10 +64,12 @@ export const clearList = (entity) => {
   };
 };
 
-export const getEditData = (entity, data) => {
+export const customHttpRequest = (entity, method, url, data) => {
   return {
-    type: GET_EDIT_DATA,
+    type: CUSTOM_HTTP_REQUEST,
     entity: entity,
+    method: method,
+    url: url,
     data: data,
   };
 };

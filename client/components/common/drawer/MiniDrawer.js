@@ -103,6 +103,9 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
         </div>
       </List>
       <Divider />
+      <List>
+        <div>{getNavLinkItem('/report-edit', Assignment, 'עריכת דוחות')}</div>
+      </List>
       {/* <List>
         <div>
           {getNavLinkItem('/student-reports', Assignment, 'דו"ח לתלמידה')}

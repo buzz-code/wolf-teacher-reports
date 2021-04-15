@@ -21,6 +21,7 @@ const AsyncLessons = loadable(() => import('../containers/lessons/LessonsContain
 const AsyncLessonTimes = loadable(() => import('../containers/lesson-times/LessonTimesContainer'));
 const AsyncAttTypes = loadable(() => import('../containers/att-types/AttTypesContainer'));
 const AsyncAttReports = loadable(() => import('../containers/att-reports/AttReportsContainer'));
+const AsyncReportEdit = loadable(() => import('../containers/report-edit/ReportEditContainer'));
 // const AsyncStudentReports = loadable(() =>
 //   import('../containers/studentReports/StudentReportsContainer')
 // );
@@ -51,6 +52,8 @@ const Router = () => (
       <PrivateRoute exact path="/lesson-times" layout={MainLayout} component={AsyncLessonTimes} />
       <PrivateRoute exact path="/att-types" layout={MainLayout} component={AsyncAttTypes} />
       <PrivateRoute exact path="/att-reports" layout={MainLayout} component={AsyncAttReports} />
+
+      <PrivateRoute exact path="/report-edit" layout={MainLayout} component={AsyncReportEdit} />
 
       {/* <PrivateRoute
         exact
