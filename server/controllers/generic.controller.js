@@ -1,8 +1,22 @@
 import HttpStatus from 'http-status-codes';
+import moment from 'moment';
 
-export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection }, res, fromServerToClient) => {
+export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection, filters }, res) => {
     if (orderBy) {
         dbQuery = dbQuery.query('orderBy', orderBy, orderDirection);
+    }
+
+    if (filters) {
+        for (const filter of filters) {
+            const filterObj = JSON.parse(filter);
+            if (Array.isArray(filterObj.value)) {
+                dbQuery = dbQuery.where(filterObj.field, 'in', filterObj.value);
+            } else if (moment(filterObj.value).isValid()) {
+                dbQuery = dbQuery.where(filterObj.field, '=', moment(filterObj.value).format('YYYY-MM-DD'));
+            } else {
+                dbQuery = dbQuery.where(filterObj.field, 'like', '%' + filterObj.value + '%');
+            }
+        }
     }
 
     const countQuery = dbQuery.clone();
