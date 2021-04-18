@@ -7,7 +7,13 @@ export const fetchEntity = (
   { error, filters, orderBy, orderDirection, page, pageSize, search, totalCount }
 ) => {
   const columnOrder = orderBy && orderBy.field;
-  return fetch(entityName.toLowerCase(), { page, pageSize, orderBy: columnOrder, orderDirection });
+  return fetch(entityName.toLowerCase(), {
+    page,
+    pageSize,
+    orderBy: columnOrder,
+    orderDirection,
+    filters: filters.map(({ column: { field }, operator, value }) => ({ field, operator, value })),
+  });
 };
 
 export const fetchEntityById = (entityName, dataId) => {

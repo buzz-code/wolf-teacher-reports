@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useMemo } from 'react';
+import React, { createRef, useCallback, useMemo, useState } from 'react';
 import MaterialTable from 'material-table';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
@@ -9,7 +9,7 @@ import { materialTableOptions, materialTableLocalizations } from '../../config/c
 const getActions = (tableRef) => [
   {
     icon: 'refresh',
-    tooltip: 'Refresh Data',
+    tooltip: 'רענון נתונים',
     isFreeAction: true,
     onClick: () => tableRef.current && tableRef.current.onQueryChange(),
   },
@@ -19,6 +19,7 @@ const Table = ({
   entity,
   title,
   columns,
+  validateRow,
   manipulateDataToSave,
   disableAdd,
   disableUpdate,
@@ -26,6 +27,7 @@ const Table = ({
 }) => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state[entity]);
+  const [validationError, setValidationError] = useState(null);
   const tableRef = createRef();
 
   const actions = useMemo(() => getActions(tableRef), [tableRef]);
@@ -39,6 +41,13 @@ const Table = ({
     };
     if (manipulateDataToSave) {
       dataToSave = manipulateDataToSave(dataToSave);
+    }
+    if (validateRow) {
+      const errorMessage = validateRow(dataToSave);
+      setValidationError(errorMessage);
+      if (errorMessage) {
+        return Promise.reject(errorMessage);
+      }
     }
     return dispatch(crudAction.submitForm(entity, dataToSave, dataToSave.id));
   };
@@ -65,6 +74,7 @@ const Table = ({
       <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
 
       {error && <CustomizedSnackbar variant="error" message={error} />}
+      {validationError && <CustomizedSnackbar variant="error" message={validationError} />}
 
       <MaterialTable
         title={'רשימת ' + title}
