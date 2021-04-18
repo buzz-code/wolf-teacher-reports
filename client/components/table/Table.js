@@ -5,6 +5,7 @@ import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
+import { exportCsv } from '../../utils/exportsUtil';
 
 const getActions = (tableRef) => [
   {
@@ -29,7 +30,7 @@ const Table = ({
   const { data, error } = useSelector((state) => state[entity]);
   const [validationError, setValidationError] = useState(null);
   const tableRef = createRef();
-
+  const tableTitle = useMemo(() => 'רשימת ' + title, [title]);
   const actions = useMemo(() => getActions(tableRef), [tableRef]);
 
   const getSaveItem = (rowData) => {
@@ -69,6 +70,10 @@ const Table = ({
       });
   };
 
+  const handleCsvExport = (columns, data) => {
+    exportCsv(columns, entity, tableTitle);
+  };
+
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
@@ -77,7 +82,7 @@ const Table = ({
       {validationError && <CustomizedSnackbar variant="error" message={validationError} />}
 
       <MaterialTable
-        title={'רשימת ' + title}
+        title={tableTitle}
         tableRef={tableRef}
         columns={columns}
         actions={actions}
@@ -88,7 +93,7 @@ const Table = ({
           onRowUpdate: disableUpdate ? null : onRowUpdate,
           onRowDelete: disableDelete ? null : onRowDelete,
         }}
-        options={materialTableOptions}
+        options={{ ...materialTableOptions, exportCsv: handleCsvExport }}
         localization={materialTableLocalizations}
       />
     </div>
