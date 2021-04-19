@@ -51,7 +51,8 @@ export class CallBase {
         if (!this.res)
             throw 'no res found';
 
-        this.res.send(Array.prototype.join.call(arguments.filter(item => item), '&'));
+        const messages = Array.prototype.filter.call(arguments, item => item);
+        this.res.send(Array.prototype.join.call(messages, '&'));
         return this.waitForResponse();
     }
     waitForResponse() {
