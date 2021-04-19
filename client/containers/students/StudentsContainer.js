@@ -3,7 +3,10 @@ import React, { useMemo } from 'react';
 import Table from '../../components/table/Table';
 import { STUDENTS } from '../../constants/entity';
 
-const getColumns = () => [{ field: 'name', title: 'שם' }];
+const getColumns = () => [
+  { field: 'tz', title: 'תעודת זהות' },
+  { field: 'name', title: 'שם' },
+];
 
 const StudentsContainer = () => {
   const title = 'תלמידות';
