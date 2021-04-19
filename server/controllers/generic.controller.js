@@ -1,7 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import moment from 'moment';
 
-export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection, filters }, res) => {
+export const fetchPage = async (dbQuery, { page, pageSize, orderBy, orderDirection, filters }, res, fromServerToClient) => {
     if (orderBy) {
         dbQuery = dbQuery.query('orderBy', orderBy, orderDirection);
     }
