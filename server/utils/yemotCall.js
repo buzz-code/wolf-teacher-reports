@@ -33,7 +33,7 @@ export class YemotCall extends CallBase {
                     this.hangup()
                 );
             }
-            const klass = await this.getKlass();
+            const klass = await this.getKlass(teacher);
             const lesson = await this.getLesson();
             await this.getStudentReports(klass);
             try {
@@ -74,7 +74,7 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getKlass() {
+    async getKlass(teacher) {
         await this.send(
             this.read({ type: 'text', text: format(this.texts.welcomeAndTypeKlassId, teacher.name) },
                 'klassId', 'tap', { max: 4, min: 1, block_asterisk: true })
