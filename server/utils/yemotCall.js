@@ -119,17 +119,18 @@ export class YemotCall extends CallBase {
     async getStudentReports(klass) {
         const students = await queryHelper.getStudentsByUserIdAndKlassId(this.user.id, klass.id);
         const types = await queryHelper.getAttTypesByUserId(this.user.id);
-        types.push({ name: this.texts.prevStudent })
         const attTypeMessage = types.map((item, index) => format(this.texts.forAttendanceTypeXPressY, item.name, (Number(index) + 1))).join('');
+        const prevStudentMessage = format(this.texts.forAttendanceTypeXPressY, this.texts.prevStudent, types.length + 1);
 
         let isFirstTime = true;
         this.params.studentReports = {};
         for (let index = 0; index < students.length; index++) {
             const student = students[index];
+            const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
             await this.send(
                 isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
                 this.id_list_message({ type: 'text', text: student.name + ', ' }),
-                this.read({ type: 'text', text: attTypeMessage },
+                this.read({ type: 'text', text: attTypeMessageForCurrent },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             isFirstTime = false;
