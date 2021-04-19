@@ -1,83 +1,66 @@
 import { CallBase } from "./callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
-// import Report from "../models/report.model";
+import AttReport from "../models/att-report.model";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
         super(params, callId, user);
     }
 
-    // texts = {
-    //     phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
-    //     welcomeAndTypeEnterHour: 'שלום {0} הגעת למוקד תיקוף נוכחות בצפיה, נא הקישי את שעת הכניסה שלך בארבע ספרות',
-    //     typeExitHour: 'נא הקישי את שעת היציאה שלך בארבע ספרות',
-    //     typeLastDigitsOfTeacher: 'נא הקישי ארבע ספרות אחרונות של מספר הטלפון של המורה המאמנת',
-    //     teacherLastDigitIsNotInTheSystem: 'מספר הטלפון לא קיים במערכת, הקישי את מספר הטלפון המלא',
-    //     askForNumberOfLessons: 'כמה שיעורים צפית אצל המורה {0}?',
-    //     lessonNumber: 'שיעור {0}:',
-    //     askForOtherStudentsNumber: 'כמה בנות צפו בשיעור חוץ ממך?',
-    //     chooseAttendanceTypeByLesson: 'בחרי את סוג הנוכחות, ',
-    //     forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
-    //     askIfHasAnotherTeacher: 'האם צפית היום אצל מורה נוספת? אם כן הקישי 1, אם לא הקישי 2',
-    //     recordWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
-    //     recordWasSavedSuccessfully: 'תיקוף הנוכחות הסתיים בהצלחה',
-    // }
+    texts = {
+        phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
+        welcomeAndTypeKlassId: 'שלום {0} הגעת למוקד רישום הנוכחות, נא הקישי את קוד הכיתה',
+        confirmKlass: 'כיתה {0}, לאישור הקישי 1, לתיקון הקישי 2',
+        klassIdNotFound: 'קוד כיתה לא נמצא',
+        typeLessonId: 'נא הקישי את קוד השיעור',
+        confirmLesson: 'שיעור {0}, לאישור הקישי 1, לתיקון הקישי 2',
+        lessonIdNotFound: 'קוד שיעור לא נמצא',
+        startStudentList: 'כעת תושמע רשימת התלמידות',
+        prevStudent: 'מעבר לתלמידה הקודמת',
+        forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
+        dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
+        dataWasSavedSuccessfully: 'רישום הנוכחות הסתיים בהצלחה',
+    }
 
     async start() {
         await this.getTexts();
         try {
-            const student = await queryHelper.getStudentByUserIdAndPhone(this.user.id, this.params.ApiPhone);
-            if (!student) {
+            const teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
+            if (!teacher) {
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.phoneIsNotRecognizedInTheSystem }),
                     this.hangup()
                 );
             }
-            await this.send(
-                this.read({ type: 'text', text: format(this.texts.welcomeAndTypeEnterHour, student.name) },
-                    'enterHour', 'tap', { max: 4, min: 4, block_asterisk: true })
-            );
-            await this.send(
-                this.read({ type: 'text', text: this.texts.typeExitHour },
-                    'exitHour', 'tap', { max: 4, min: 4, block_asterisk: true })
-            );
-            await this.getTeacherDetails();
+            const klass = await this.getKlass();
+            const lesson = await this.getLesson();
+            await this.getStudentReports(klass);
             try {
                 const baseReport = {
                     user_id: this.user.id,
-                    student_id: student.id,
-                    enter_hour: this.params.enterHour,
-                    exit_hour: this.params.exitHour,
-                    report_date: new Date().toISOString().substr(0, 10),
+                    teacher_id: teacher.id,
+                    lesson_id: lesson.id,
+                    lesson_time_id: 1, //TBD
+                    enter_time: new Date(),
                 };
-                let lessonIndex = 1;
-                for (const teacherReport of this.params.teacherReport) {
-                    const baseTeacherReport = {
+                for (const studentId in this.params.studentReports) {
+                    const attReport = {
                         ...baseReport,
-                        teacher_id: teacherReport.teacher?.id,
-                        teacher_full_phone: teacherReport.teacherFullPhone,
-                        teacher_last_digits: teacherReport.teacherLastDigits,
+                        student_id: studentId,
+                        att_type_id: this.params.studentReports[studentId],
                     };
-                    for (const lesson of teacherReport.lessons) {
-                        // await new Report({
-                        //     ...baseTeacherReport,
-                        //     lesson_number: lessonIndex++,
-                        //     other_students: lesson.otherStudents,
-                        //     report_type_id: lesson.reportType.id,
-                        // })
-                        //     .save();
-                    }
+                    await new AttReport(attReport).save();
                 }
                 await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.recordWasSavedSuccessfully }),
+                    this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
                     this.hangup()
                 );
             }
             catch (e) {
                 console.log('catch yemot exception', e);
                 await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.recordWasNotSaved }),
+                    this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
                     this.hangup()
                 );
             }
@@ -91,67 +74,70 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getTeacherDetails() {
+    async getKlass() {
         await this.send(
-            this.read({ type: 'text', text: this.texts.typeLastDigitsOfTeacher },
-                'teacherLastDigits', 'tap', { max: 4, min: 4, block_asterisk: true })
+            this.read({ type: 'text', text: format(this.texts.welcomeAndTypeKlassId, teacher.name) },
+                'klassId', 'tap', { max: 4, min: 1, block_asterisk: true })
         );
-
-        const teacher = await queryHelper.getTeacherByUserIdAndLastDigits(this.user.id, this.params.teacherLastDigits);
-        if (teacher) {
+        let klass = await queryHelper.getKlassByUserIdAndKlassId(this.user.id, this.params.klassId);
+        if (klass) {
             await this.send(
-                this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, teacher.name) },
-                    'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true })
+                this.read({ type: 'text', text: format(this.texts.confirmKlass, klass.name) },
+                    'klassConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
+            if (this.params.klassConfirm === '2') {
+                return this.getKlass();
+            }
         } else {
-            await this.send(
-                this.read({ type: 'text', text: this.texts.teacherLastDigitIsNotInTheSystem },
-                    'teacherFullPhone', 'tap', { max: 10, min: 9, block_asterisk: true })
-            );
-            await this.send(
-                this.read({ type: 'text', text: format(this.texts.askForNumberOfLessons, '') },
-                    'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            await this.send(this.id_list_message({ type: 'text', text: this.texts.klassIdNotFound }));
+            return this.getKlass();
         }
-        const lessonNumber = Number(this.params.lessonNumber);
-        const lessons = [];
-        const types = await queryHelper.getReportTypeByUserId(this.user.id);
-        let reportTypeMessage = this.texts.chooseAttendanceTypeByLesson;
-        for (const index in types) {
-            reportTypeMessage += format(this.texts.forAttendanceTypeXPressY, types[index].name, (Number(index) + 1))
-        }
+        return klass;
+    }
 
-        for (let i = 0; i < lessonNumber; i++) {
-            await this.send(
-                this.id_list_message({ type: 'text', text: format(this.texts.lessonNumber, i + 1) }),
-                this.read({ type: 'text', text: this.texts.askForOtherStudentsNumber },
-                    'otherStudents', 'tap', { max: 2, min: 1, block_asterisk: true })
-            );
-            const otherStudents = Number(this.params.otherStudents);
-            await this.send(
-                this.read({ type: 'text', text: reportTypeMessage },
-                    'reportType', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            const reportType = Number(this.params.reportType);
-            lessons.push({ otherStudents, reportType: types[reportType - 1] });
-        }
-
-        if (!this.params.teacherReport) {
-            this.params.teacherReport = [];
-        }
-        this.params.teacherReport.push({
-            teacherLastDigits: this.params.teacherLastDigits,
-            teacherFullPhone: teacher?.full_phone || this.params.teacherFullPhone,
-            teacher,
-            lessons,
-        });
-
+    async getLesson() {
         await this.send(
-            this.read({ type: 'text', text: this.texts.askIfHasAnotherTeacher },
-                'anotherTeacher', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [1, 2] })
+            this.read({ type: 'text', text: this.texts.typeLessonId },
+                'lessonId', 'tap', { max: 4, min: 1, block_asterisk: true })
         );
-        if (this.params.anotherTeacher === '1') {
-            await this.getTeacherDetails();
+        let lesson = await queryHelper.getLessonByUserIdAndLessonId(this.user.id, this.params.lessonId);
+        if (lesson) {
+            await this.send(
+                this.read({ type: 'text', text: format(this.texts.confirmLesson, lesson.name) },
+                    'lessonConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.lessonConfirm === '2') {
+                return this.getLesson();
+            }
+        } else {
+            await this.send(this.id_list_message({ type: 'text', text: this.texts.lessonIdNotFound }));
+            return this.getLesson();
+        }
+        return lesson;
+    }
+
+    async getStudentReports(klass) {
+        await this.send(this.id_list_message({ type: 'text', text: this.texts.startStudentList }));
+
+        const students = await queryHelper.getStudentsByUserIdAndKlassId(this.user.id, klass.id);
+        const types = await queryHelper.getAttTypesByUserId(this.user.id);
+        types.push({ name: this.texts.prevStudent })
+        const attTypeMessage = types.map((item, index) => format(this.texts.forAttendanceTypeXPressY, item.name, (Number(index) + 1))).join('');
+
+        this.params.studentReports = {};
+        for (let index = 0; index < students.length; index++) {
+            const student = students[index];
+            await this.send(
+                this.id_list_message({ type: 'text', text: student.name + ', ' }),
+                this.read({ type: 'text', text: attTypeMessage },
+                    'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            const attType = Number(this.params.attType);
+            if (attType === types.length) {
+                index -= 2;
+            } else {
+                this.params.studentReports[student.id] = types[attType - 1].id;
+            }
         }
     }
 }
