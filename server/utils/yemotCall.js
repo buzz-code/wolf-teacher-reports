@@ -86,11 +86,11 @@ export class YemotCall extends CallBase {
                     'klassConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             if (this.params.klassConfirm === '2') {
-                return this.getKlass();
+                return this.getKlass(teacher);
             }
         } else {
             await this.send(this.id_list_message({ type: 'text', text: this.texts.klassIdNotFound }));
-            return this.getKlass();
+            return this.getKlass(teacher);
         }
         return klass;
     }
