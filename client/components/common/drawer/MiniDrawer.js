@@ -25,6 +25,7 @@ import {
   AssignmentTurnedIn,
   EventNote,
   Menu,
+  FileCopy,
 } from '@material-ui/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -104,6 +105,7 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
       </List>
       <Divider />
       <List>
+        <div>{getNavLinkItem('/excel-import', FileCopy, 'העלאת קבצים')}</div>
         <div>{getNavLinkItem('/report-edit', Assignment, 'עריכת דוחות')}</div>
       </List>
       {/* <List>
