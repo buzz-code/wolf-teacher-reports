@@ -13,4 +13,4 @@ const fromServerToClient = rowData => ({
     lesson_end: rowData.lesson_end && new Date('1/1/1 ' + rowData.lesson_end + 'Z'),
 });
 
-export const { findAll, findById, store, update, destroy } = genericController(LessonTime, fromClientToServer, fromServerToClient);
+export const { findAll, findById, store, update, destroy, uploadMultiple } = genericController(LessonTime, fromClientToServer, fromServerToClient);

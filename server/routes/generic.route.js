@@ -27,5 +27,10 @@ export default (ctrl) => {
             ctrl.destroy(req, res);
         });
 
+    router.route('/upload-multiple')
+        .post((req, res) => {
+            ctrl.uploadMultiple(req, res);
+        });
+
     return router;
 };
