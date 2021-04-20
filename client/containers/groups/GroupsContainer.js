@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { GROUPS } from '../../constants/entity';
+import { GROUPS as entity } from '../../constants/entity';
+import { GROUPS as title } from '../../constants/entity-title';
 
 const getColumns = () => [
   { field: 'name', title: 'שם' },
@@ -9,8 +10,6 @@ const getColumns = () => [
 ];
 
 const GroupsContainer = () => {
-  const title = 'קבוצות';
-  const entity = GROUPS;
   const columns = useMemo(() => getColumns(), []);
 
   return <Table entity={entity} title={title} columns={columns} />;

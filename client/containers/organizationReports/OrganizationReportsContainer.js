@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { ORGANIATION_REPORTS } from '../../constants/entity';
+import { ORGANIATION_REPORTS as entity } from '../../constants/entity';
+import { ORGANIATION_REPORTS as title } from '../../constants/entity-title';
 
 const getColumns = () => [
   { field: 'teacher_full_phone', title: 'טלפון מורה' },
@@ -11,8 +12,6 @@ const getColumns = () => [
 ];
 
 const OrganizationReportsContainer = () => {
-  const title = 'דו"ח לארגון צפיה';
-  const entity = ORGANIATION_REPORTS;
   const columns = useMemo(() => getColumns(), []);
 
   return (

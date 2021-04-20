@@ -1,0 +1,14 @@
+export const USERS = 'משתמשים';
+export const STUDENTS = 'תלמידות';
+export const TEACHERS = 'מורות';
+export const GROUPS = 'קבוצות';
+export const STUDENT_GROUPS = 'שיוך תלמידות לקבוצות';
+export const LESSONS = 'שיעורים';
+export const LESSON_TIMES = 'זמני שיעור';
+export const ATT_TYPES = 'סוגי דיווח';
+export const ATT_REPORTS = 'דיווחים';
+export const REPORT_EDIT = 'עריכת דיווחים';
+export const STUDENT_REPORTS = 'דו"ח לתלמידה';
+export const TEACHER_REPORTS = 'דו"ח למורה';
+export const ORGANIATION_REPORTS = 'דו"ח לארגון צפיה';
+export const DASHBOARD = 'לוח בקרה';

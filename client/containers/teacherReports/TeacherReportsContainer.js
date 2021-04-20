@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { TEACHER_REPORTS } from '../../constants/entity';
+import { TEACHER_REPORTS as entity } from '../../constants/entity';
+import { TEACHER_REPORTS as title } from '../../constants/entity-title';
 
 const getColumns = () => [
   { field: 'teacher_full_phone', title: 'טלפון מורה' },
@@ -12,8 +13,6 @@ const getColumns = () => [
 ];
 
 const TeacherReportsContainer = () => {
-  const title = 'דו"ח למורה';
-  const entity = TEACHER_REPORTS;
   const columns = useMemo(() => getColumns(), []);
 
   return (

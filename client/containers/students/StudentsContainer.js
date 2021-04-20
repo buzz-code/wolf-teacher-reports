@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { STUDENTS } from '../../constants/entity';
+import { STUDENTS as entity } from '../../constants/entity';
+import { STUDENTS as title } from '../../constants/entity-title';
 
 const getColumns = () => [
   { field: 'tz', title: 'תעודת זהות' },
@@ -9,8 +10,6 @@ const getColumns = () => [
 ];
 
 const StudentsContainer = () => {
-  const title = 'תלמידות';
-  const entity = STUDENTS;
   const columns = useMemo(() => getColumns(), []);
 
   return <Table entity={entity} title={title} columns={columns} />;

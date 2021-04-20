@@ -4,7 +4,8 @@ import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import { format } from 'date-fns';
 
 import Table from '../../components/table/Table';
-import { LESSON_TIMES } from '../../constants/entity';
+import { LESSON_TIMES as entity } from '../../constants/entity';
+import { LESSON_TIMES as title } from '../../constants/entity-title';
 
 const getTimeColumn = (field) => ({
   field,
@@ -32,8 +33,6 @@ const getColumns = () => [
 ];
 
 const LessonTimesContainer = () => {
-  const title = 'זמני שיעור';
-  const entity = LESSON_TIMES;
   const columns = useMemo(() => getColumns(), []);
 
   return <Table entity={entity} title={title} columns={columns} />;

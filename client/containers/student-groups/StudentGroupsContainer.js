@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../components/table/Table';
-import { STUDENT_GROUPS } from '../../constants/entity';
+import { STUDENT_GROUPS as entity } from '../../constants/entity';
+import { STUDENT_GROUPS as title } from '../../constants/entity-title';
 
 const getColumns = () => [
   { field: 'student_id', title: 'תלמידה' },
@@ -9,8 +10,6 @@ const getColumns = () => [
 ];
 
 const StudentGroupsContainer = () => {
-  const title = 'שיוך תלמידות לקבוצות';
-  const entity = STUDENT_GROUPS;
   const columns = useMemo(() => getColumns(), []);
 
   return <Table entity={entity} title={title} columns={columns} />;
