@@ -8,14 +8,14 @@ const title = 'העלאת קובץ';
 const supportedEntities = [
   { value: entities.STUDENTS, title: titles.STUDENTS, columns: ['tz', 'name'] },
   { value: entities.TEACHERS, title: titles.TEACHERS, columns: ['tz', 'name', 'phone'] },
-  { value: entities.GROUPS, title: titles.GROUPS, columns: ['name', 'is_klass'] },
-  { value: entities.LESSONS, title: titles.LESSONS, columns: ['name'] },
+  { value: entities.GROUPS, title: titles.GROUPS, columns: ['key', 'name', 'is_klass'] },
+  { value: entities.LESSONS, title: titles.LESSONS, columns: ['key', 'name'] },
   {
     value: entities.LESSON_TIMES,
     title: titles.LESSON_TIMES,
     columns: ['name', 'day_in_week', 'lesson_start', 'lesson_end'],
   },
-  { value: entities.ATT_TYPES, title: titles.ATT_TYPES, columns: ['name'] },
+  { value: entities.ATT_TYPES, title: titles.ATT_TYPES, columns: ['key', 'name'] },
 ];
 
 const ExcelImportContainer = () => {
