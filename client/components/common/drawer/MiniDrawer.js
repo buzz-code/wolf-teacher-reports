@@ -9,21 +9,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import PeopleIcon from '@material-ui/icons/People';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import ListIcon from '@material-ui/icons/List';
-import GroupIcon from '@material-ui/icons/Group';
-import ChatIcon from '@material-ui/icons/Chat';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import FormatListNumberedRtlIcon from '@material-ui/icons/FormatListNumberedRtl';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import EventNoteIcon from '@material-ui/icons/EventNote';
-import MenuIcon from '@material-ui/icons/Menu';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { NavLink, useLocation } from 'react-router-dom';
+import routeConfig from '../../../constants/route-config';
 
 const drawerWidth = 240;
 
@@ -85,32 +72,14 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
           <ChevronRightIcon />
         </IconButton>
       </div>
-      <Divider />
-      <List>
-        <div>
-          {getNavLinkItem('/dashboard', DashboardIcon, 'לוח בקרה')}
-          {getNavLinkItem('/students', PeopleIcon, 'תלמידות')}
-          {getNavLinkItem('/teachers', SupervisedUserCircleIcon, 'מורות')}
-          {getNavLinkItem('/groups', GroupIcon, 'קבוצות')}
-          {getNavLinkItem('/student-groups', GroupAddIcon, 'שיוך תלמידות לקבוצות')}
-          {getNavLinkItem('/lessons', EventNoteIcon, 'שיעורים')}
-          {getNavLinkItem('/lesson-times', FormatListNumberedRtlIcon, 'זמני שיעור')}
-          {getNavLinkItem('/att-types', MenuIcon, 'סוגי דיווח')}
-          {getNavLinkItem('/att-reports', AssignmentTurnedInIcon, 'דיווחים')}
-        </div>
-      </List>
-      <Divider />
-      <List>
-        <div>{getNavLinkItem('/excel-import', FileCopyIcon, 'העלאת קבצים')}</div>
-        <div>{getNavLinkItem('/report-edit', AssignmentIcon, 'עריכת דוחות')}</div>
-      </List>
-      {/* <List>
-        <div>
-          {getNavLinkItem('/student-reports', AssignmentIcon, 'דו"ח לתלמידה')}
-          {getNavLinkItem('/teacher-reports', AssignmentIcon, 'דו"ח למורה')}
-          {getNavLinkItem('/organization-reports', AssignmentIcon, 'דו"ח לארגון צפיה')}
-        </div>
-      </List> */}
+      {routeConfig.map((item) => (
+        <>
+          <Divider />
+          <List>
+            <div>{item.map((item) => getNavLinkItem(item.path, item.icon, item.title))}</div>
+          </List>
+        </>
+      ))}
     </Drawer>
   );
 };
