@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-import MaterialTable from 'material-table';
+import MaterialTable from '@material-table/core';
 import { materialTableLocalizations, materialTableOptions } from '../../config/config';
 
 const ReportEdit = ({ tables, onPreviewClick, reportResults }) => {

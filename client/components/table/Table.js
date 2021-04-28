@@ -1,5 +1,5 @@
 import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react';
-import MaterialTable from 'material-table';
+import MaterialTable from '@material-table/core';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import * as crudAction from '../../actions/crudAction';
