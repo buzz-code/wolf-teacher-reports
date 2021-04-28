@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Import custom components
 import ReportEdit from '../../components/report-edit/ReportEdit';
-import { REPORT_EDIT as entity } from '../../constants/entity';
-import { REPORT_EDIT as title } from '../../constants/entity-title';
 import * as crudAction from '../../actions/crudAction';
 
-const ReportEditContainer = () => {
+const ReportEditContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     data,

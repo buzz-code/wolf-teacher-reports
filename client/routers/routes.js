@@ -26,6 +26,7 @@ const Router = () => (
             path={item.path}
             layout={MainLayout}
             component={item.component}
+            componentProps={item.props}
           />
         ))}
 
