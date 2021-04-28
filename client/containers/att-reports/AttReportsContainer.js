@@ -10,11 +10,13 @@ const getColumns = () => [
   { field: 'att_type_id', title: 'סוג דיווח' },
   { field: 'enter_time', title: 'שעת כניסה' },
 ];
+const getFilters = () => [];
 
 const AttReportsContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
+  const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} />;
+  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
 export default AttReportsContainer;

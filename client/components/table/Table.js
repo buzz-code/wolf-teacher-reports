@@ -6,6 +6,7 @@ import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
 import { exportCsv } from '../../utils/exportsUtil';
+import TableFilter from '../table-filter/TableFilter';
 
 const getActions = (tableRef) => [
   {
@@ -20,12 +21,12 @@ const Table = ({
   entity,
   title,
   columns,
+  filters,
   validateRow,
   manipulateDataToSave,
   disableAdd,
   disableUpdate,
   disableDelete,
-  disableFiltering,
 }) => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state[entity]);
@@ -60,8 +61,8 @@ const Table = ({
     dispatch(crudAction.destroyItem(entity, rowData.id))
   );
 
-  const getData = (query) => {
-    return dispatch(crudAction.fetchAll(entity, query))
+  const getData = (query, filters) => {
+    return dispatch(crudAction.fetchAll(entity, query, filters))
       .then((res) => res.data)
       .then((result) => {
         return {
@@ -76,12 +77,18 @@ const Table = ({
     exportCsv(columns, entity, tableTitle);
   };
 
+  const handleFilterChange = (filters) => {
+    getData({ page: 0, pageSize: currentPageSize }, filters);
+  };
+
   return (
     <div>
       <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
 
       {error && <CustomizedSnackbar variant="error" message={error} />}
       {validationError && <CustomizedSnackbar variant="error" message={validationError} />}
+
+      {filters && <TableFilter filters={filters} onFilterChange={handleFilterChange} />}
 
       <MaterialTable
         title={tableTitle}
@@ -98,7 +105,6 @@ const Table = ({
         }}
         options={{
           ...materialTableOptions,
-          filtering: !disableFiltering,
           exportCsv: handleCsvExport,
           pageSize: currentPageSize,
         }}

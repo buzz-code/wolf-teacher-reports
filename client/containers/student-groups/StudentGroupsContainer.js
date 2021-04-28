@@ -6,11 +6,13 @@ const getColumns = () => [
   { field: 'student_id', title: 'תלמידה' },
   { field: 'group_id', title: 'קבוצה' },
 ];
+const getFilters = () => [];
 
 const StudentGroupsContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
+  const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} />;
+  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
 export default StudentGroupsContainer;

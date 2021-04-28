@@ -29,11 +29,13 @@ const getColumns = () => [
   { ...getTimeColumn('lesson_start'), title: 'התחלה' },
   { ...getTimeColumn('lesson_end'), title: 'סיום' },
 ];
+const getFilters = () => [];
 
 const LessonTimesContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
+  const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} />;
+  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
 export default LessonTimesContainer;

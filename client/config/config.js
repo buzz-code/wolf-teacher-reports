@@ -7,7 +7,7 @@ export const materialTableOptions = {
   actionsColumnIndex: -1,
   exportButton: { csv: true, pdf: false },
   search: false,
-  filtering: true,
+  filtering: false,
 };
 export const materialTableLocalizations = {
   body: {

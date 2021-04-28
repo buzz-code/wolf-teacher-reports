@@ -7,11 +7,13 @@ const getColumns = () => [
   { field: 'name', title: 'שם' },
   { field: 'is_klass', title: 'כיתה?', type: 'boolean' },
 ];
+const getFilters = () => [];
 
 const GroupsContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
+  const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} />;
+  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
 export default GroupsContainer;

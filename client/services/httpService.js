@@ -4,7 +4,8 @@ import { getPathParam } from '../utils/serializeUtil';
 
 export const fetchEntity = (
   entityName,
-  { error, filters, orderBy, orderDirection, page, pageSize, search, totalCount }
+  { error, orderBy, orderDirection, page, pageSize, search, totalCount },
+  filters
 ) => {
   const columnOrder = orderBy && orderBy.field;
   return fetch(entityName.toLowerCase(), {
@@ -12,9 +13,9 @@ export const fetchEntity = (
     pageSize,
     orderBy: columnOrder,
     orderDirection,
-    filters:
-      filters &&
-      filters.map(({ column: { field }, operator, value }) => ({ field, operator, value })),
+    // filters:
+    //   filters &&
+    //   filters.map(({ column: { field }, operator, value }) => ({ field, operator, value })),
   });
 };
 
