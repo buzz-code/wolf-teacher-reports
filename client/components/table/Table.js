@@ -74,10 +74,6 @@ const Table = ({
       });
   };
 
-  const handleCsvExport = (columns, data) => {
-    exportCsv(columns, entity, tableTitle);
-  };
-
   const handleFilterChange = (conditions) => {
     setConditions(conditions);
   };
@@ -110,8 +106,13 @@ const Table = ({
         }}
         options={{
           ...materialTableOptions,
-          exportCsv: handleCsvExport,
           pageSize: currentPageSize,
+          exportMenu: [
+            {
+              label: 'ייצא לקובץ CSV',
+              exportFunc: (cols, datas) => exportCsv(cols, entity, tableTitle),
+            },
+          ],
         }}
         localization={materialTableLocalizations}
       />
