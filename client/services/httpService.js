@@ -13,9 +13,7 @@ export const fetchEntity = (
     pageSize,
     orderBy: columnOrder,
     orderDirection,
-    // filters:
-    //   filters &&
-    //   filters.map(({ column: { field }, operator, value }) => ({ field, operator, value })),
+    filters,
   });
 };
 

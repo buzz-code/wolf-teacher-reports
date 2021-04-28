@@ -7,14 +7,20 @@ export const fetchPage = async ({ dbQuery, countQuery }, { page, pageSize, order
     }
 
     if (filters) {
-        for (const filter of filters) {
-            const filterObj = JSON.parse(filter);
-            if (Array.isArray(filterObj.value)) {
-                dbQuery = dbQuery.where(filterObj.field, 'in', filterObj.value);
-            } else if (moment(filterObj.value).isValid()) {
-                dbQuery = dbQuery.where(filterObj.field, '=', moment(filterObj.value).format('YYYY-MM-DD'));
-            } else {
-                dbQuery = dbQuery.where(filterObj.field, 'like', '%' + filterObj.value + '%');
+        const filtersObj = JSON.parse(filters);
+        for (const filter of Object.values(filtersObj)) {
+            switch (filter.operator) {
+                case 'like':
+                    dbQuery = dbQuery.where(filter.field, 'like', '%' + filter.value + '%');
+                    break;
+                case 'in':
+                    dbQuery = dbQuery.where(filter.field, 'in', filter.value);
+                    break;
+                case 'date-eq':
+                    dbQuery = dbQuery.where(filter.field, '=', moment(filter.value).format('YYYY-MM-DD'));
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useMemo, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react';
 import MaterialTable from 'material-table';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
@@ -29,9 +29,10 @@ const Table = ({
   disableDelete,
 }) => {
   const dispatch = useDispatch();
-  const { data, error } = useSelector((state) => state[entity]);
+  const { isLoading, data, error } = useSelector((state) => state[entity]);
   const [validationError, setValidationError] = useState(null);
   const [currentPageSize, setCurrentPageSize] = useState(5);
+  const [conditions, setConditions] = useState({});
   const tableRef = createRef();
   const tableTitle = useMemo(() => 'רשימת ' + title, [title]);
   const actions = useMemo(() => getActions(tableRef), [tableRef]);
@@ -61,8 +62,8 @@ const Table = ({
     dispatch(crudAction.destroyItem(entity, rowData.id))
   );
 
-  const getData = (query, filters) => {
-    return dispatch(crudAction.fetchAll(entity, query, filters))
+  const getData = (query) => {
+    return dispatch(crudAction.fetchAll(entity, query, conditions))
       .then((res) => res.data)
       .then((result) => {
         return {
@@ -77,9 +78,13 @@ const Table = ({
     exportCsv(columns, entity, tableTitle);
   };
 
-  const handleFilterChange = (filters) => {
-    getData({ page: 0, pageSize: currentPageSize }, filters);
+  const handleFilterChange = (conditions) => {
+    setConditions(conditions);
   };
+
+  useEffect(() => {
+    tableRef.current && tableRef.current.onQueryChange();
+  }, [conditions]);
 
   return (
     <div>
@@ -96,7 +101,7 @@ const Table = ({
         columns={columns}
         actions={actions}
         data={getData}
-        isLoading={!data}
+        // isLoading={isLoading}
         onChangeRowsPerPage={setCurrentPageSize}
         editable={{
           onRowAdd: disableAdd ? null : onRowAdd,
