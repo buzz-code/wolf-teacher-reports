@@ -6,7 +6,10 @@ const getColumns = () => [
   { field: 'student_id', title: 'תלמידה' },
   { field: 'group_id', title: 'קבוצה' },
 ];
-const getFilters = () => [];
+const getFilters = () => [
+  { field: 'student_id', label: 'תלמידה', type: 'text', operator: 'like' },
+  { field: 'group_id', label: 'קבוצה', type: 'text', operator: 'like' },
+];
 
 const StudentGroupsContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);

@@ -6,7 +6,10 @@ const getColumns = () => [
   { field: 'key', title: 'מזהה' },
   { field: 'name', title: 'שם' },
 ];
-const getFilters = () => [];
+const getFilters = () => [
+  { field: 'key', label: 'מזהה', type: 'text', operator: 'like' },
+  { field: 'name', label: 'שם', type: 'text', operator: 'like' },
+];
 
 const LessonsContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);

@@ -7,7 +7,11 @@ const getColumns = () => [
   { field: 'name', title: 'שם' },
   { field: 'phone', title: 'מספר טלפון' },
 ];
-const getFilters = () => [];
+const getFilters = () => [
+  { field: 'tz', label: 'תעודת זהות', type: 'text', operator: 'like' },
+  { field: 'name', label: 'שם', type: 'text', operator: 'like' },
+  { field: 'phone', label: 'מספר טלפון', type: 'text', operator: 'like' },
+];
 
 const TeachersContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);

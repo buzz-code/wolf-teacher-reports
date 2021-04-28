@@ -29,7 +29,12 @@ const getColumns = () => [
   { ...getTimeColumn('lesson_start'), title: 'התחלה' },
   { ...getTimeColumn('lesson_end'), title: 'סיום' },
 ];
-const getFilters = () => [];
+const getFilters = () => [
+  { field: 'name', label: 'שם', type: 'text', operator: 'like' },
+  { field: 'day_in_week', label: 'ימים בשבוע', type: 'text', operator: 'like' },
+  // { field: 'lesson_start', label: 'התחלה', type: 'text', operator: 'like' },
+  // { field: 'lesson_end', label: 'סיום', type: 'text', operator: 'like' },
+];
 
 const LessonTimesContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
