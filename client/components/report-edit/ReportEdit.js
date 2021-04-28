@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Grid, Button } from '@material-ui/core';
-import { Add, Remove } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import MaterialTable from 'material-table';
@@ -34,8 +36,8 @@ const ReportEdit = ({ tables, onPreviewClick, reportResults }) => {
       <Grid container spacing={4} style={{ marginBottom: '15px' }}>
         <Grid item xs={3}>
           <TreeView
-            defaultCollapseIcon={<Remove />}
-            defaultExpandIcon={<Add />}
+            defaultCollapseIcon={<RemoveIcon />}
+            defaultExpandIcon={<AddIcon />}
             onNodeSelect={handleNodeSelect}
           >
             {tables && tables.map(renderTree)}

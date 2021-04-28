@@ -1,6 +1,9 @@
 import React from 'react';
 import XLSX from 'xlsx';
-import { Button, Grid, MenuItem, Select } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import * as crudAction from '../../actions/crudAction';

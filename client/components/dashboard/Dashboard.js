@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react';
 import { cyan, pink, purple, orange } from '@material-ui/core/colors';
-import { Grid } from '@material-ui/core';
-import { ListAlt, People, SupervisedUserCircle } from '@material-ui/icons';
+import Grid from '@material-ui/core/Grid';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import PeopleIcon from '@material-ui/icons/People';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 
 import SummaryBox from './SummaryBox';
 
 const statItems = [
-  { id: 'reports', text: 'צפיות', icon: ListAlt, color: pink[600], value: 0 },
-  { id: 'students', text: 'תלמידות', icon: People, color: cyan[600], value: 0 },
-  { id: 'teachers', text: 'מורות', icon: SupervisedUserCircle, color: purple[600], value: 0 },
+  { id: 'reports', text: 'צפיות', icon: ListAltIcon, color: pink[600], value: 0 },
+  { id: 'students', text: 'תלמידות', icon: PeopleIcon, color: cyan[600], value: 0 },
+  { id: 'teachers', text: 'מורות', icon: SupervisedUserCircleIcon, color: purple[600], value: 0 },
 ];
 
 const Dashboard = ({ stats }) => {

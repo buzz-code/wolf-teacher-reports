@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /*
  * so process.cwd() is used instead to determine the correct base directory
@@ -27,7 +28,9 @@ const config = {
         new webpack.optimize.OccurrenceOrderPlugin(), // OccurrenceOrderPlugin is needed for webpack 1.x only
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally
         new webpack.NoEmitOnErrorsPlugin(),  // do not emit compiled assets that include errors
-        new Dotenv()
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new Dotenv(),
+        new BundleAnalyzerPlugin()
     ],
     module: {
         rules: [

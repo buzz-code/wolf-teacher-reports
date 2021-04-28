@@ -1,32 +1,28 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Drawer,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
-import {
-  ChevronRight,
-  Dashboard,
-  ListAlt,
-  People,
-  SupervisedUserCircle,
-  List as ListIcon,
-  Group,
-  Chat,
-  Assignment,
-  GroupAdd,
-  FormatListNumberedRtl,
-  AssignmentTurnedIn,
-  EventNote,
-  Menu,
-  FileCopy,
-} from '@material-ui/icons';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import PeopleIcon from '@material-ui/icons/People';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import ListIcon from '@material-ui/icons/List';
+import GroupIcon from '@material-ui/icons/Group';
+import ChatIcon from '@material-ui/icons/Chat';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import FormatListNumberedRtlIcon from '@material-ui/icons/FormatListNumberedRtl';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import MenuIcon from '@material-ui/icons/Menu';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -86,33 +82,33 @@ const MiniDrawer = ({ navDrawerOpen, handleToggleDrawer }) => {
     >
       <div className={classes.toolbarIcon}>
         <IconButton onClick={handleToggleDrawer}>
-          <ChevronRight />
+          <ChevronRightIcon />
         </IconButton>
       </div>
       <Divider />
       <List>
         <div>
-          {getNavLinkItem('/dashboard', Dashboard, 'לוח בקרה')}
-          {getNavLinkItem('/students', People, 'תלמידות')}
-          {getNavLinkItem('/teachers', SupervisedUserCircle, 'מורות')}
-          {getNavLinkItem('/groups', Group, 'קבוצות')}
-          {getNavLinkItem('/student-groups', GroupAdd, 'שיוך תלמידות לקבוצות')}
-          {getNavLinkItem('/lessons', EventNote, 'שיעורים')}
-          {getNavLinkItem('/lesson-times', FormatListNumberedRtl, 'זמני שיעור')}
-          {getNavLinkItem('/att-types', Menu, 'סוגי דיווח')}
-          {getNavLinkItem('/att-reports', AssignmentTurnedIn, 'דיווחים')}
+          {getNavLinkItem('/dashboard', DashboardIcon, 'לוח בקרה')}
+          {getNavLinkItem('/students', PeopleIcon, 'תלמידות')}
+          {getNavLinkItem('/teachers', SupervisedUserCircleIcon, 'מורות')}
+          {getNavLinkItem('/groups', GroupIcon, 'קבוצות')}
+          {getNavLinkItem('/student-groups', GroupAddIcon, 'שיוך תלמידות לקבוצות')}
+          {getNavLinkItem('/lessons', EventNoteIcon, 'שיעורים')}
+          {getNavLinkItem('/lesson-times', FormatListNumberedRtlIcon, 'זמני שיעור')}
+          {getNavLinkItem('/att-types', MenuIcon, 'סוגי דיווח')}
+          {getNavLinkItem('/att-reports', AssignmentTurnedInIcon, 'דיווחים')}
         </div>
       </List>
       <Divider />
       <List>
-        <div>{getNavLinkItem('/excel-import', FileCopy, 'העלאת קבצים')}</div>
-        <div>{getNavLinkItem('/report-edit', Assignment, 'עריכת דוחות')}</div>
+        <div>{getNavLinkItem('/excel-import', FileCopyIcon, 'העלאת קבצים')}</div>
+        <div>{getNavLinkItem('/report-edit', AssignmentIcon, 'עריכת דוחות')}</div>
       </List>
       {/* <List>
         <div>
-          {getNavLinkItem('/student-reports', Assignment, 'דו"ח לתלמידה')}
-          {getNavLinkItem('/teacher-reports', Assignment, 'דו"ח למורה')}
-          {getNavLinkItem('/organization-reports', Assignment, 'דו"ח לארגון צפיה')}
+          {getNavLinkItem('/student-reports', AssignmentIcon, 'דו"ח לתלמידה')}
+          {getNavLinkItem('/teacher-reports', AssignmentIcon, 'דו"ח למורה')}
+          {getNavLinkItem('/organization-reports', AssignmentIcon, 'דו"ח לארגון צפיה')}
         </div>
       </List> */}
     </Drawer>
