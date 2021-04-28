@@ -1,4 +1,5 @@
 import {
+  ENTITY_LOADING,
   ENTITY_FAILURE,
   ENTITY_CREATE,
   ENTITY_UPDATE,
@@ -11,7 +12,8 @@ import {
 
 let initialState = {
   error: null,
-  data: null,
+  isLoading: false,
+  data: [],
   selectedItem: null,
   GET: {},
   POST: {},
@@ -29,16 +31,25 @@ export default function (entity) {
     }
 
     switch (action.type) {
+      case ENTITY_LOADING:
+        return {
+          ...state,
+          error: null,
+          isLoading: true,
+        };
+
       case ENTITY_FAILURE:
         return {
           ...state,
           error: action.error.error,
+          isLoading: false,
         };
 
       case ENTITY_CREATE:
         return {
           ...state,
           error: null,
+          isLoading: false,
           selectedItem: action.data.data,
         };
 
@@ -46,6 +57,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           selectedItem: action.data.data,
         };
 
@@ -53,6 +65,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           data: action.data.data,
         };
 
@@ -60,6 +73,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           selectedItem: null,
         };
 
@@ -67,6 +81,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           selectedItem: action.data.data,
         };
 
@@ -74,6 +89,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           data: null,
         };
 
@@ -81,6 +97,7 @@ export default function (entity) {
         return {
           ...state,
           error: null,
+          isLoading: false,
           [action.method]: {
             [action.url]: action.data.data,
           },

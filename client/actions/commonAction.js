@@ -1,4 +1,5 @@
 import {
+  ENTITY_LOADING,
   ENTITY_FAILURE,
   ENTITY_CREATE,
   ENTITY_UPDATE,
@@ -8,6 +9,13 @@ import {
   CLEAR_ENTITY_LIST,
   CUSTOM_HTTP_REQUEST,
 } from '../constants/actionType';
+
+export const loading = (entity, error) => {
+  return {
+    type: ENTITY_LOADING,
+    entity: entity,
+  };
+};
 
 export const failure = (entity, error) => {
   return {

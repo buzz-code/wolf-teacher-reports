@@ -17,6 +17,7 @@ import * as httpService from '../services/httpService';
 
 export const fetchAll = (entity, query, filters) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .fetchEntity(entity, query, filters)
       .then((response) => {
@@ -24,13 +25,14 @@ export const fetchAll = (entity, query, filters) => {
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error.response.data));
-        return Promise.Reject();
+        return Promise.reject();
       });
   };
 };
 
 export const fetchById = (entity, id) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .fetchEntityById(entity, id)
       .then((response) => {
@@ -38,13 +40,14 @@ export const fetchById = (entity, id) => {
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error.response.data));
-        return Promise.Reject();
+        return Promise.reject();
       });
   };
 };
 
 export const storeItem = (entity, data) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .storeEntity(entity, data)
       .then((response) => {
@@ -52,13 +55,14 @@ export const storeItem = (entity, data) => {
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error.response.data));
-        return Promise.Reject();
+        return Promise.reject();
       });
   };
 };
 
 export const updateItem = (entity, data, id) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .updateEntity(entity, data, id)
       .then((response) => {
@@ -66,13 +70,14 @@ export const updateItem = (entity, data, id) => {
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error.response.data));
-        return Promise.Reject();
+        return Promise.reject();
       });
   };
 };
 
 export const destroyItem = (entity, id, data) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .destroyEntity(entity, id)
       .then((response) => {
@@ -80,13 +85,14 @@ export const destroyItem = (entity, id, data) => {
       })
       .catch((error) => {
         dispatch(commonAction.failure(entity, error.response.data));
-        return Promise.Reject();
+        return Promise.reject();
       });
   };
 };
 
 export const submitForm = (entity, data, id) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     if (id) {
       return dispatch(updateItem(entity, data, id));
     } else {
@@ -97,6 +103,7 @@ export const submitForm = (entity, data, id) => {
 
 export const customHttpRequest = (entity, method, url, data, id) => {
   return (dispatch) => {
+    dispatch(commonAction.loading(entity));
     return httpService
       .customHttpRequest(entity, method, url, data, id)
       .then((response) => {
