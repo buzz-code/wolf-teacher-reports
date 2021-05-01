@@ -37,7 +37,7 @@ export function getStudentsByUserIdAndKlassId(user_id, group_id) {
 }
 
 export function getAttTypesByUserId(user_id) {
-    return new AttType({ user_id })
+    return new AttType({ user_id, is_active: true })
         .fetchAll()
         .then(res => res.toJSON());
 }
