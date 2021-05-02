@@ -22,6 +22,6 @@ export async function getStats(req, res) {
 }
 
 function getCountFromTable(table, user_id) {
-    return new table({ user_id })
+    return table.where({ user_id })
         .count();
 }

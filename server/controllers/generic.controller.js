@@ -56,7 +56,7 @@ export default (model, fromClientToServer, fromServerToClient) => ({
      * @returns {*}
      */
     findAll: function (req, res) {
-        const dbQuery = new model({ user_id: req.currentUser.id });
+        const dbQuery = model.where({ user_id: req.currentUser.id });
         fetchPage({ dbQuery }, req.query, res, fromServerToClient);
     },
 
@@ -68,7 +68,7 @@ export default (model, fromClientToServer, fromServerToClient) => ({
      * @returns {*}
      */
     findById: function (req, res) {
-        new model({ id: req.params.id, user_id: req.currentUser.id })
+        model.where({ id: req.params.id, user_id: req.currentUser.id })
             .fetch()
             .then(item => {
                 let itemToReturn = fromServerToClient ? fromServerToClient(item.toJSON()) : item.toJSON();
