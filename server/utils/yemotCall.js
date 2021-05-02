@@ -10,9 +10,10 @@ export class YemotCall extends CallBase {
 
     texts = {
         phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
-        welcomeAndTypeKlassId: 'שלום {0} הגעת למוקד רישום הנוכחות, נא הקישי את קוד הכיתה',
+        welcomeAndTypeKlassId: 'שלום המורה {0} הגעת למוקד רישום הנוכחות, נא הקישי את קוד הכיתה',
         confirmKlass: 'כיתה {0}, לאישור הקישי 1, לתיקון הקישי 2',
         klassIdNotFound: 'קוד כיתה לא נמצא',
+        tryAgain: 'נסי שנית',
         typeLessonId: 'נא הקישי את קוד השיעור',
         confirmLesson: 'שיעור {0}, לאישור הקישי 1, לתיקון הקישי 2',
         lessonIdNotFound: 'קוד שיעור לא נמצא',
@@ -74,9 +75,10 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getKlass(teacher) {
+    async getKlass(teacher, isRetry = false) {
+        const message = isRetry ? this.texts.tryAgain : format(this.texts.welcomeAndTypeKlassId, teacher.name);
         await this.send(
-            this.read({ type: 'text', text: format(this.texts.welcomeAndTypeKlassId, teacher.name) },
+            this.read({ type: 'text', text: message },
                 'klassId', 'tap', { max: 4, min: 1, block_asterisk: true })
         );
         let klass = await queryHelper.getKlassByUserIdAndKlassId(this.user.id, this.params.klassId);
@@ -86,18 +88,19 @@ export class YemotCall extends CallBase {
                     'klassConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             if (this.params.klassConfirm === '2') {
-                return this.getKlass(teacher);
+                return this.getKlass(teacher, true);
             }
         } else {
             await this.send(this.id_list_message({ type: 'text', text: this.texts.klassIdNotFound }));
-            return this.getKlass(teacher);
+            return this.getKlass(teacher, true);
         }
         return klass;
     }
 
-    async getLesson() {
+    async getLesson(isRetry = false) {
+        const message = isRetry ? this.texts.tryAgain : this.texts.typeLessonId;
         await this.send(
-            this.read({ type: 'text', text: this.texts.typeLessonId },
+            this.read({ type: 'text', text: message },
                 'lessonId', 'tap', { max: 4, min: 1, block_asterisk: true })
         );
         let lesson = await queryHelper.getLessonByUserIdAndLessonId(this.user.id, this.params.lessonId);
@@ -107,11 +110,11 @@ export class YemotCall extends CallBase {
                     'lessonConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             if (this.params.lessonConfirm === '2') {
-                return this.getLesson();
+                return this.getLesson(true);
             }
         } else {
             await this.send(this.id_list_message({ type: 'text', text: this.texts.lessonIdNotFound }));
-            return this.getLesson();
+            return this.getLesson(true);
         }
         return lesson;
     }
@@ -119,8 +122,8 @@ export class YemotCall extends CallBase {
     async getStudentReports(klass) {
         const students = await queryHelper.getStudentsByUserIdAndKlassId(this.user.id, klass.id);
         const types = await queryHelper.getAttTypesByUserId(this.user.id);
-        const attTypeMessage = types.map((item, index) => format(this.texts.forAttendanceTypeXPressY, item.name, (Number(index) + 1))).join('');
-        const prevStudentMessage = format(this.texts.forAttendanceTypeXPressY, this.texts.prevStudent, types.length + 1);
+        const attTypeMessage = types.map(item => format(this.texts.forAttendanceTypeXPressY, item.name, item.key)).join('');
+        const prevStudentMessage = format(this.texts.forAttendanceTypeXPressY, this.texts.prevStudent, 7);
 
         let isFirstTime = true;
         this.params.studentReports = {};
@@ -135,10 +138,10 @@ export class YemotCall extends CallBase {
             );
             isFirstTime = false;
             const attType = Number(this.params.attType);
-            if (attType === types.length) {
+            if (attType === 7) {
                 index -= 2;
             } else {
-                this.params.studentReports[student.id] = types[attType - 1].id;
+                this.params.studentReports[student.id] = types.find(item=>item.key == attType).id;
             }
         }
     }

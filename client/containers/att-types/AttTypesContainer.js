@@ -3,9 +3,10 @@ import React, { useMemo } from 'react';
 import Table from '../../components/table/Table';
 
 const getColumns = () => [
-  { field: 'key', title: 'מזהה' },
+  { field: 'key', title: 'מזהה', type: 'numeric' },
   { field: 'name', title: 'שם' },
   { field: 'is_active', title: 'פעיל', type: 'boolean' },
+  { field: 'is_for_teacher', title: 'השמעה למורה', type: 'boolean' },
   { field: 'is_full_day', title: 'יום שלם', type: 'boolean' },
 ];
 const getFilters = () => [
