@@ -3,10 +3,14 @@ import isAuthenticated from '../middlewares/authenticate';
 import validate from '../config/joi.validate';
 import schema from '../utils/validator';
 
-export default (ctrl) => {
+export default (ctrl, callback) => {
     const router = express.Router();
 
     router.use(isAuthenticated);
+
+    if (callback) {
+        callback(router);
+    }
 
     router.route('/')
         .post(validate(schema.any), (req, res) => {

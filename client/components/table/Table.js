@@ -89,7 +89,9 @@ const Table = ({
       {error && <CustomizedSnackbar variant="error" message={error} />}
       {validationError && <CustomizedSnackbar variant="error" message={validationError} />}
 
-      {filters && <TableFilter filters={filters} onFilterChange={handleFilterChange} />}
+      {filters && filters.length > 0 && (
+        <TableFilter filters={filters} onFilterChange={handleFilterChange} />
+      )}
 
       <MaterialTable
         title={tableTitle}
