@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -22,28 +22,42 @@ const TableFilter = ({ filters, onFilterChange }) => {
   const [conditions, setConditions] = useState({});
 
   const onChange = (filter, index) => {
-    const newConditions = { ...conditions, [index]: filter };
-    setConditions(newConditions);
+    setConditions((conditions) => ({ ...conditions, [index]: filter }));
   };
 
-  const onFilterFire = () => {
+  const onFilterFire = (e) => {
+    e.preventDefault();
     onFilterChange(conditions);
   };
 
+  useEffect(() => {
+    setConditions({});
+  }, [filters]);
+
   return (
     <Paper className={classes.container}>
-      <div>
-        {filters.map((item, index) => (
-          <FilterItem item={item} index={index} key={index} onChange={onChange} classes={classes} />
-        ))}
-      </div>
+      <form onSubmit={onFilterFire}>
+        <div>
+          {filters.map((item, index) => (
+            <FilterItem
+              item={item}
+              index={index}
+              key={index}
+              onChange={onChange}
+              classes={classes}
+            />
+          ))}
+        </div>
 
-      <div className={classes.buttonContainer}>
-        <div style={{ flex: '1' }}> </div>
-        <Button variant="contained" color="primary" onClick={onFilterFire}>
-          סנן נתונים
-        </Button>
-      </div>
+        <input type="submit" style={{ display: 'none' }} />
+
+        <div className={classes.buttonContainer}>
+          <div style={{ flex: '1' }}> </div>
+          <Button variant="contained" color="primary" onClick={onFilterFire}>
+            סנן נתונים
+          </Button>
+        </div>
+      </form>
     </Paper>
   );
 };
@@ -59,15 +73,18 @@ const FilterItem = ({ item, index, onChange, classes }) => {
     onChange(filter, index);
   };
 
-  return (
+  return item.type === 'text' || item.type === 'date' ? (
     <TextField
       className={classes.inputField}
-      type="text"
+      type={item.type}
       label={item.label}
       inputRef={inputRef}
       onChange={handleChange}
+      InputLabelProps={{
+        shrink: true,
+      }}
     />
-  );
+  ) : null;
 };
 
 export default TableFilter;

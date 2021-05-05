@@ -1,32 +1,13 @@
 import HttpStatus from 'http-status-codes';
 import moment from 'moment';
 
-export const fetchPage = async ({ dbQuery, countQuery }, { page, pageSize, orderBy, orderDirection, filters }, res, fromServerToClient) => {
+export const fetchPage = async ({ dbQuery, countQuery }, { page, pageSize, orderBy, orderDirection }, res, fromServerToClient) => {
     if (orderBy) {
         dbQuery = dbQuery.query('orderBy', orderBy, orderDirection);
     }
 
-    if (filters) {
-        const filtersObj = JSON.parse(filters);
-        for (const filter of Object.values(filtersObj)) {
-            switch (filter.operator) {
-                case 'like':
-                    dbQuery = dbQuery.where(filter.field, 'like', '%' + filter.value + '%');
-                    break;
-                case 'in':
-                    dbQuery = dbQuery.where(filter.field, 'in', filter.value);
-                    break;
-                case 'date-eq':
-                    dbQuery = dbQuery.where(filter.field, '=', moment(filter.value).format('YYYY-MM-DD'));
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     if (!countQuery) {
-        countQuery = dbQuery.clone().count();
+        countQuery = dbQuery.clone().query(qb => { qb.clearSelect(); qb.clearGroup(); }).count();
     }
 
     dbQuery.query(qb => qb.offset(Number(pageSize) * Number(page)).limit(Number(pageSize)));
@@ -47,6 +28,27 @@ export const fetchPage = async ({ dbQuery, countQuery }, { page, pageSize, order
     }
 };
 
+export const applyFilters = (query, filters) => {
+    if (filters) {
+        const filtersObj = JSON.parse(filters);
+        for (const filter of Object.values(filtersObj)) {
+            switch (filter.operator) {
+                case 'like':
+                    query.where(filter.field, 'like', '%' + filter.value + '%');
+                    break;
+                case 'in':
+                    query.where(filter.field, 'in', filter.value);
+                    break;
+                case 'date-eq':
+                    query.where(filter.field, '=', moment(filter.value).format('YYYY-MM-DD'));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
 export default (model, fromClientToServer, fromServerToClient) => ({
     /**
      * Find all the items
@@ -56,7 +58,8 @@ export default (model, fromClientToServer, fromServerToClient) => ({
      * @returns {*}
      */
     findAll: function (req, res) {
-        const dbQuery = model.where({ user_id: req.currentUser.id });
+        const dbQuery = new model({ user_id: req.currentUser.id });
+        applyFilters(dbQuery, req.query.filters);
         fetchPage({ dbQuery }, req.query, res, fromServerToClient);
     },
 
@@ -68,7 +71,7 @@ export default (model, fromClientToServer, fromServerToClient) => ({
      * @returns {*}
      */
     findById: function (req, res) {
-        model.where({ id: req.params.id, user_id: req.currentUser.id })
+        new model({ id: req.params.id, user_id: req.currentUser.id })
             .fetch()
             .then(item => {
                 let itemToReturn = fromServerToClient ? fromServerToClient(item.toJSON()) : item.toJSON();
