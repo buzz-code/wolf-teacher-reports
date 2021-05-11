@@ -28,8 +28,8 @@ const getColumns = ({ students, groups }) => [
   { field: 'group_id', title: 'קבוצה', ...getPropsForAutoComplete('group_id', groups) },
 ];
 const getFilters = () => [
-  // { field: 'student_id', label: 'תלמידה', type: 'text', operator: 'like' },
-  // { field: 'group_id', label: 'קבוצה', type: 'text', operator: 'like' },
+  { field: 'students.name', label: 'תלמידה', type: 'text', operator: 'like' },
+  { field: 'groups.name', label: 'קבוצה', type: 'text', operator: 'like' },
 ];
 
 const StudentGroupsContainer = ({ entity, title }) => {
