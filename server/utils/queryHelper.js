@@ -17,14 +17,14 @@ export function getTeacherByUserIdAndPhone(user_id, phone) {
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getKlassByUserIdAndKlassId(user_id, id) {
-    return new Group().where({ user_id, id })
+export function getKlassByUserIdAndKlassId(user_id, key) {
+    return new Group().where({ user_id, key })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getLessonByUserIdAndLessonId(user_id, id) {
-    return new Lesson().where({ user_id, id })
+export function getLessonByUserIdAndLessonId(user_id, key) {
+    return new Lesson().where({ user_id, key })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
