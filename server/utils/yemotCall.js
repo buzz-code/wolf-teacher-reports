@@ -129,11 +129,11 @@ export class YemotCall extends CallBase {
         this.params.studentReports = {};
         for (let index = 0; index < students.length; index++) {
             const student = students[index];
-            // const message = [];
-            // if (isFirstTime) {
-            //     message.push(this.texts.startStudentList + '. ');
-            // }
-            // message.push(student.name + ', ');
+            const message = [];
+            if (isFirstTime) {
+                message.push(this.texts.startStudentList + '. ');
+            }
+            message.push(student.name + ', ');
             // if (index === 0) {
             //     message.push(attTypeMessage);
             // } else {
@@ -143,10 +143,12 @@ export class YemotCall extends CallBase {
             //     this.read({ type: 'text', text: message.join('') },
             //         'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
+            console.log(message.join(''))
             const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
             await this.send(
-                isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
-                this.id_list_message({ type: 'text', text: student.name + ', ' }),
+                // isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
+                // this.id_list_message({ type: 'text', text: student.name + ', ' }),
+                this.id_list_message({ type: 'text', text: message.join('') }),
                 this.read({ type: 'text', text: attTypeMessageForCurrent },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
