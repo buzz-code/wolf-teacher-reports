@@ -19,7 +19,7 @@ export class YemotCall extends CallBase {
         lessonIdNotFound: 'קוד שיעור לא נמצא',
         startStudentList: 'כעת תושמע רשימת התלמידות',
         prevStudent: 'מעבר לתלמידה הקודמת',
-        forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
+        forAttendanceTypeXPressY: 'ל{0} הקישי {1}',
         dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
         dataWasSavedSuccessfully: 'רישום הנוכחות הסתיים בהצלחה',
     }
@@ -122,7 +122,7 @@ export class YemotCall extends CallBase {
     async getStudentReports(klass) {
         const students = await queryHelper.getStudentsByUserIdAndKlassId(this.user.id, klass.id);
         const types = await queryHelper.getAttTypesByUserId(this.user.id);
-        const attTypeMessage = types.map(item => format(this.texts.forAttendanceTypeXPressY, item.name, item.key)).join('');
+        const attTypeMessage = types.map(item => format(this.texts.forAttendanceTypeXPressY, item.name, item.key)).join(', ');
         const prevStudentMessage = format(this.texts.forAttendanceTypeXPressY, this.texts.prevStudent, 7);
 
         let isFirstTime = true;
@@ -141,9 +141,13 @@ export class YemotCall extends CallBase {
             }
             console.log({index, student, message, join: message.join('')})
             await this.send(
-                this.read({ type: 'text', text: message.join('') },
+                this.read({ type: 'text', text: format(this.texts.confirmLesson, lesson.name) },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
+            // await this.send(
+            //     this.read({ type: 'text', text: message.join('') },
+            //         'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             isFirstTime = false;
             const attType = Number(this.params.attType);
             if (attType === 7) {
