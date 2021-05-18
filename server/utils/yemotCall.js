@@ -139,7 +139,7 @@ export class YemotCall extends CallBase {
             } else {
                 message.push(attTypeMessage + prevStudentMessage);
             }
-            console.log({index, student, message})
+            console.log({index, student, message, join: message.join('')})
             await this.send(
                 this.read({ type: 'text', text: message.join('') },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
