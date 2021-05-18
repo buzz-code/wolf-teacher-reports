@@ -129,11 +129,18 @@ export class YemotCall extends CallBase {
         this.params.studentReports = {};
         for (let index = 0; index < students.length; index++) {
             const student = students[index];
-            const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
+            const message = [];
+            if (isFirstTime) {
+                message.push(this.texts.startStudentList + '. ');
+            }
+            message.push(student.name + ', ');
+            if (index === 0) {
+                message.push(attTypeMessage);
+            } else {
+                message.push(attTypeMessage + prevStudentMessage);
+            }
             await this.send(
-                isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
-                this.id_list_message({ type: 'text', text: student.name + ', ' }),
-                this.read({ type: 'text', text: attTypeMessageForCurrent },
+                this.read({ type: 'text', text: message.join('') },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             isFirstTime = false;
@@ -141,7 +148,7 @@ export class YemotCall extends CallBase {
             if (attType === 7) {
                 index -= 2;
             } else {
-                this.params.studentReports[student.id] = types.find(item=>item.key == attType).id;
+                this.params.studentReports[student.id] = types.find(item => item.key == attType).id;
             }
         }
     }
