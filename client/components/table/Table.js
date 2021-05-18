@@ -116,7 +116,7 @@ const Table = ({
           exportMenu: [
             {
               label: 'ייצא לקובץ CSV',
-              exportFunc: (cols, datas) => exportCsv(cols, entity, tableTitle),
+              exportFunc: (cols, datas) => exportCsv(cols, entity, conditions, tableTitle),
             },
           ],
         }}
