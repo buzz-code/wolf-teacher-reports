@@ -19,7 +19,7 @@ export class YemotCall extends CallBase {
         lessonIdNotFound: 'קוד שיעור לא נמצא',
         startStudentList: 'כעת תושמע רשימת התלמידות',
         prevStudent: 'מעבר לתלמידה הקודמת',
-        forAttendanceTypeXPressY: 'ל{0} הקישי {1}',
+        forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
         dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
         dataWasSavedSuccessfully: 'רישום הנוכחות הסתיים בהצלחה',
     }
@@ -129,25 +129,27 @@ export class YemotCall extends CallBase {
         this.params.studentReports = {};
         for (let index = 0; index < students.length; index++) {
             const student = students[index];
-            const message = [];
-            if (isFirstTime) {
-                message.push(this.texts.startStudentList + '. ');
-            }
-            message.push(student.name + ', ');
-            if (index === 0) {
-                message.push(attTypeMessage);
-            } else {
-                message.push(attTypeMessage + prevStudentMessage);
-            }
-            console.log({index, student, message, join: message.join('')})
-            await this.send(
-                this.read({ type: 'text', text: format(this.texts.confirmLesson, lesson.name) },
-                    'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // const message = [];
+            // if (isFirstTime) {
+            //     message.push(this.texts.startStudentList + '. ');
+            // }
+            // message.push(student.name + ', ');
+            // if (index === 0) {
+            //     message.push(attTypeMessage);
+            // } else {
+            //     message.push(attTypeMessage + prevStudentMessage);
+            // }
             // await this.send(
             //     this.read({ type: 'text', text: message.join('') },
             //         'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
+            const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
+            await this.send(
+                isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
+                this.id_list_message({ type: 'text', text: student.name + ', ' }),
+                this.read({ type: 'text', text: attTypeMessageForCurrent },
+                    'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             isFirstTime = false;
             const attType = Number(this.params.attType);
             if (attType === 7) {
