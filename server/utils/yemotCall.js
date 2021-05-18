@@ -132,7 +132,7 @@ export class YemotCall extends CallBase {
             const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
             await this.send(
                 isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
-                this.read({ type: 'text', text: student.name + ', ' + attTypeMessageForCurrent },
+                this.read({ type: 'text', text: student.name + ': ' + attTypeMessageForCurrent },
                     'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             isFirstTime = false;
