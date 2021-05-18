@@ -129,7 +129,7 @@ export class YemotCall extends CallBase {
         this.params.studentReports = {};
         for (let index = 0; index < students.length; index++) {
             const student = students[index];
-            let studentNameAndMessage = isFirstTime ? this.texts.startStudentList + '. ' : '';
+            let studentNameAndMessage = isFirstTime ? this.texts.startStudentList + ',  ' : '';
             studentNameAndMessage += student.name + ', ';
             const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
             await this.send(
