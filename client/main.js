@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { teal } from '@material-ui/core/colors';
+import { teal, green } from '@material-ui/core/colors';
 import { heIL } from '@material-ui/core/locale';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
@@ -24,6 +24,7 @@ const theme = createMuiTheme(
     },
     palette: {
       primary: teal,
+      secondary: green,
     },
     direction: 'rtl',
   },
