@@ -1,27 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 
 import Table from '../../components/table/Table';
 import * as crudAction from '../../actions/crudAction';
-
-const getPropsForAutoComplete = (field, list) => ({
-  render: (rowData) => <span>{list.find((item) => item.id == rowData[field]).name}</span>,
-  editComponent: (props) => (
-    <Autocomplete
-      size="small"
-      options={list}
-      getOptionLabel={(option) => option.name || list.find((item) => item.id == props.value).name}
-      getOptionSelected={(option, value) => option.id == value}
-      value={props.value}
-      renderInput={(params) => {
-        return <TextField {...params} fullWidth />;
-      }}
-      onChange={(e, value) => props.onChange(value && value.id)}
-    />
-  ),
-});
+import { getPropsForAutoComplete } from '../../utils/formUtil';
 
 const getColumns = ({ students, groups }) => [
   { field: 'student_id', title: 'תלמידה', ...getPropsForAutoComplete('student_id', students) },

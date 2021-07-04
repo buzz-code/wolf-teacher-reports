@@ -9,6 +9,11 @@ const supportedEntities = [
   { value: entities.STUDENTS, title: titles.STUDENTS, columns: ['tz', 'name'] },
   { value: entities.TEACHERS, title: titles.TEACHERS, columns: ['tz', 'name', 'phone'] },
   { value: entities.GROUPS, title: titles.GROUPS, columns: ['key', 'name', 'is_klass'] },
+  {
+    value: entities.STUDENT_GROUPS,
+    title: titles.STUDENT_GROUPS,
+    columns: ['student_id', 'group_id'],
+  },
   { value: entities.LESSONS, title: titles.LESSONS, columns: ['key', 'name'] },
   {
     value: entities.LESSON_TIMES,
