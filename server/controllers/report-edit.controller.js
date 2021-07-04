@@ -82,11 +82,12 @@ const getQuery = (columns) => {
     if (columns.length === 0) {
         return '';
     }
-    const fields = columns.map(item => item + ' as ' + item.replace('.', '_')).join(', ');
-    const tableNames = [...new Set(columns.map(col => col.split('.')[0]))];
+    const columnsArr = columns.map(({ field }) => field);
+    const fields = columnsArr.map(item => item + ' as ' + item.replace('.', '_')).join(', ');
+    const tableNames = [...new Set(columnsArr.map(col => col.split('.')[0]))];
     const tables = tableNames.map(item => '`' + item + '`').join(' join ');
     const joins = tableNames.length == 1 ? '' : getJoins(tableNames);
-    const condition = '1 = 1';
+    const condition = columns.map(({ field, value }) => `${field} like '%${value}%'`).join(' and ');
     const order = 1;
     return `select ${fields} from ${tables} ${joins} where ${condition} order by ${order}`;
 }
