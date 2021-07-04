@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import FilterItem from '../filter-item/FilterItem';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,31 +60,6 @@ const TableFilter = ({ filters, onFilterChange }) => {
       </form>
     </Paper>
   );
-};
-
-const FilterItem = ({ item, index, onChange, classes }) => {
-  const inputRef = useRef();
-  const handleChange = () => {
-    const filter = {
-      field: item.field,
-      value: inputRef.current.value,
-      operator: item.operator,
-    };
-    onChange(filter, index);
-  };
-
-  return item.type === 'text' || item.type === 'date' ? (
-    <TextField
-      className={classes.inputField}
-      type={item.type}
-      label={item.label}
-      inputRef={inputRef}
-      onChange={handleChange}
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-  ) : null;
 };
 
 export default TableFilter;
