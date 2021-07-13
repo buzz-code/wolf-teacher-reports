@@ -42,6 +42,12 @@ export const applyFilters = (query, filters) => {
                 case 'date-eq':
                     query.where(filter.field, '=', moment(filter.value).format('YYYY-MM-DD'));
                     break;
+                case 'date-before':
+                    query.where(filter.field, '>', moment(filter.value).format('YYYY-MM-DD'));
+                    break;
+                case 'date-after':
+                    query.where(filter.field, '<', moment(filter.value).format('YYYY-MM-DD'));
+                    break;
                 default:
                     break;
             }
