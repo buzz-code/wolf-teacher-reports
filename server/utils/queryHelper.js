@@ -1,4 +1,4 @@
-import Group from "../models/group.model";
+import Klass from "../models/klass.model";
 import Teacher from "../models/teacher.model";
 import AttType from "../models/att-type.model";
 import User from "../models/user.model";
@@ -18,7 +18,7 @@ export function getTeacherByUserIdAndPhone(user_id, phone) {
 }
 
 export function getKlassByUserIdAndKlassId(user_id, key) {
-    return new Group().where({ user_id, key })
+    return new Klass().where({ user_id, key })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
@@ -29,8 +29,8 @@ export function getLessonByUserIdAndLessonId(user_id, key) {
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getStudentsByUserIdAndKlassId(user_id, group_id) {
-    return new StudentKlass().where({ user_id, group_id })
+export function getStudentsByUserIdAndKlassId(user_id, klass_id) {
+    return new StudentKlass().where({ user_id, klass_id })
         .fetchAll({ withRelated: ['student'] })
         .then(res => res.toJSON())
         .then(res => res.map(item => item.student));

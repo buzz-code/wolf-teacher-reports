@@ -1,6 +1,6 @@
 import StudentKlass from '../models/student-klass.model';
 import Student from '../models/student.model';
-import Group from '../models/group.model';
+import Klass from '../models/klass.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../utils/common';
 
@@ -17,7 +17,7 @@ export async function findAll(req, res) {
     const dbQuery = new StudentKlass({ user_id: req.currentUser.id })
         .query(qb => {
             qb.leftJoin('students', 'students.id', 'student_klasses.student_id')
-            qb.leftJoin('groups', 'groups.id', 'student_klasses.group_id')
+            qb.leftJoin('klasses', 'klasses.id', 'student_klasses.klass_id')
             qb.select('student_klasses.*')
         });
     applyFilters(dbQuery, req.query.filters);
@@ -32,12 +32,12 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [students, groups] = await Promise.all([
+    const [students, klasses] = await Promise.all([
         getListFromTable(Student, req.currentUser.id),
-        getListFromTable(Group, req.currentUser.id),
+        getListFromTable(Klass, req.currentUser.id),
     ]);
     res.json({
         error: null,
-        data: { students, groups }
+        data: { students, klasses }
     });
 }

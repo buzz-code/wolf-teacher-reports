@@ -29,7 +29,7 @@ class StudentKlass extends bookshelf.Model {
         return this.belongsTo(Student);
     }
 
-    group() {
+    klass() {
         return this.belongsTo(Teacher);
     }
 }

@@ -1,7 +1,7 @@
 import bookshelf from "../../common-modules/server/config/bookshelf";
 import AttReport from "../models/att-report.model";
 import AttType from "../models/att-type.model";
-import Group from "../models/group.model";
+import Klass from "../models/klass.model";
 import Lesson from "../models/lesson.model";
 import StudentKlass from "../models/student-klass.model";
 import Student from "../models/student.model";
@@ -23,7 +23,7 @@ export async function getEditData(req, res) {
     const dbMetadata = await Promise.all([
         getColumns(AttType),
         getColumns(AttReport),
-        getColumns(Group),
+        getColumns(Klass),
         getColumns(Lesson),
         getColumns(StudentKlass),
         getColumns(Student),
@@ -41,8 +41,8 @@ const joinsDef = [
         join: 'students.id = student_klasses.student_id'
     },
     {
-        tables: ['groups', 'student_klasses'],
-        join: '`groups`.id = student_klasses.group_id'
+        tables: ['klasses', 'student_klasses'],
+        join: '`klasses`.id = student_klasses.klass_id'
     },
     {
         tables: ['att_reports', 'students'],

@@ -13,11 +13,11 @@ const getFilters = () => [
   // { field: 'is_klass', title: 'כיתה?', type: 'boolean' },
 ];
 
-const GroupsContainer = ({ entity, title }) => {
+const KlassesContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
   const filters = useMemo(() => getFilters(), []);
 
   return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
-export default GroupsContainer;
+export default KlassesContainer;

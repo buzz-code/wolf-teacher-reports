@@ -1,12 +1,12 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import User from './user.model';
 
-const TABLE_NAME = 'groups';
+const TABLE_NAME = 'klasses';
 
 /**
- * Group model.
+ * Klass model.
  */
-class Group extends bookshelf.Model {
+class Klass extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -24,4 +24,4 @@ class Group extends bookshelf.Model {
     }
 }
 
-export default Group;
+export default Klass;

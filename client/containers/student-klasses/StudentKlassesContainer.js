@@ -5,13 +5,13 @@ import Table from '../../components/table/Table';
 import * as crudAction from '../../actions/crudAction';
 import { getPropsForAutoComplete } from '../../utils/formUtil';
 
-const getColumns = ({ students, groups }) => [
+const getColumns = ({ students, klasses }) => [
   { field: 'student_id', title: 'תלמידה', ...getPropsForAutoComplete('student_id', students) },
-  { field: 'group_id', title: 'קבוצה', ...getPropsForAutoComplete('group_id', groups) },
+  { field: 'klass_id', title: 'קבוצה', ...getPropsForAutoComplete('klass_id', klasses) },
 ];
 const getFilters = () => [
   { field: 'students.name', label: 'תלמידה', type: 'text', operator: 'like' },
-  { field: 'groups.name', label: 'קבוצה', type: 'text', operator: 'like' },
+  { field: 'klasses.name', label: 'קבוצה', type: 'text', operator: 'like' },
 ];
 
 const StudentKlassesContainer = ({ entity, title }) => {
