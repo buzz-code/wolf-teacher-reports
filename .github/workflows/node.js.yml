@@ -19,6 +19,7 @@ jobs:
           script: |
             cd ~/att-manager
             git pull origin master
+            git submodule update --init
             npm install --production
             npm run webpack:prod
             pm2 restart att-manager
