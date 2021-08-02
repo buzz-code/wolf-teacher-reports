@@ -1,7 +1,7 @@
 import path from 'path';
-import app from './config/express';
+import app from './../common-modules/server/config/express';
 import routes from './routes/index.route';
-import swagger from './config/swagger';
+import swagger from './../common-modules/server/config/swagger';
 import * as errorHandler from './middlewares/errorHandler';
 import joiErrorHandler from './middlewares/joiErrorHandler';
 import requestLogger from './middlewares/requestLogger';

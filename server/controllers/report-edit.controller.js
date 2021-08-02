@@ -1,4 +1,4 @@
-import bookshelf from "../config/bookshelf";
+import bookshelf from "../../common-modules/server/config/bookshelf";
 import AttReport from "../models/att-report.model";
 import AttType from "../models/att-type.model";
 import Group from "../models/group.model";

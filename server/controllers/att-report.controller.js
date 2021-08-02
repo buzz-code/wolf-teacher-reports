@@ -5,7 +5,7 @@ import Lesson from '../models/lesson.model';
 import Student from '../models/student.model';
 import Teacher from '../models/teacher.model';
 import { getListFromTable } from '../utils/common';
-import genericController, { applyFilters, fetchPage } from '../../common-modules/server/generic.controller';
+import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 

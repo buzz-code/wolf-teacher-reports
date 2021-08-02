@@ -1,7 +1,7 @@
 import express from 'express';
 import isAuthenticated from '../middlewares/authenticate';
 import * as reportEditCtrl from '../controllers/report-edit.controller';
-import validate from '../config/joi.validate';
+import validate from '../../common-modules/server/config/joi.validate';
 import schema from '../utils/validator';
 
 const router = express.Router();

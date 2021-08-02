@@ -1,4 +1,4 @@
-import bookshelf from '../config/bookshelf';
+import bookshelf from '../../common-modules/server/config/bookshelf';
 import AttType from './att-type.model';
 import LessonTime from './lesson-time.model';
 import Lesson from './lesson.model';

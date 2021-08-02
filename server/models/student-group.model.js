@@ -1,4 +1,4 @@
-import bookshelf from '../config/bookshelf';
+import bookshelf from '../../common-modules/server/config/bookshelf';
 import Student from './student.model';
 import Teacher from './teacher.model';
 import User from './user.model';

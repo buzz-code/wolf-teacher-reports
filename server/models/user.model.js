@@ -1,4 +1,4 @@
-import bookshelf from '../config/bookshelf';
+import bookshelf from '../../common-modules/server/config/bookshelf';
 
 const TABLE_NAME = 'users';
 

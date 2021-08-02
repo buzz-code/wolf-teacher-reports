@@ -1,5 +1,5 @@
 import LessonTime from '../models/lesson-time.model';
-import genericController from '../../common-modules/server/generic.controller';
+import genericController from '../../common-modules/server/controllers/generic.controller';
 
 const fromClientToServer = rowData => ({
     ...rowData,

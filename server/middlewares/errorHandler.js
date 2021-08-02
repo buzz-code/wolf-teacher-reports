@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import logger from '../config/winston';
+import logger from '../../common-modules/server/config/winston';
 
 /**
  * NOT_FOUND(404) middleware to catch error response
