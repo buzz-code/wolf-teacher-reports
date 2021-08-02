@@ -1,0 +1,3 @@
+[submodule "common-modules"]
+	path = common-modules
+	url = git@github.com:buzz-code/common-modules.git
