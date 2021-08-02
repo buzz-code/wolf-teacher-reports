@@ -1,9 +1,9 @@
 export const USERS = 'users';
-export const STUDENTS = 'students';
 export const TEACHERS = 'teachers';
+export const STUDENTS = 'students';
+export const LESSONS = 'lessons';
 export const GROUPS = 'groups';
 export const STUDENT_KLASSES = 'student-klasses';
-export const LESSONS = 'lessons';
 export const ATT_TYPES = 'att-types';
 export const ATT_REPORTS = 'att-reports';
 export const REPORT_EDIT = 'report-edit';

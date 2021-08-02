@@ -6,11 +6,11 @@ import { reducer as formReducer } from 'redux-form';
 import authReducer from './authReducer';
 import crudReducer from './crudReducer';
 import {
-  STUDENTS,
   TEACHERS,
+  STUDENTS,
+  LESSONS,
   GROUPS,
   STUDENT_KLASSES,
-  LESSONS,
   ATT_TYPES,
   ATT_REPORTS,
   REPORT_EDIT,
@@ -25,11 +25,11 @@ const appReducer = (history) =>
     router: connectRouter(history),
     form: formReducer, // ← redux-form
     auth: authReducer,
-    [STUDENTS]: crudReducer(STUDENTS),
     [TEACHERS]: crudReducer(TEACHERS),
+    [STUDENTS]: crudReducer(STUDENTS),
+    [LESSONS]: crudReducer(LESSONS),
     [GROUPS]: crudReducer(GROUPS),
     [STUDENT_KLASSES]: crudReducer(STUDENT_KLASSES),
-    [LESSONS]: crudReducer(LESSONS),
     [ATT_TYPES]: crudReducer(ATT_TYPES),
     [ATT_REPORTS]: crudReducer(ATT_REPORTS),
     [REPORT_EDIT]: crudReducer(REPORT_EDIT),

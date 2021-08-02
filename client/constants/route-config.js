@@ -17,11 +17,11 @@ import * as entities from './entity';
 import * as titles from './entity-title';
 
 import Dashboard from '../containers/dashboard/DashboardContainer';
-import Students from '../containers/students/StudentsContainer';
 import Teachers from '../containers/teachers/TeachersContainer';
+import Students from '../containers/students/StudentsContainer';
+import Lessons from '../containers/lessons/LessonsContainer';
 import Groups from '../containers/groups/GroupsContainer';
 import StudentKlasses from '../containers/student-klasses/StudentKlassesContainer';
-import Lessons from '../containers/lessons/LessonsContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import ReportEdit from '../containers/report-edit/ReportEditContainer';
@@ -37,6 +37,13 @@ export default [
       props: { entity: entities.DASHBOARD, title: titles.DASHBOARD },
     },
     {
+      path: '/teachers',
+      component: Teachers,
+      icon: SupervisedUserCircleIcon,
+      title: titles.TEACHERS,
+      props: { entity: entities.TEACHERS, title: titles.TEACHERS },
+    },
+    {
       path: '/students',
       component: Students,
       icon: PeopleIcon,
@@ -44,11 +51,11 @@ export default [
       props: { entity: entities.STUDENTS, title: titles.STUDENTS },
     },
     {
-      path: '/teachers',
-      component: Teachers,
-      icon: SupervisedUserCircleIcon,
-      title: titles.TEACHERS,
-      props: { entity: entities.TEACHERS, title: titles.TEACHERS },
+      path: '/lessons',
+      component: Lessons,
+      icon: EventNoteIcon,
+      title: titles.LESSONS,
+      props: { entity: entities.LESSONS, title: titles.LESSONS },
     },
     {
       path: '/groups',
@@ -63,13 +70,6 @@ export default [
       icon: GroupAddIcon,
       title: titles.STUDENT_KLASSES,
       props: { entity: entities.STUDENT_KLASSES, title: titles.STUDENT_KLASSES },
-    },
-    {
-      path: '/lessons',
-      component: Lessons,
-      icon: EventNoteIcon,
-      title: titles.LESSONS,
-      props: { entity: entities.LESSONS, title: titles.LESSONS },
     },
     {
       path: '/att-types',

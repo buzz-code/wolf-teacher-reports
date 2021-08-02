@@ -1,9 +1,9 @@
 export const USERS = 'משתמשים';
-export const STUDENTS = 'תלמידות';
 export const TEACHERS = 'מורות';
+export const STUDENTS = 'תלמידות';
+export const LESSONS = 'שיעורים';
 export const GROUPS = 'קבוצות';
 export const STUDENT_KLASSES = 'שיוך תלמידות לכיתות';
-export const LESSONS = 'שיעורים';
 export const ATT_TYPES = 'סוגי דיווח';
 export const ATT_REPORTS = 'דיווחים';
 export const REPORT_EDIT = 'עריכת דיווחים';
