@@ -1,7 +1,7 @@
 import StudentGroup from '../models/student-group.model';
 import Student from '../models/student.model';
 import Group from '../models/group.model';
-import genericController, { applyFilters, fetchPage } from './generic.controller';
+import genericController, { applyFilters, fetchPage } from '../../common-modules/server/generic.controller';
 import { getListFromTable } from '../utils/common';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(StudentGroup);
