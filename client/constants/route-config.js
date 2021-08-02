@@ -20,7 +20,7 @@ import Dashboard from '../containers/dashboard/DashboardContainer';
 import Students from '../containers/students/StudentsContainer';
 import Teachers from '../containers/teachers/TeachersContainer';
 import Groups from '../containers/groups/GroupsContainer';
-import StudentGroups from '../containers/student-groups/StudentGroupsContainer';
+import StudentKlasses from '../containers/student-klasses/StudentKlassesContainer';
 import Lessons from '../containers/lessons/LessonsContainer';
 import LessonTimes from '../containers/lesson-times/LessonTimesContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
@@ -59,11 +59,11 @@ export default [
       props: { entity: entities.GROUPS, title: titles.GROUPS },
     },
     {
-      path: '/student-groups',
-      component: StudentGroups,
+      path: '/student-klasses',
+      component: StudentKlasses,
       icon: GroupAddIcon,
-      title: titles.STUDENT_GROUPS,
-      props: { entity: entities.STUDENT_GROUPS, title: titles.STUDENT_GROUPS },
+      title: titles.STUDENT_KLASSES,
+      props: { entity: entities.STUDENT_KLASSES, title: titles.STUDENT_KLASSES },
     },
     {
       path: '/lessons',

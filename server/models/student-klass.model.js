@@ -3,12 +3,12 @@ import Student from './student.model';
 import Teacher from './teacher.model';
 import User from './user.model';
 
-const TABLE_NAME = 'student_groups';
+const TABLE_NAME = 'student_klasses';
 
 /**
- * StudentGroup model.
+ * StudentKlass model.
  */
-class StudentGroup extends bookshelf.Model {
+class StudentKlass extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -34,4 +34,4 @@ class StudentGroup extends bookshelf.Model {
     }
 }
 
-export default StudentGroup;
+export default StudentKlass;

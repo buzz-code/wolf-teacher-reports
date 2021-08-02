@@ -4,7 +4,7 @@ import AttType from "../models/att-type.model";
 import Group from "../models/group.model";
 import LessonTime from "../models/lesson-time.model";
 import Lesson from "../models/lesson.model";
-import StudentGroup from "../models/student-group.model";
+import StudentKlass from "../models/student-klass.model";
 import Student from "../models/student.model";
 import Teacher from "../models/teacher.model";
 
@@ -27,7 +27,7 @@ export async function getEditData(req, res) {
         getColumns(Group),
         getColumns(LessonTime),
         getColumns(Lesson),
-        getColumns(StudentGroup),
+        getColumns(StudentKlass),
         getColumns(Student),
         getColumns(Teacher),
     ]);
@@ -39,12 +39,12 @@ export async function getEditData(req, res) {
 
 const joinsDef = [
     {
-        tables: ['students', 'student_groups'],
-        join: 'students.id = student_groups.student_id'
+        tables: ['students', 'student_klasses'],
+        join: 'students.id = student_klasses.student_id'
     },
     {
-        tables: ['groups', 'student_groups'],
-        join: '`groups`.id = student_groups.group_id'
+        tables: ['groups', 'student_klasses'],
+        join: '`groups`.id = student_klasses.group_id'
     },
     {
         tables: ['att_reports', 'students'],

@@ -14,7 +14,7 @@ const getFilters = () => [
   { field: 'groups.name', label: 'קבוצה', type: 'text', operator: 'like' },
 ];
 
-const StudentGroupsContainer = ({ entity, title }) => {
+const StudentKlassesContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     GET: { 'get-edit-data': editData },
@@ -30,4 +30,4 @@ const StudentGroupsContainer = ({ entity, title }) => {
   return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
-export default StudentGroupsContainer;
+export default StudentKlassesContainer;

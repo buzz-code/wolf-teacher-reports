@@ -2,7 +2,7 @@ import Group from "../models/group.model";
 import Teacher from "../models/teacher.model";
 import AttType from "../models/att-type.model";
 import User from "../models/user.model";
-import StudentGroup from "../models/student-group.model";
+import StudentKlass from "../models/student-klass.model";
 import Lesson from "../models/lesson.model";
 
 export function getUserByPhone(phone_number) {
@@ -30,7 +30,7 @@ export function getLessonByUserIdAndLessonId(user_id, key) {
 }
 
 export function getStudentsByUserIdAndKlassId(user_id, group_id) {
-    return new StudentGroup().where({ user_id, group_id })
+    return new StudentKlass().where({ user_id, group_id })
         .fetchAll({ withRelated: ['student'] })
         .then(res => res.toJSON())
         .then(res => res.map(item => item.student));
