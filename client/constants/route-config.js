@@ -22,7 +22,6 @@ import Teachers from '../containers/teachers/TeachersContainer';
 import Groups from '../containers/groups/GroupsContainer';
 import StudentKlasses from '../containers/student-klasses/StudentKlassesContainer';
 import Lessons from '../containers/lessons/LessonsContainer';
-import LessonTimes from '../containers/lesson-times/LessonTimesContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import ReportEdit from '../containers/report-edit/ReportEditContainer';
@@ -71,13 +70,6 @@ export default [
       icon: EventNoteIcon,
       title: titles.LESSONS,
       props: { entity: entities.LESSONS, title: titles.LESSONS },
-    },
-    {
-      path: '/lesson-times',
-      component: LessonTimes,
-      icon: FormatListNumberedRtlIcon,
-      title: titles.LESSON_TIMES,
-      props: { entity: entities.LESSON_TIMES, title: titles.LESSON_TIMES },
     },
     {
       path: '/att-types',

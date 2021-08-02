@@ -4,7 +4,6 @@ export const TEACHERS = 'מורות';
 export const GROUPS = 'קבוצות';
 export const STUDENT_KLASSES = 'שיוך תלמידות לכיתות';
 export const LESSONS = 'שיעורים';
-export const LESSON_TIMES = 'זמני שיעור';
 export const ATT_TYPES = 'סוגי דיווח';
 export const ATT_REPORTS = 'דיווחים';
 export const REPORT_EDIT = 'עריכת דיווחים';

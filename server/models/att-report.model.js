@@ -1,6 +1,5 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import AttType from './att-type.model';
-import LessonTime from './lesson-time.model';
 import Lesson from './lesson.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
@@ -38,10 +37,6 @@ class AttReport extends bookshelf.Model {
 
     lesson() {
         return this.belongsTo(Lesson);
-    }
-
-    lessonTime() {
-        return this.belongsTo(LessonTime);
     }
 
     attType() {

@@ -15,11 +15,6 @@ const supportedEntities = [
     columns: ['student_id', 'group_id'],
   },
   { value: entities.LESSONS, title: titles.LESSONS, columns: ['key', 'name'] },
-  {
-    value: entities.LESSON_TIMES,
-    title: titles.LESSON_TIMES,
-    columns: ['name', 'day_in_week', 'lesson_start', 'lesson_end'],
-  },
   { value: entities.ATT_TYPES, title: titles.ATT_TYPES, columns: ['key', 'name'] },
 ];
 

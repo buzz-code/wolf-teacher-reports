@@ -42,7 +42,6 @@ export class YemotCall extends CallBase {
                     user_id: this.user.id,
                     teacher_id: teacher.id,
                     lesson_id: lesson.id,
-                    lesson_time_id: 1, //TBD
                     enter_time: new Date(),
                 };
                 for (const studentId in this.params.studentReports) {

@@ -2,7 +2,6 @@ import bookshelf from "../../common-modules/server/config/bookshelf";
 import AttReport from "../models/att-report.model";
 import AttType from "../models/att-type.model";
 import Group from "../models/group.model";
-import LessonTime from "../models/lesson-time.model";
 import Lesson from "../models/lesson.model";
 import StudentKlass from "../models/student-klass.model";
 import Student from "../models/student.model";
@@ -25,7 +24,6 @@ export async function getEditData(req, res) {
         getColumns(AttType),
         getColumns(AttReport),
         getColumns(Group),
-        getColumns(LessonTime),
         getColumns(Lesson),
         getColumns(StudentKlass),
         getColumns(Student),
@@ -57,10 +55,6 @@ const joinsDef = [
     {
         tables: ['att_reports', 'lessons'],
         join: 'lessons.id = att_reports.lesson_id'
-    },
-    {
-        tables: ['att_reports', 'lesson_times'],
-        join: 'lesson_times.id = att_reports.lesson_time_id'
     },
     {
         tables: ['att_reports', 'att_types'],
