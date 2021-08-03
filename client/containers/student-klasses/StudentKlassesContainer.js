@@ -6,7 +6,7 @@ import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
 const getColumns = ({ students, klasses }) => [
-  { field: 'student_id', title: 'תלמידה', ...getPropsForAutoComplete('student_id', students) },
+  { field: 'student_tz', title: 'תלמידה', ...getPropsForAutoComplete('student_tz', students) },
   { field: 'klass_id', title: 'קבוצה', ...getPropsForAutoComplete('klass_id', klasses) },
 ];
 const getFilters = () => [

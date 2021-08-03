@@ -47,7 +47,7 @@ export class YemotCall extends CallBase {
                 for (const studentId in this.params.studentReports) {
                     const attReport = {
                         ...baseReport,
-                        student_id: studentId,
+                        student_tz: studentId,
                         att_type_id: this.params.studentReports[studentId],
                     };
                     await new AttReport(attReport).save();
@@ -139,7 +139,7 @@ export class YemotCall extends CallBase {
             if (attType === 7) {
                 index -= 2;
             } else {
-                this.params.studentReports[student.id] = types.find(item => item.key == attType).id;
+                this.params.studentReports[student.tz] = types.find(item => item.key == attType).id;
             }
         }
     }

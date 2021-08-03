@@ -38,7 +38,7 @@ export async function getEditData(req, res) {
 const joinsDef = [
     {
         tables: ['students', 'student_klasses'],
-        join: 'students.id = student_klasses.student_id'
+        join: 'students.tz = student_klasses.student_tz'
     },
     {
         tables: ['klasses', 'student_klasses'],
@@ -46,7 +46,7 @@ const joinsDef = [
     },
     {
         tables: ['att_reports', 'students'],
-        join: 'students.id = att_reports.student_id'
+        join: 'students.tz = att_reports.student_tz'
     },
     {
         tables: ['att_reports', 'teachers'],

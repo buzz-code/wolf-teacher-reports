@@ -13,7 +13,7 @@ const supportedEntities = [
   {
     value: entities.STUDENT_KLASSES,
     title: titles.STUDENT_KLASSES,
-    columns: ['student_id', 'klass_id'],
+    columns: ['student_tz', 'klass_id'],
   },
   { value: entities.ATT_TYPES, title: titles.ATT_TYPES, columns: ['key', 'name'] },
 ];
