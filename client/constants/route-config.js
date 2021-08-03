@@ -22,6 +22,7 @@ import Students from '../containers/students/StudentsContainer';
 import Lessons from '../containers/lessons/LessonsContainer';
 import Klasses from '../containers/klasses/KlassesContainer';
 import StudentKlasses from '../containers/student-klasses/StudentKlassesContainer';
+import Groups from '../containers/groups/GroupsContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import ReportEdit from '../containers/report-edit/ReportEditContainer';
@@ -71,6 +72,13 @@ export default [
       icon: GroupAddIcon,
       title: titles.STUDENT_KLASSES,
       props: { entity: entities.STUDENT_KLASSES, title: titles.STUDENT_KLASSES },
+    },
+    {
+      path: '/groups',
+      component: Groups,
+      icon: GroupAddIcon,
+      title: titles.GROUPS,
+      props: { entity: entities.GROUPS, title: titles.GROUPS },
     },
     {
       path: '/att-types',

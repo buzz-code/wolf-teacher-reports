@@ -15,6 +15,11 @@ const supportedEntities = [
     title: titles.STUDENT_KLASSES,
     columns: ['student_tz', 'klass_id'],
   },
+  {
+    value: entities.GROUPS,
+    title: titles.GROUPS,
+    columns: ['klass_id', 'teacher_id', 'lesson_id'],
+  },
   { value: entities.ATT_TYPES, title: titles.ATT_TYPES, columns: ['key', 'name'] },
 ];
 

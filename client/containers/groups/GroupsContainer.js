@@ -5,16 +5,18 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
-const getColumns = ({ students, klasses }) => [
-  { field: 'student_tz', title: 'תלמידה', ...getPropsForAutoComplete('student_tz', students) },
+const getColumns = ({  klasses, teachers, lessons }) => [
   { field: 'klass_id', title: 'כיתה', ...getPropsForAutoComplete('klass_id', klasses) },
+  { field: 'teacher_id', title: 'מורה', ...getPropsForAutoComplete('teacher_id', teachers) },
+  { field: 'lesson_id', title: 'שיעור', ...getPropsForAutoComplete('lesson_id', lessons) },
 ];
 const getFilters = () => [
-  { field: 'students.name', label: 'תלמידה', type: 'text', operator: 'like' },
   { field: 'klasses.name', label: 'כיתה', type: 'text', operator: 'like' },
+  { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
+  { field: 'lessons.name', label: 'שיעור', type: 'text', operator: 'like' },
 ];
 
-const StudentKlassesContainer = ({ entity, title }) => {
+const GroupsContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     GET: { 'get-edit-data': editData },
@@ -30,4 +32,4 @@ const StudentKlassesContainer = ({ entity, title }) => {
   return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
-export default StudentKlassesContainer;
+export default GroupsContainer;

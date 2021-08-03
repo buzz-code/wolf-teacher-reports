@@ -4,6 +4,7 @@ export const STUDENTS = 'תלמידות';
 export const LESSONS = 'שיעורים';
 export const KLASSS = 'כיתות';
 export const STUDENT_KLASSES = 'שיוך תלמידות לכיתות';
+export const GROUPS = 'קבוצות';
 export const ATT_TYPES = 'סוגי היעדרות';
 export const ATT_REPORTS = 'דיווחים';
 export const REPORT_EDIT = 'עריכת דיווחים';
