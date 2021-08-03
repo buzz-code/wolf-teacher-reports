@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const PACKAGE = require('../package.json');
 /*
  * so process.cwd() is used instead to determine the correct base directory
  * Read more: https://nodejs.org/api/process.html#process_process_cwd
@@ -19,7 +20,7 @@ var config = {
     output: {
         path: path.resolve(CURRENT_WORKING_DIR, 'dist'), //  destination
         filename: 'client.bundle.js',
-        publicPath: '/att-manager/dist/',
+        publicPath:`/${PACKAGE.name}/dist/`,
     },
     plugins: [
         new Dotenv()
@@ -43,7 +44,8 @@ var config = {
             'react-dom': '@hot-loader/react-dom'
         }
     },
-    devtool: "hidden-source-map"
+    devtool: "hidden-source-map",
+    stats: 'verbose',
 };
 
 module.exports = config;

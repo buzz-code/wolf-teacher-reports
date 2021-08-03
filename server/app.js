@@ -1,10 +1,11 @@
 import path from 'path';
-import app from './../common-modules/server/config/express';
+import app from '../common-modules/server/config/express';
 import routes from './routes/index.route';
-import swagger from './../common-modules/server/config/swagger';
+import swagger from '../common-modules/server/config/swagger';
 import * as errorHandler from './middlewares/errorHandler';
 import joiErrorHandler from './middlewares/joiErrorHandler';
 import requestLogger from './middlewares/requestLogger';
+import PACKAGE from '../package.json';
 
 // enable webpack hot module replacement in development mode
 import webpack from 'webpack';
@@ -36,7 +37,7 @@ if (process.env.NODE_ENV === 'development') {
   });
 } else {
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index-prod.html'));
+    res.render(path.join(__dirname, '../public/index-prod'), { name: PACKAGE.name, title: PACKAGE.displayName });
   });
 }
 

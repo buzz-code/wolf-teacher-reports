@@ -1,5 +1,6 @@
 {
-  "name": "express-mysql-react-redux",
+  "name": "att-manager",
+  "displayName": "Attendance Manager",
   "version": "1.0.0",
   "description": "MySQL, Express, React/Redux Boilerplate Application",
   "scripts": {
