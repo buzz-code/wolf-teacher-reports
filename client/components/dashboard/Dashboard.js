@@ -5,7 +5,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import PeopleIcon from '@material-ui/icons/People';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 
-import SummaryBox from './SummaryBox';
+import SummaryBox from '../../../common-modules/client/components/common/summary-box/SummaryBox';
 
 const statItems = [
   { id: 'reports', text: 'צפיות', icon: ListAltIcon, color: pink[600], value: 0 },

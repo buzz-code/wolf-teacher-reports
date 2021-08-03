@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Table from '../../components/table/Table';
-import * as crudAction from '../../actions/crudAction';
+import Table from '../../../common-modules/client/components/table/Table';
+import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
 const getColumns = ({ students, teachers, lessons, attTypes }) => [

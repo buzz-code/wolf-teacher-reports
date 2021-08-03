@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import Table from '../../components/table/Table';
+import Table from '../../../common-modules/client/components/table/Table';
 import { TEACHER_REPORTS as entity } from '../../constants/entity';
 import { TEACHER_REPORTS as title } from '../../constants/entity-title';
 

@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { teal, green } from '@material-ui/core/colors';
+import { indigo } from '@material-ui/core/colors';
 import { heIL } from '@material-ui/core/locale';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 
-import store, { history } from './store/configureStore';
-import { verifyToken } from './services/tokenService';
-import App from './containers/app/AppContainer';
+import store, { history } from '../common-modules/client/store/configureStore';
+import { verifyToken } from './../common-modules/client/services/tokenService';
+import App from '../common-modules/client/containers/app/AppContainer';
 
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
@@ -23,8 +23,7 @@ const theme = createMuiTheme(
       useNextVariants: true,
     },
     palette: {
-      primary: teal,
-      secondary: green,
+      primary: indigo,
     },
     direction: 'rtl',
   },

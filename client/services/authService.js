@@ -2,7 +2,7 @@ import axios from 'axios';
 import { push } from 'connected-react-router';
 
 import { loginSuccess, loginFailure, logoutSuccess } from '../actions/authAction';
-import { API_URL, JWT_TOKEN } from '../config/config';
+import { API_URL, JWT_TOKEN } from '../../common-modules/client/config/config';
 import { setLocalStorage, clearLocalStorage } from '../../common-modules/client/utils/storageUtil';
 
 export const login = ({ email, password }) => {

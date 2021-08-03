@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import Table from '../../components/table/Table';
+import Table from '../../../common-modules/client/components/table/Table';
 
 const getColumns = () => [
   { field: 'key', title: 'מזהה', type: 'numeric' },

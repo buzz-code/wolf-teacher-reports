@@ -3,8 +3,8 @@ import { connectRouter } from 'connected-react-router';
 import { reducer as formReducer } from 'redux-form';
 
 // Import custom components
-import authReducer from './authReducer';
-import crudReducer from './crudReducer';
+import authReducer from '../../common-modules/client/reducers/authReducer';
+import crudReducer from '../../common-modules/client/reducers/crudReducer';
 import {
   TEACHERS,
   STUDENTS,

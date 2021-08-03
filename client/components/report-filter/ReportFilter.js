@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterItem from '../filter-item/FilterItem';
+import FilterItem from '../../../common-modules/client/components/filter-item/FilterItem';
 
 const useStyles = makeStyles((theme) => ({
   container: {

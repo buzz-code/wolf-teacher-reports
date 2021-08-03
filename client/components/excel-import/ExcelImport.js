@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
-import * as crudAction from '../../actions/crudAction';
+import CustomizedSnackbar from '../../../common-modules/client/components/common/snakebar/CustomizedSnackbar';
+import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import DragDropFile from './DragDropFiles';
 import OutTable from './PreviewTable';
