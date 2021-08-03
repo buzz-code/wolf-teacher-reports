@@ -1,5 +1,5 @@
 import * as lessonCtrl from '../controllers/lesson.controller';
-import genericRoute from './generic.route';
+import genericRoute from '../../common-modules/server/routes/generic.route';
 
 const router = genericRoute(lessonCtrl);
 

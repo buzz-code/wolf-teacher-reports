@@ -1,5 +1,5 @@
 import * as studentKlassCtrl from '../controllers/student-klass.controller';
-import genericRoute from './generic.route';
+import genericRoute from '../../common-modules/server/routes/generic.route';
 
 const router = genericRoute(studentKlassCtrl, router => {
     router.route('/get-edit-data')
