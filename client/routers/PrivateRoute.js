@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { isAuthenticated } from '../utils/jwtUtil';
+import { isAuthenticated } from '../../common-modules/client/utils/jwtUtil';
 
 const PrivateRoute = ({ component: Component, layout: Layout, componentProps, ...rest }) => (
   <Route

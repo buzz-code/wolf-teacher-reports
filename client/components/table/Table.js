@@ -5,7 +5,7 @@ import CustomizedSnackbar from '../common/snakebar/CustomizedSnackbar';
 import * as crudAction from '../../actions/crudAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { materialTableOptions, materialTableLocalizations } from '../../config/config';
-import { exportCsv } from '../../utils/exportsUtil';
+import { exportCsv } from '../../../common-modules/client/utils/exportsUtil';
 import TableFilter from '../table-filter/TableFilter';
 
 const getActions = (tableRef) => [

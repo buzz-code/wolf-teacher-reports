@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Table from '../../components/table/Table';
 import * as crudAction from '../../actions/crudAction';
-import { getPropsForAutoComplete } from '../../utils/formUtil';
+import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
 const getColumns = ({ students, klasses }) => [
   { field: 'student_id', title: 'תלמידה', ...getPropsForAutoComplete('student_id', students) },

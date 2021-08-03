@@ -4,7 +4,7 @@ import {routerMiddleware} from 'connected-react-router';
 import logger from 'redux-logger';
 
 import createRootReducer from '../reducers';
-import history from '../utils/history';
+import history from '../../common-modules/client/utils/history';
 
 export {history};
 

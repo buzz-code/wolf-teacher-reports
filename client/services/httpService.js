@@ -1,6 +1,6 @@
 // Import custom utils
-import { fetch, store, update, destroy } from '../utils/httpUtil';
-import { getPathParam } from '../utils/serializeUtil';
+import { fetch, store, update, destroy } from '../../common-modules/client/utils/httpUtil';
+import { getPathParam } from '../../common-modules/client/utils/serializeUtil';
 
 export const fetchEntity = (
   entityName,
