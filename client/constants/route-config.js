@@ -26,6 +26,7 @@ import Groups from '../containers/groups/GroupsContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import ReportEdit from '../containers/report-edit/ReportEditContainer';
+import GroupsPrint from '../containers/groups-print/GroupsPrintContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 
 export default [
@@ -97,6 +98,13 @@ export default [
   ],
   [
     { path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' },
+    {
+      path: '/groups-print',
+      component: GroupsPrint,
+      icon: GroupAddIcon,
+      title: titles.GROUPS_PRINT,
+      props: { entity: entities.GROUPS, title: titles.GROUPS_PRINT },
+    },
     {
       path: '/report-edit',
       component: ReportEdit,
