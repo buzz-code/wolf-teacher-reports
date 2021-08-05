@@ -12,6 +12,8 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import MenuIcon from '@material-ui/icons/Menu';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PrintIcon from '@material-ui/icons/Print';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
 
 import * as entities from './entity';
 import * as titles from './entity-title';
@@ -61,8 +63,7 @@ export default [
     },
     {
       path: '/klasses',
-      component: Klasses
-      ,
+      component: Klasses,
       icon: GroupIcon,
       title: titles.KLASSS,
       props: { entity: entities.KLASSS, title: titles.KLASSS },
@@ -70,7 +71,7 @@ export default [
     {
       path: '/student-klasses',
       component: StudentKlasses,
-      icon: GroupAddIcon,
+      icon: GroupWorkIcon,
       title: titles.STUDENT_KLASSES,
       props: { entity: entities.STUDENT_KLASSES, title: titles.STUDENT_KLASSES },
     },
@@ -101,7 +102,7 @@ export default [
     {
       path: '/groups-print',
       component: GroupsPrint,
-      icon: GroupAddIcon,
+      icon: PrintIcon,
       title: titles.GROUPS_PRINT,
       props: { entity: entities.GROUPS, title: titles.GROUPS_PRINT },
     },

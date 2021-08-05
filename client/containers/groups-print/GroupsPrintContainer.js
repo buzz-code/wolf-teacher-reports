@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
@@ -16,18 +16,19 @@ const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
   { field: 'lessons.name', label: 'שיעור', type: 'text', operator: 'like' },
 ];
-const getActions = (entity) => [
+const getActions = (handlePrintAll, handlePrintOne) => [
   {
     icon: 'print',
     tooltip: 'הדפס הכל',
     isFreeAction: true,
-    onClick: () => alert('TDB: print all'),
+    onClick: handlePrintAll,
   },
-  {
+  rowData => ({
+    disabled: !rowData.klass_id,
     icon: 'print',
     tooltip: 'הדפס יומן',
-    onClick: () => alert('TDB: print single'),
-  },
+    onClick: handlePrintOne,
+  }),
 ];
 
 const GroupsContainer = ({ entity, title }) => {
@@ -36,15 +37,24 @@ const GroupsContainer = ({ entity, title }) => {
     GET: { 'get-edit-data': editData },
   } = useSelector((state) => state[entity]);
 
+  const [conditions, setConditions] = useState([]);
+
+  const handlePrintAll = useCallback(() => {
+    dispatch(crudAction.customHttpRequest(entity, 'POST', 'print-all-diaries', conditions));
+  }, [entity, conditions]);
+  const handlePrintOne = useCallback((e, rowData) => {
+    dispatch(crudAction.download(entity, 'POST', 'print-one-diary', rowData));
+  }, [entity]);
+
   const columns = useMemo(() => editData && getColumns(editData), [editData]);
   const filters = useMemo(() => getFilters(), []);
-  const actions = useMemo(() => getActions(entity), [entity]);
+  const actions = useMemo(() => getActions(handlePrintAll, handlePrintOne), [handlePrintAll, handlePrintOne]);
 
   useEffect(() => {
     dispatch(crudAction.customHttpRequest(entity, 'GET', 'get-edit-data'));
   }, []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} additionalActions={actions} />;
+  return <Table entity={entity} title={title} columns={columns} filters={filters} additionalActions={actions} disableAdd={true} disableUpdate={true} disableDelete={true} onConditionUpdate={setConditions} />;
 };
 
 export default GroupsContainer;

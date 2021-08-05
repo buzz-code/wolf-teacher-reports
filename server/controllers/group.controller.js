@@ -4,6 +4,8 @@ import Teacher from '../models/teacher.model';
 import Lesson from '../models/lesson.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
+import { getDiaryStream } from '../utils/printHelper';
+import { getFileName } from '../../common-modules/server/utils/template';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(Group);
 
@@ -41,6 +43,33 @@ export async function getEditData(req, res) {
     ]);
     res.json({
         error: null,
-        data: {  klasses, teachers, lessons }
+        data: { klasses, teachers, lessons }
     });
+}
+
+/**
+ * Print One Diary
+ *
+ * @param {object} req
+ * @param {object} res
+ * @returns {*}
+ */
+export async function printOneDiary(req, res) {
+    // const { body: { id } } = req;
+    const pdfStream = await getDiaryStream(1);
+    res.attachment(getFileName('יומן נוכחות', 'pdf'));
+    res.setHeader('Content-Type', 'application/pdf');
+    pdfStream.pipe(res);
+    // res.status(500).send('asdf')
+}
+
+/**
+ * Print All Diaries
+ *
+ * @param {object} req
+ * @param {object} res
+ * @returns {*}
+ */
+export async function printAllDiaries(req, res) {
+    //todo
 }

@@ -6,6 +6,17 @@ const router = genericRoute(groupCtrl, router => {
         .get((req, res) => {
             groupCtrl.getEditData(req, res);
         });
+
+    router.route('/print-one-diary')
+        .post((req, res) => {
+            groupCtrl.printOneDiary(req, res);
+        });
+
+    router.route('/print-all-diaries')
+        .post((req, res) => {
+            groupCtrl.printAllDiaries(req, res);
+        });
+
 });
 
 export default router;

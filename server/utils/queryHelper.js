@@ -4,6 +4,7 @@ import AttType from "../models/att-type.model";
 import User from "../models/user.model";
 import StudentKlass from "../models/student-klass.model";
 import Lesson from "../models/lesson.model";
+import Group from "../models/group.model";
 
 export function getUserByPhone(phone_number) {
     return new User().where({ phone_number })
@@ -40,4 +41,13 @@ export function getAttTypesByUserId(user_id) {
     return new AttType().where({ user_id, is_active: true, is_for_teacher: true })
         .fetchAll()
         .then(res => res.toJSON());
+}
+
+export async function getDiaryDataByGroupId(group_id) {
+    const group = await new Group().where({ id: group_id })
+        .fetch({ withRelated: ['klass', 'teacher', 'lesson'] })
+        .then(res => res.toJSON());
+    const students = await getStudentsByUserIdAndKlassId(group.user_id, group.klass_id);
+
+    return { group, students };
 }
