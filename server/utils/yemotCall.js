@@ -1,4 +1,4 @@
-import { CallBase } from "./callBase";
+import { CallBase } from "../../common-modules/server/utils/callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
 import AttReport from "../models/att-report.model";

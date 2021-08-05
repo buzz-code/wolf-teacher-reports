@@ -3,7 +3,7 @@ import Klass from '../models/klass.model';
 import Teacher from '../models/teacher.model';
 import Lesson from '../models/lesson.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
-import { getListFromTable } from '../utils/common';
+import { getListFromTable } from '../../common-modules/server/utils/common';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(Group);
 

@@ -2,7 +2,7 @@ import express from 'express';
 import * as userCtrl from '../controllers/user.controller';
 import isAuthenticated from '../middlewares/authenticate';
 import validate from '../../common-modules/server/config/joi.validate';
-import schema from '../utils/validator';
+import schema from '../../common-modules/server/utils/validator';
 
 const router = express.Router();
 

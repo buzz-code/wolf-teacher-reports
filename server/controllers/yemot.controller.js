@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import { CallListHandler } from '../utils/callBase';
+import { CallListHandler } from '../../common-modules/server/utils/callBase';
 import { YemotCall } from '../utils/yemotCall';
 
 /**
