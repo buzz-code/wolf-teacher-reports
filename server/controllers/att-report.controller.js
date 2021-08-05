@@ -37,7 +37,7 @@ export async function findAll(req, res) {
  */
 export async function getEditData(req, res) {
     const [students, teachers, lessons, attTypes] = await Promise.all([
-        getListFromTable(Student, req.currentUser.id),
+        getListFromTable(Student, req.currentUser.id, 'tz'),
         getListFromTable(Teacher, req.currentUser.id),
         getListFromTable(Lesson, req.currentUser.id),
         getListFromTable(AttType, req.currentUser.id),

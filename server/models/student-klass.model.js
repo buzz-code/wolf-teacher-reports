@@ -26,7 +26,7 @@ class StudentKlass extends bookshelf.Model {
     }
 
     student() {
-        return this.belongsTo(Student);
+        return this.belongsTo(Student, 'student_tz', 'tz');
     }
 
     klass() {
