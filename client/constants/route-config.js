@@ -21,14 +21,10 @@ import * as titles from './entity-title';
 import Dashboard from '../containers/dashboard/DashboardContainer';
 import Teachers from '../containers/teachers/TeachersContainer';
 import Students from '../containers/students/StudentsContainer';
-import Lessons from '../containers/lessons/LessonsContainer';
-import Klasses from '../containers/klasses/KlassesContainer';
-import StudentKlasses from '../containers/student-klasses/StudentKlassesContainer';
-import Groups from '../containers/groups/GroupsContainer';
 import AttTypes from '../containers/att-types/AttTypesContainer';
-import AttReports from '../containers/att-reports/AttReportsContainer';
-import ReportEdit from '../containers/report-edit/ReportEditContainer';
-import GroupsPrint from '../containers/groups-print/GroupsPrintContainer';
+import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
+import Prices from '../containers/prices/PricesContainer';
+import Texts from '../containers/texts/TextsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 
 export default [
@@ -55,34 +51,6 @@ export default [
       props: { entity: entities.STUDENTS, title: titles.STUDENTS },
     },
     {
-      path: '/lessons',
-      component: Lessons,
-      icon: EventNoteIcon,
-      title: titles.LESSONS,
-      props: { entity: entities.LESSONS, title: titles.LESSONS },
-    },
-    {
-      path: '/klasses',
-      component: Klasses,
-      icon: GroupIcon,
-      title: titles.KLASSS,
-      props: { entity: entities.KLASSS, title: titles.KLASSS },
-    },
-    {
-      path: '/student-klasses',
-      component: StudentKlasses,
-      icon: GroupWorkIcon,
-      title: titles.STUDENT_KLASSES,
-      props: { entity: entities.STUDENT_KLASSES, title: titles.STUDENT_KLASSES },
-    },
-    {
-      path: '/groups',
-      component: Groups,
-      icon: GroupAddIcon,
-      title: titles.GROUPS,
-      props: { entity: entities.GROUPS, title: titles.GROUPS },
-    },
-    {
       path: '/att-types',
       component: AttTypes,
       icon: MenuIcon,
@@ -90,65 +58,26 @@ export default [
       props: { entity: entities.ATT_TYPES, title: titles.ATT_TYPES },
     },
     {
-      path: '/att-reports',
-      component: AttReports,
-      icon: AssignmentTurnedInIcon,
-      title: titles.ATT_REPORTS,
-      props: { entity: entities.ATT_REPORTS, title: titles.ATT_REPORTS },
-    },
-  ],
-  [
-    { path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' },
-    {
-      path: '/groups-print',
-      component: GroupsPrint,
-      icon: PrintIcon,
-      title: titles.GROUPS_PRINT,
-      props: { entity: entities.GROUPS, title: titles.GROUPS_PRINT },
+      path: '/teacher-types',
+      component: TeacherTypes,
+      icon: MenuIcon,
+      title: titles.TEACHER_TYPES,
+      props: { entity: entities.TEACHER_TYPES, title: titles.TEACHER_TYPES },
     },
     {
-      path: '/report-edit',
-      component: ReportEdit,
-      icon: AssignmentIcon,
-      title: titles.REPORT_EDIT,
-      props: { entity: entities.REPORT_EDIT, title: titles.REPORT_EDIT },
+      path: '/prices',
+      component: Prices,
+      icon: MenuIcon,
+      title: titles.PRICES,
+      props: { entity: entities.PRICES, title: titles.PRICES },
+    },
+    {
+      path: '/texts',
+      component: Texts,
+      icon: ChatIcon,
+      title: titles.TEXTS,
+      props: { entity: entities.TEXTS, title: titles.TEXTS },
     },
   ],
-  // [
-  //   {
-  //     path: '/student-reports',
-  //     component: StudentReports,
-  //     icon: AssignmentIcon,
-  //     title: titles.STUDENT_REPORTS,
-  //     props: { entity: entities.STUDENT_REPORTS, title: titles.STUDENT_REPORTS },
-  //   },
-  //   {
-  //     path: '/teacher-reports',
-  //     component: TeacherReports,
-  //     icon: AssignmentIcon,
-  //     title: titles.TEACHER_REPORTS,
-  //     props: { entity: entities.TEACHER_REPORTS, title: titles.TEACHER_REPORTS },
-  //   },
-  //   {
-  //     path: '/organization-reports',
-  //     component: OrganizationReports,
-  //     icon: AssignmentIcon,
-  //     title: titles.ORGANIATION_REPORTS,
-  //     props: { entity: entities.ORGANIATION_REPORTS, title: titles.ORGANIATION_REPORTS },
-  //   },
-  //   {
-  //     path: '/daily-reports',
-  //     component: DailyReports,
-  //     icon: AssignmentIcon,
-  //     title: titles.DAILY_REPORTS,
-  //     props: { entity: entities.DAILY_REPORTS, title: titles.DAILY_REPORTS },
-  //   },
-  //   {
-  //     path: '/monthly-reports',
-  //     component: MonthlyReports,
-  //     icon: AssignmentIcon,
-  //     title: titles.MONTHLY_REPORTS,
-  //     props: { entity: entities.MONTHLY_REPORTS, title: titles.MONTHLY_REPORTS },
-  //   },
-  // ],
+  [{ path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' }],
 ];

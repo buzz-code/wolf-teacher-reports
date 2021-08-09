@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import Table from '../../../common-modules/client/components/table/Table';
 
 const getColumns = () => [
-  { field: 'key', title: 'מזהה' },
+  { field: 'key', title: 'מזהה', type: 'numeric' },
   { field: 'name', title: 'שם' },
 ];
 const getFilters = () => [
@@ -11,11 +11,21 @@ const getFilters = () => [
   { field: 'name', label: 'שם', type: 'text', operator: 'like' },
 ];
 
-const KlassesContainer = ({ entity, title }) => {
+const PricesContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
   const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      filters={filters}
+      disableAdd={true}
+      disableUpdate={true}
+      disableDelete={true}
+    />
+  );
 };
 
-export default KlassesContainer;
+export default PricesContainer;

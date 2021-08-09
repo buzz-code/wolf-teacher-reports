@@ -1,12 +1,12 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import User from './user.model';
 
-const TABLE_NAME = 'klasses';
+const TABLE_NAME = 'texts';
 
 /**
- * Klass model.
+ * Text model.
  */
-class Klass extends bookshelf.Model {
+class Text extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -15,13 +15,9 @@ class Klass extends bookshelf.Model {
         return TABLE_NAME;
     }
 
-    // get hasTimestamps() {
-    //     return true;
-    // }
-
     user() {
         return this.belongsTo(User);
     }
 }
 
-export default Klass;
+export default Text;

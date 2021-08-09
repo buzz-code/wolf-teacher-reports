@@ -1,12 +1,12 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import User from './user.model';
 
-const TABLE_NAME = 'lessons';
+const TABLE_NAME = 'teacher_types';
 
 /**
- * Lesson model.
+ * TeacherType model.
  */
-class Lesson extends bookshelf.Model {
+class TeacherType extends bookshelf.Model {
 
     /**
      * Get table name.
@@ -24,4 +24,4 @@ class Lesson extends bookshelf.Model {
     }
 }
 
-export default Lesson;
+export default TeacherType;

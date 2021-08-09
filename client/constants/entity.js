@@ -1,14 +1,8 @@
 export const USERS = 'users';
 export const TEACHERS = 'teachers';
 export const STUDENTS = 'students';
-export const LESSONS = 'lessons';
-export const KLASSS = 'klasses';
-export const STUDENT_KLASSES = 'student-klasses';
-export const GROUPS = 'groups';
 export const ATT_TYPES = 'att-types';
-export const ATT_REPORTS = 'att-reports';
-export const REPORT_EDIT = 'report-edit';
-export const STUDENT_REPORTS = 'reports/getStudentReport';
-export const TEACHER_REPORTS = 'reports/getTeacherReport';
-export const ORGANIATION_REPORTS = 'reports/getOrganizationReport';
+export const TEACHER_TYPES = 'teacher-types';
+export const PRICES = 'prices';
+export const TEXTS = 'texts';
 export const DASHBOARD = 'dashboard';
