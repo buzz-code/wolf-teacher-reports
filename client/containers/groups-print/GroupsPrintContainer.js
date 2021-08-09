@@ -40,7 +40,7 @@ const GroupsContainer = ({ entity, title }) => {
   const [conditions, setConditions] = useState([]);
 
   const handlePrintAll = useCallback(() => {
-    dispatch(crudAction.customHttpRequest(entity, 'POST', 'print-all-diaries', conditions));
+    dispatch(crudAction.download(entity, 'POST', 'print-all-diaries', { filters: conditions }));
   }, [entity, conditions]);
   const handlePrintOne = useCallback((e, rowData) => {
     dispatch(crudAction.download(entity, 'POST', 'print-one-diary', rowData));
