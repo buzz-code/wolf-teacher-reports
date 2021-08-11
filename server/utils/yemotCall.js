@@ -41,7 +41,7 @@ export class YemotCall extends CallBase {
             // }
 
             await this.send(
-                this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher,teacher.name) })
+                this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, teacher.name) })
             );
 
             switch (teacher.teacher_type_id) {
@@ -67,7 +67,10 @@ export class YemotCall extends CallBase {
 
             // todo: save report
             // todo: delete existing_report
-
+            await this.send(
+                this.hangup()
+            );
+            
             // try {
             //     const attReport = {
             //         user_id: this.user.id,
