@@ -1,5 +1,6 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import User from './user.model';
+import Student from './student.model';
 
 const TABLE_NAME = 'teachers';
 

@@ -40,6 +40,10 @@ export class YemotCall extends CallBase {
             //     );
             // }
 
+            await this.send(
+                this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher,teacher.name) })
+            );
+
             switch (teacher.teacher_type_id) {
                 case 1:
                     await getSeminarKitaReport(teacher);
@@ -60,7 +64,7 @@ export class YemotCall extends CallBase {
                     );
                     break;
             }
-            
+
             // todo: save report
             // todo: delete existing_report
 
