@@ -63,7 +63,8 @@ export class YemotCall extends CallBase {
             }
 
             try {
-                console.log(this.params.studentsAtt, this.params.studentsAtt?.at(1))
+                console.log(1, this.params.studentsAtt);
+                console.log(2, this.params.studentsAtt?.at(1))
                 const attReport = {
                     user_id: this.user.id,
                     teacher_id: teacher.id,
