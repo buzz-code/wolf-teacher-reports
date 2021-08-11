@@ -6,6 +6,11 @@ const router = genericRoute(attReportCtrl, router => {
         .get((req, res) => {
             attReportCtrl.getEditData(req, res);
         });
+
+    router.route('/getResponsibleReport')
+        .get((req, res) => {
+            attReportCtrl.getResponsibleReport(req, res);
+        });
 });
 
 export default router;

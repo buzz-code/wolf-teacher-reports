@@ -27,6 +27,7 @@ import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
+import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 
 export default [
@@ -89,6 +90,13 @@ export default [
       icon: StorageIcon,
       title: titles.ATT_REPORTS,
       props: { entity: entities.ATT_REPORTS, title: titles.ATT_REPORTS },
+    },
+    {
+      path: '/responsible-reports',
+      component: ResponsibleReports,
+      icon: StorageIcon,
+      title: titles.RESPONSIBLE_REPORTS,
+      props: { entity: entities.RESPONSIBLE_REPORTS, title: titles.RESPONSIBLE_REPORTS },
     },
   ],
 ];
