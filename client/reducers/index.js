@@ -13,6 +13,7 @@ import {
   PRICES,
   TEXTS,
   ATT_REPORTS,
+  MANHA_REPORTS,
   RESPONSIBLE_REPORTS,
   DASHBOARD,
 } from '../constants/entity';
@@ -29,6 +30,7 @@ const appReducer = (history) =>
     [PRICES]: crudReducer(PRICES),
     [TEXTS]: crudReducer(TEXTS),
     [ATT_REPORTS]: crudReducer(ATT_REPORTS),
+    [MANHA_REPORTS]: crudReducer(MANHA_REPORTS),
     [RESPONSIBLE_REPORTS]: crudReducer(RESPONSIBLE_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
   });
