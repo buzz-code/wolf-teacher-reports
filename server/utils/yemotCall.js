@@ -46,16 +46,16 @@ export class YemotCall extends CallBase {
 
             switch (teacher.teacher_type_id) {
                 case 1:
-                    await getSeminarKitaReport(teacher);
+                    await this.getSeminarKitaReport(teacher);
                     break;
                 case 2:
-                    await getTrainingReport(teacher);
+                    await this.getTrainingReport(teacher);
                     break;
                 case 3:
-                    await getManhaReport(teacher);
+                    await this.getManhaReport(teacher);
                     break;
                 case 4:
-                    await getReponsibleReport(teacher);
+                    await this.getReponsibleReport(teacher);
                     break;
                 default:
                     await this.send(
@@ -99,9 +99,9 @@ export class YemotCall extends CallBase {
     }
 
     async getSeminarKitaReport(teacher) {
-        await askForStudentAttendance(teacher.student1);
-        await askForStudentAttendance(teacher.student2);
-        await askForStudentAttendance(teacher.student3);
+        await this.askForStudentAttendance(teacher.student1);
+        await this.askForStudentAttendance(teacher.student2);
+        await this.askForStudentAttendance(teacher.student3);
     }
 
     async getTrainingReport(teacher) {
