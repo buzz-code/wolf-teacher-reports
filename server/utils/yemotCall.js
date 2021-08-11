@@ -1,6 +1,6 @@
 import { CallBase } from "../../common-modules/server/utils/callBase";
 import format from 'string-format';
-// import * as queryHelper from './queryHelper';
+import * as queryHelper from './queryHelper';
 // import AttReport from "../models/att-report.model";
 
 export class YemotCall extends CallBase {
@@ -9,138 +9,141 @@ export class YemotCall extends CallBase {
     }
 
     texts = {
-        // phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
-        // welcomeAndTypeKlassId: 'שלום המורה {0} הגעת למוקד רישום הנוכחות, נא הקישי את קוד הכיתה',
-        // confirmKlass: 'כיתה {0}, לאישור הקישי 1, לתיקון הקישי 2',
-        // klassIdNotFound: 'קוד כיתה לא נמצא',
-        // tryAgain: 'נסי שנית',
-        // typeLessonId: 'נא הקישי את קוד השיעור',
-        // confirmLesson: 'שיעור {0}, לאישור הקישי 1, לתיקון הקישי 2',
-        // lessonIdNotFound: 'קוד שיעור לא נמצא',
-        // startStudentList: 'כעת תושמע רשימת התלמידות',
-        // prevStudent: 'מעבר לתלמידה הקודמת',
-        // forAttendanceTypeXPressY: 'ל{0} הקישי {1}, ',
-        // dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
-        // dataWasSavedSuccessfully: 'רישום הנוכחות הסתיים בהצלחה',
+        phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
+        welcomeForTeacher: 'שלום המורה {0} הגעת לתיקופון',
+        teacherTypeIsNotRecognizedInTheSystem: 'סוג המורה לא מוכר במערכת, אנא פני למזכירה',
+        existingReportWillBeDeleted: 'שימי לב, קיים כבר דיווח היום, במידה ותבחרי להמשיך הוא יימחק',
+        howManyWatchedLessonWereToday: 'בכמה שיעורים צפו תלמידות?',
+        howManyTeachedByStudentLessonWereToday: 'בכמה שיעורים מסרו תלמידות?',
+        howManyMethodicLessonWereToday: 'כמה שיעורים מתודיקה או דיון היו היום?',
+        whatTypeOfActivityWasToday: 'איזה סוג פעילות הייתה היום בבית הספר? לצפיה הקישי 1 למסירה הקישי 2',
+        whatTypeOfStudentAttendance: 'תלמידה {0}, שיעור מספר {1}, מה היה? צפיה או פרטני הקישי 1, מסירה או מעורבות הקישי 2, דיון הקישי 3, התלמידה חסרה מסיבות אישיות הקישי 4, לתלמידה הבאה הקישי 5',
+        dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
+        dataWasSavedSuccessfully: 'התיקוף הסתיים בהצלחה',
     }
 
     async start() {
         // await this.getTexts();
-        // try {
-        //     const teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
-        //     if (!teacher) {
-        //         await this.send(
-        //             this.id_list_message({ type: 'text', text: this.texts.phoneIsNotRecognizedInTheSystem }),
-        //             this.hangup()
-        //         );
-        //     }
-        //     const klass = await this.getKlass(teacher);
-        //     const lesson = await this.getLesson();
-        //     await this.getStudentReports(klass);
-        //     try {
-        //         const baseReport = {
-        //             user_id: this.user.id,
-        //             teacher_id: teacher.id,
-        //             lesson_id: lesson.id,
-        //             enter_time: new Date(),
-        //         };
-        //         for (const studentId in this.params.studentReports) {
-        //             const attReport = {
-        //                 ...baseReport,
-        //                 student_tz: studentId,
-        //                 att_type_id: this.params.studentReports[studentId],
-        //             };
-        //             await new AttReport(attReport).save();
-        //         }
-        //         await this.send(
-        //             this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
-        //             this.hangup()
-        //         );
-        //     }
-        //     catch (e) {
-        //         console.log('catch yemot exception', e);
-        //         await this.send(
-        //             this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
-        //             this.hangup()
-        //         );
-        //     }
-        // }
-        // catch (e) {
-        //     if (e) {
-        //         console.log('catch yemot exception', e);
-        //     }
-        // } finally {
-        //     this.end();
-        // }
+        try {
+            const teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
+            if (!teacher) {
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.phoneIsNotRecognizedInTheSystem }),
+                    this.hangup()
+                );
+            }
+
+            // const existing_report = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id);
+            // if (existing_report) {
+            //     await this.send(
+            //         this.id_list_message({ type: 'text', text: this.texts.existingReportWillBeDeleted })
+            //     );
+            // }
+
+            switch (teacher.teacher_type_id) {
+                case 1:
+                    await getSeminarKitaReport(teacher);
+                    break;
+                case 2:
+                    await getTrainingReport(teacher);
+                    break;
+                case 3:
+                    await getManhaReport(teacher);
+                    break;
+                case 4:
+                    await getReponsibleReport(teacher);
+                    break;
+                default:
+                    await this.send(
+                        this.id_list_message({ type: 'text', text: this.texts.teacherTypeIsNotRecognizedInTheSystem }),
+                        this.hangup()
+                    );
+                    break;
+            }
+            
+            // todo: save report
+            // todo: delete existing_report
+
+            // try {
+            //     const attReport = {
+            //         user_id: this.user.id,
+            //         teacher_id: teacher.id,
+            //         lesson_id: lesson.id,
+            //         enter_time: new Date(),
+            //     };
+            //     await new AttReport(attReport).save();
+            //     await this.send(
+            //         this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+            //         this.hangup()
+            //     );
+            // }
+            // catch (e) {
+            //     console.log('catch yemot exception', e);
+            //     await this.send(
+            //         this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
+            //         this.hangup()
+            //     );
+            // }
+        }
+        catch (e) {
+            if (e) {
+                console.log('catch yemot exception', e);
+            }
+        } finally {
+            this.end();
+        }
     }
 
-    // async getKlass(teacher, isRetry = false) {
-    //     const message = isRetry ? this.texts.tryAgain : format(this.texts.welcomeAndTypeKlassId, teacher.name);
-    //     await this.send(
-    //         this.read({ type: 'text', text: message },
-    //             'klassId', 'tap', { max: 4, min: 1, block_asterisk: true })
-    //     );
-    //     let klass = await queryHelper.getKlassByUserIdAndKlassId(this.user.id, this.params.klassId);
-    //     if (klass) {
-    //         await this.send(
-    //             this.read({ type: 'text', text: format(this.texts.confirmKlass, klass.name) },
-    //                 'klassConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
-    //         );
-    //         if (this.params.klassConfirm === '2') {
-    //             return this.getKlass(teacher, true);
-    //         }
-    //     } else {
-    //         await this.send(this.id_list_message({ type: 'text', text: this.texts.klassIdNotFound }));
-    //         return this.getKlass(teacher, true);
-    //     }
-    //     return klass;
-    // }
+    async getSeminarKitaReport(teacher) {
+        await askForStudentAttendance(teacher.student1);
+        await askForStudentAttendance(teacher.student2);
+        await askForStudentAttendance(teacher.student3);
+    }
 
-    // async getLesson(isRetry = false) {
-    //     const message = isRetry ? this.texts.tryAgain : this.texts.typeLessonId;
-    //     await this.send(
-    //         this.read({ type: 'text', text: message },
-    //             'lessonId', 'tap', { max: 4, min: 1, block_asterisk: true })
-    //     );
-    //     let lesson = await queryHelper.getLessonByUserIdAndLessonId(this.user.id, this.params.lessonId);
-    //     if (lesson) {
-    //         await this.send(
-    //             this.read({ type: 'text', text: format(this.texts.confirmLesson, lesson.name) },
-    //                 'lessonConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
-    //         );
-    //         if (this.params.lessonConfirm === '2') {
-    //             return this.getLesson(true);
-    //         }
-    //     } else {
-    //         await this.send(this.id_list_message({ type: 'text', text: this.texts.lessonIdNotFound }));
-    //         return this.getLesson(true);
-    //     }
-    //     return lesson;
-    // }
+    async getTrainingReport(teacher) {
+        await this.send(
+            this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
+                'howManyWatcheds', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereToday },
+                'howManyTeachedByStudent', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+    }
 
-    // async getStudentReports(klass) {
-    //     const students = await queryHelper.getStudentsByUserIdAndKlassId(this.user.id, klass.id);
-    //     const types = await queryHelper.getAttTypesByUserId(this.user.id);
-    //     const attTypeMessage = types.map(item => format(this.texts.forAttendanceTypeXPressY, item.name, item.key)).join(', ');
-    //     const prevStudentMessage = format(this.texts.forAttendanceTypeXPressY, this.texts.prevStudent, 7);
+    async getManhaReport(teacher) {
+        await this.send(
+            this.read({ type: 'text', text: this.texts.howManyMethodicLessonWereToday },
+                'howManyMethodic', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+    }
 
-    //     let isFirstTime = true;
-    //     this.params.studentReports = {};
-    //     for (let index = 0; index < students.length; index++) {
-    //         const student = students[index];
-    //         const attTypeMessageForCurrent = index === 0 ? attTypeMessage : attTypeMessage + prevStudentMessage;
-    //         await this.send(
-    //             isFirstTime ? this.id_list_message({ type: 'text', text: this.texts.startStudentList }) : undefined,
-    //             this.read({ type: 'text', text: student.name + ': ' + attTypeMessageForCurrent },
-    //                 'attType', 'tap', { max: 1, min: 1, block_asterisk: true })
-    //         );
-    //         isFirstTime = false;
-    //         const attType = Number(this.params.attType);
-    //         if (attType === 7) {
-    //             index -= 2;
-    //         } else {
-    //             this.params.studentReports[student.tz] = types.find(item => item.key == attType).id;
-    //         }
-    //     }
-    // }
+    async getReponsibleReport(teacher) {
+        await this.send(
+            this.read({ type: 'text', text: this.texts.whatTypeOfActivityWasToday },
+                'activityType', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+    }
+
+    async askForStudentAttendance(student) {
+        if (!student) {
+            return;
+        }
+        const studentReports = [];
+        for (var i = 1; i <= 5; i++) {
+            await this.send(
+                this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
+                    'studentAttendance' + i, 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+
+            if (this.params['studentAttendance' + i] == 5) {
+                break;
+            }
+
+            studentReports.push({
+                ['studentAttendance' + i]: this.params['studentAttendance' + i],
+            })
+        }
+        this.params[student.id] = studentReports;
+    }
 }
