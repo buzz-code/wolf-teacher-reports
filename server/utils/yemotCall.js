@@ -63,8 +63,6 @@ export class YemotCall extends CallBase {
             }
 
             try {
-                console.log(1, this.params.studentsAtt);
-                console.log(2, this.params.studentsAtt?.at(1))
                 const attReport = {
                     user_id: this.user.id,
                     teacher_id: teacher.id,
@@ -72,21 +70,21 @@ export class YemotCall extends CallBase {
                     how_many_watched: this.params.howManyWatcheds,
                     how_many_student_teached: this.params.howManyTeachedByStudent,
                     activity_type: this.params.activityType == '1' ? 'צפיה' : 'מסירה',
-                    student_1_1_att_type: this.params.studentsAtt?.at(1)?.at(0),
-                    student_1_2_att_type: this.params.studentsAtt?.at(1)?.at(1),
-                    student_1_3_att_type: this.params.studentsAtt?.at(1)?.at(2),
-                    student_1_4_att_type: this.params.studentsAtt?.at(1)?.at(3),
-                    student_1_5_att_type: this.params.studentsAtt?.at(1)?.at(4),
-                    student_2_1_att_type: this.params.studentsAtt?.at(2)?.at(0),
-                    student_2_2_att_type: this.params.studentsAtt?.at(2)?.at(1),
-                    student_2_3_att_type: this.params.studentsAtt?.at(2)?.at(2),
-                    student_2_4_att_type: this.params.studentsAtt?.at(2)?.at(3),
-                    student_2_5_att_type: this.params.studentsAtt?.at(2)?.at(4),
-                    student_3_1_att_type: this.params.studentsAtt?.at(3)?.at(0),
-                    student_3_2_att_type: this.params.studentsAtt?.at(3)?.at(1),
-                    student_3_3_att_type: this.params.studentsAtt?.at(3)?.at(2),
-                    student_3_4_att_type: this.params.studentsAtt?.at(3)?.at(3),
-                    student_3_5_att_type: this.params.studentsAtt?.at(3)?.at(4),
+                    student_1_1_att_type: this.getStudentAtt(1, 0),
+                    student_1_2_att_type: this.getStudentAtt(1, 1),
+                    student_1_3_att_type: this.getStudentAtt(1, 2),
+                    student_1_4_att_type: this.getStudentAtt(1, 3),
+                    student_1_5_att_type: this.getStudentAtt(1, 4),
+                    student_2_1_att_type: this.getStudentAtt(2, 0),
+                    student_2_2_att_type: this.getStudentAtt(2, 1),
+                    student_2_3_att_type: this.getStudentAtt(2, 2),
+                    student_2_4_att_type: this.getStudentAtt(2, 3),
+                    student_2_5_att_type: this.getStudentAtt(2, 4),
+                    student_3_1_att_type: this.getStudentAtt(3, 0),
+                    student_3_2_att_type: this.getStudentAtt(3, 1),
+                    student_3_3_att_type: this.getStudentAtt(3, 2),
+                    student_3_4_att_type: this.getStudentAtt(3, 3),
+                    student_3_5_att_type: this.getStudentAtt(3, 4),
                 };
                 await new AttReport(attReport).save();
                 if (existing_report) {
@@ -186,5 +184,13 @@ export class YemotCall extends CallBase {
             studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
+    }
+
+    getStudentAtt(studentNum, lessonIndex) {
+        if (!this.params.studentsAtt)
+            return undefined;
+        if (!this.params.studentsAtt[studentNum])
+            return undefined
+        return this.params.studentsAtt[studentNum][lessonIndex];
     }
 }
