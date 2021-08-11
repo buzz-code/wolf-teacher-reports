@@ -62,12 +62,6 @@ export class YemotCall extends CallBase {
                     break;
             }
 
-            // todo: save report
-            // todo: delete existing_report
-            await this.send(
-                this.hangup()
-            );
-
             try {
                 const attReport = {
                     user_id: this.user.id,
@@ -184,10 +178,10 @@ export class YemotCall extends CallBase {
             messages.length = 0;
 
             if (this.params.studentAttendance == 5) {
-                i = 10;
-            } else {
-                studentReports.push(this.params.studentAttendance);
+                break;
             }
+
+            studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
     }
