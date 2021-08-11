@@ -184,10 +184,10 @@ export class YemotCall extends CallBase {
             messages.length = 0;
 
             if (this.params.studentAttendance == 5) {
-                break;
+                i = 10;
+            } else {
+                studentReports.push(this.params.studentAttendance);
             }
-
-            studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
     }
