@@ -177,7 +177,7 @@ export class YemotCall extends CallBase {
         const studentReports = [];
         for (var i = 1; i <= 5; i++) {
             await this.send(
-                messages.map(text => this.id_list_message({ type: 'text', text })),
+                messages.length && messages.map(text => this.id_list_message({ type: 'text', text })),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
                     'studentAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
