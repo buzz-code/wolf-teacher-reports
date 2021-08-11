@@ -5,4 +5,5 @@ export const ATT_TYPES = 'att-types';
 export const TEACHER_TYPES = 'teacher-types';
 export const PRICES = 'prices';
 export const TEXTS = 'texts';
+export const ATT_REPORTS = 'att-reports';
 export const DASHBOARD = 'dashboard';

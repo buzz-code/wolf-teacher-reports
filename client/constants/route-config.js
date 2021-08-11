@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import StorageIcon from '@material-ui/icons/Storage';
 
 import * as entities from './entity';
 import * as titles from './entity-title';
@@ -25,6 +26,7 @@ import AttTypes from '../containers/att-types/AttTypesContainer';
 import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
+import AttReports from '../containers/att-reports/AttReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 
 export default [
@@ -80,4 +82,13 @@ export default [
     },
   ],
   [{ path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' }],
+  [
+    {
+      path: '/att-reports',
+      component: AttReports,
+      icon: StorageIcon,
+      title: titles.ATT_REPORTS,
+      props: { entity: entities.ATT_REPORTS, title: titles.ATT_REPORTS },
+    },
+  ],
 ];

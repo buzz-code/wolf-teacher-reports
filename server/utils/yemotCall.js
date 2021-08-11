@@ -1,7 +1,7 @@
 import { CallBase } from "../../common-modules/server/utils/callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
-// import AttReport from "../models/att-report.model";
+import AttReport from "../models/att-report.model";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -18,7 +18,7 @@ export class YemotCall extends CallBase {
         howManyMethodicLessonWereToday: 'כמה שיעורים מתודיקה או דיון היו היום?',
         whatTypeOfActivityWasToday: 'איזה סוג פעילות הייתה היום בבית הספר? לצפיה הקישי 1 למסירה הקישי 2',
         teacherHasNotStudents: 'אין לך תלמידות מקושרות, אנא פני למזכירה',
-        whatTypeOfStudentAttendance: 'תלמידה {0}, שיעור מספר {1}, מה היה? צפיה או פרטני הקישי 1, מסירה או מעורבות הקישי 2, דיון הקישי 3, התלמידה חסרה מסיבות אישיות הקישי 4, לתלמידה הבאה הקישי 5',
+        whatTypeOfStudentAttendance: 'תלמידה {0}, שיעור מספר {1}, מה היה?, צפיה או פרטני הקישי 1, מסירה או מעורבות הקישי 2, דיון הקישי 3, התלמידה חסרה מסיבות אישיות הקישי 4, לתלמידה הבאה הקישי 5',
         dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
         dataWasSavedSuccessfully: 'התיקוף הסתיים בהצלחה',
     }
@@ -68,26 +68,46 @@ export class YemotCall extends CallBase {
                 this.hangup()
             );
 
-            // try {
-            //     const attReport = {
-            //         user_id: this.user.id,
-            //         teacher_id: teacher.id,
-            //         lesson_id: lesson.id,
-            //         enter_time: new Date(),
-            //     };
-            //     await new AttReport(attReport).save();
-            //     await this.send(
-            //         this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
-            //         this.hangup()
-            //     );
-            // }
-            // catch (e) {
-            //     console.log('catch yemot exception', e);
-            //     await this.send(
-            //         this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
-            //         this.hangup()
-            //     );
-            // }
+            try {
+                const attReport = {
+                    user_id: this.user.id,
+                    teacher_id: teacher.id,
+                    how_many_methodic: this.params.howManyMethodic,
+                    how_many_watched: this.params.howManyWatcheds,
+                    how_many_student_teached: this.params.howManyTeachedByStudent,
+                    activity_type: this.params.activityType == '1' ? 'צפיה' : 'מסירה',
+                    student_1_1_att_type: this.params.studentsAtt['1']?.at(0),
+                    student_1_2_att_type: this.params.studentsAtt['1']?.at(1),
+                    student_1_3_att_type: this.params.studentsAtt['1']?.at(2),
+                    student_1_4_att_type: this.params.studentsAtt['1']?.at(3),
+                    student_1_5_att_type: this.params.studentsAtt['1']?.at(4),
+                    student_2_1_att_type: this.params.studentsAtt['2']?.at(0),
+                    student_2_2_att_type: this.params.studentsAtt['2']?.at(1),
+                    student_2_3_att_type: this.params.studentsAtt['2']?.at(2),
+                    student_2_4_att_type: this.params.studentsAtt['2']?.at(3),
+                    student_2_5_att_type: this.params.studentsAtt['2']?.at(4),
+                    student_3_1_att_type: this.params.studentsAtt['3']?.at(0),
+                    student_3_2_att_type: this.params.studentsAtt['3']?.at(1),
+                    student_3_3_att_type: this.params.studentsAtt['3']?.at(2),
+                    student_3_4_att_type: this.params.studentsAtt['3']?.at(3),
+                    student_3_5_att_type: this.params.studentsAtt['3']?.at(4),
+                };
+                await new AttReport(attReport).save();
+                if (existing_report) {
+                    await new AttReport().where({ id: existing_report.id }).destroy();
+                }
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                    this.hangup()
+                );
+            }
+            catch (e) {
+                console.log('catch yemot exception', e);
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
+                    this.hangup()
+                );
+            }
         }
         catch (e) {
             if (e) {
@@ -159,7 +179,7 @@ export class YemotCall extends CallBase {
             await this.send(
                 messages.map(text => this.id_list_message({ type: 'text', text })),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
-                    'studentAttendance' + i, 'tap', { max: 1, min: 1, block_asterisk: true })
+                    'studentAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             messages.length = 0;
 

@@ -12,6 +12,7 @@ import {
   TEACHER_TYPES,
   PRICES,
   TEXTS,
+  ATT_REPORTS,
   DASHBOARD,
 } from '../constants/entity';
 
@@ -26,6 +27,7 @@ const appReducer = (history) =>
     [TEACHER_TYPES]: crudReducer(TEACHER_TYPES),
     [PRICES]: crudReducer(PRICES),
     [TEXTS]: crudReducer(TEXTS),
+    [ATT_REPORTS]: crudReducer(ATT_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
   });
 

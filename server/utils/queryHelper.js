@@ -1,5 +1,5 @@
 import Teacher from "../models/teacher.model";
-// import AttReport from "../models/att-report.model";
+import AttReport from "../models/att-report.model";
 import User from "../models/user.model";
 
 export function getUserByPhone(phone_number) {
@@ -14,9 +14,9 @@ export function getTeacherByUserIdAndPhone(user_id, phone) {
         .then(res => res ? res.toJSON() : null);
 }
 
-// export function getReportByTeacherIdAndToday(user_id, teacher_id) {
-//     return new AttReport().where({ user_id, teacher_id, report_date: moment().format('YYYY-MM-DD') })
-//         .fetch({ require: false })
-//         .then(res => res ? res.toJSON() : null);
-// }
+export function getReportByTeacherIdAndToday(user_id, teacher_id) {
+    return new AttReport().where({ user_id, teacher_id, report_date: moment().format('YYYY-MM-DD') })
+        .fetch({ require: false })
+        .then(res => res ? res.toJSON() : null);
+}
 

@@ -8,6 +8,7 @@ import attTypeRoutes from './att-type.route';
 import teacherTypeRoutes from './teacher-type.route';
 import priceRoutes from './price.route';
 import textRoutes from './text.route';
+import attReportRoutes from './att-report.route';
 import dashboardRoutes from './dashboard.route';
 
 const router = express.Router();
@@ -21,6 +22,7 @@ router.use('/att-types', attTypeRoutes);
 router.use('/teacher-types', teacherTypeRoutes);
 router.use('/prices', priceRoutes);
 router.use('/texts', textRoutes);
+router.use('/att-reports', attReportRoutes);
 router.use('/dashboard', dashboardRoutes);
 
 export default router;
