@@ -7,6 +7,7 @@ import { getPropsForAutoComplete } from '../../../common-modules/client/utils/fo
 
 const getColumns = ({ teachers, attTypes }) => [
   { field: 'teacher_id', title: 'שם המורה', ...getPropsForAutoComplete('teacher_id', teachers) },
+  { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_methodic', title: 'מזהה', type: 'numeric' },
   { field: 'how_many_watched', title: 'מזהה', type: 'numeric' },
   { field: 'how_many_student_teached', title: 'מזהה', type: 'numeric' },
@@ -100,11 +101,27 @@ const AttReportsContainer = ({ entity, title }) => {
   const columns = useMemo(() => editData && getColumns(editData), [editData]);
   const filters = useMemo(() => getFilters(), []);
 
+  const manipulateDataToSave = (dataToSave) => ({
+    ...dataToSave,
+    report_date:
+      dataToSave.report_date instanceof Date
+        ? dataToSave.report_date.toISOString().substr(0, 10)
+        : dataToSave.report_date.substr(0, 10),
+  });
+
   useEffect(() => {
     dispatch(crudAction.customHttpRequest(entity, 'GET', 'get-edit-data'));
   }, []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      filters={filters}
+      manipulateDataToSave={manipulateDataToSave}
+    />
+  );
 };
 
 export default AttReportsContainer;

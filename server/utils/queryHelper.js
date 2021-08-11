@@ -15,7 +15,7 @@ export function getTeacherByUserIdAndPhone(user_id, phone) {
 }
 
 export function getReportByTeacherIdAndToday(user_id, teacher_id) {
-    return new AttReport().where({ user_id, teacher_id, report_date: moment().format('YYYY-MM-DD') })
+    return new AttReport().where({ user_id, teacher_id, report_date: new Date() })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
