@@ -10,4 +10,4 @@ export const SEMINAR_KITA_REPORTS = 'שכר למורה סמינר כיתה';
 export const TRAINING_REPORTS = 'שכר למורה מאמנת';
 export const MANHA_REPORTS = 'שכר למורה מנחה';
 export const RESPONSIBLE_REPORTS = 'שכר לאחראית בית ספר';
-export const DASHBOARD = 'לוח בקרה';
+export const DASHBOARD = 'מחוונים';

@@ -13,7 +13,7 @@ const DashboardContainer = ({ entity, title }) => {
     dispatch(crudAction.fetchAll(entity, {}));
   }, []);
 
-  return <Dashboard stats={data || {}} />;
+  return <Dashboard stats={data || {}} title={title} />;
 };
 
 export default DashboardContainer;

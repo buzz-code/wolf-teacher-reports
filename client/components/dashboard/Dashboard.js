@@ -13,7 +13,7 @@ const statItems = [
   { id: 'teachers', text: 'מורות', icon: SupervisedUserCircleIcon, color: purple[600], value: 0 },
 ];
 
-const Dashboard = ({ stats }) => {
+const Dashboard = ({ stats, title }) => {
   const dashboardItems = useMemo(
     () => statItems.map((item) => ({ ...item, value: stats[item.id] })),
     [stats]
@@ -21,7 +21,7 @@ const Dashboard = ({ stats }) => {
 
   return (
     <div>
-      <h2 style={{ paddingBottom: '15px' }}>לוח הבקרה</h2>
+      <h2 style={{ paddingBottom: '15px' }}>{title}</h2>
 
       <Grid container spacing={4} style={{ marginBottom: '15px' }}>
         {dashboardItems.map((item) => (
