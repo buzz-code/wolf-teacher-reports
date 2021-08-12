@@ -5,6 +5,7 @@ import Table from '../../../common-modules/client/components/table/Table';
 const getColumns = () => [
   { field: 'key', title: 'מזהה', type: 'numeric' },
   { field: 'name', title: 'שם' },
+  { field: 'price', title: 'מחיר', type: 'numeric' },
 ];
 const getFilters = () => [
   { field: 'key', label: 'מזהה', type: 'text', operator: 'like' },
