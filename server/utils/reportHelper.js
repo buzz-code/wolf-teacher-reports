@@ -26,12 +26,12 @@ const seminarKitaPrices = {
 };
 
 function getSeminarKitaSelector(lessonType) {
-    return bookshelf.knex.raw(
-        '(' + student_columns.map(item => 'COALESCE(' + item + ', 0) = ' + lessonType).join(') + (') + ')'
-    );
+    return bookshelf.knex.raw('(' +
+        student_columns.map(item => 'COALESCE(' + item + ', 0) = ' + lessonType).join(') + (')
+        + ')');
 }
 
-function getSeminarKitaLessonCount(lessonCount) {
+export function getSeminarKitaLessonCount(lessonCount) {
     const res = {};
     for (var i = 1; i <= lessonCount; i++) {
         res['lesson_' + i] = getSeminarKitaSelector(i);
@@ -39,14 +39,11 @@ function getSeminarKitaLessonCount(lessonCount) {
     return res;
 }
 
-export function getSeminarKitaComputedFields(lessonCount) {
-    const lessonQuery = getSeminarKitaLessonCount(lessonCount);
-    return {
-        ...lessonQuery,
-        total_pay: bookshelf.knex.raw('(' +
-            Object.values(lessonQuery)
-                .map((value, index) => '(' + value + ') * ' + seminarKitaPrices[index + 1])
-                .join(' + ')
-            + ')'),
-    };
+export function getSeminarKitaTotalPay(lessonCount) {
+    const query = [];
+    for (var i = 1; i <= lessonCount; i++) {
+        query.push('(SELECT lesson_' + i + ') * ' + seminarKitaPrices[i]);
+    }
+
+    return bookshelf.knex.raw('(' + query.join(' + ') + ')');
 }

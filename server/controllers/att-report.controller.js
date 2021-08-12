@@ -3,7 +3,7 @@ import AttType from '../models/att-type.model';
 import Teacher from '../models/teacher.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
-import { getSeminarKitaComputedFields } from '../utils/reportHelper';
+import { getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
@@ -49,7 +49,7 @@ export function getSeminarKitaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name' }, 'report_date', getSeminarKitaComputedFields(4))
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
