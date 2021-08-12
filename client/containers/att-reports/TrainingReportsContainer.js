@@ -6,7 +6,7 @@ const getColumns = () => [
   { field: 'teacher_name', title: 'שם המורה' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_watched', title: 'כמה שיעורים צפו אצלך?' },
-  { field: 'how_many_student_teached', title: 'כמה שיעורים מסרו אצלך?how_many_watched' },
+  { field: 'how_many_student_teached', title: 'כמה שיעורים מסרו אצלך?' },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
