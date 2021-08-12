@@ -41,6 +41,18 @@ export async function getEditData(req, res) {
     });
 }
 
+export function getTrainingReport(req, res) {
+    const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 2 })
+        .query(qb => {
+            qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+        })
+    applyFilters(dbQuery, req.query.filters);
+    dbQuery.query(qb => {
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached')
+    });
+    fetchPage({ dbQuery }, req.query, res);
+}
+
 export function getManhaReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 3 })
         .query(qb => {

@@ -7,6 +7,11 @@ const router = genericRoute(attReportCtrl, router => {
             attReportCtrl.getEditData(req, res);
         });
 
+    router.route('/getTrainingReport')
+        .get((req, res) => {
+            attReportCtrl.getTrainingReport(req, res);
+        });
+
     router.route('/getManhaReport')
         .get((req, res) => {
             attReportCtrl.getManhaReport(req, res);

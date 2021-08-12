@@ -27,6 +27,7 @@ import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
+import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
 import ManhaReports from '../containers/att-reports/ManhaReportsContainer';
 import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
@@ -91,6 +92,13 @@ export default [
       icon: StorageIcon,
       title: titles.ATT_REPORTS,
       props: { entity: entities.ATT_REPORTS, title: titles.ATT_REPORTS },
+    },
+    {
+      path: '/training-reports',
+      component: TrainingReport,
+      icon: StorageIcon,
+      title: titles.TRAINING_REPORTS,
+      props: { entity: entities.TRAINING_REPORTS, title: titles.TRAINING_REPORTS },
     },
     {
       path: '/manha-reports',
