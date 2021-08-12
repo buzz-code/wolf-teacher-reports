@@ -6,6 +6,7 @@ export const TEACHER_TYPES = 'סוגי מורות';
 export const PRICES = 'מחירים';
 export const TEXTS = 'הודעות';
 export const ATT_REPORTS = 'תיקופים';
+export const SEMINAR_KITA_REPORTS = 'שכר למורה סמינר כיתה';
 export const TRAINING_REPORTS = 'שכר למורה מאמנת';
 export const MANHA_REPORTS = 'שכר למורה מנחה';
 export const RESPONSIBLE_REPORTS = 'שכר לאחראית בית ספר';

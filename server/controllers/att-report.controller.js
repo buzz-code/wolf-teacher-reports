@@ -3,6 +3,7 @@ import AttType from '../models/att-type.model';
 import Teacher from '../models/teacher.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
+import { getSeminarKitaSelector } from '../utils/reportHelper';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
@@ -39,6 +40,18 @@ export async function getEditData(req, res) {
         error: null,
         data: { teachers, attTypes }
     });
+}
+
+export function getSeminarKitaReport(req, res) {
+    const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 1 })
+        .query(qb => {
+            qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+        })
+    applyFilters(dbQuery, req.query.filters);
+    dbQuery.query(qb => {
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', { lesson_1: getSeminarKitaSelector(1), lesson_2: getSeminarKitaSelector(2), lesson_3: getSeminarKitaSelector(3), lesson_4: getSeminarKitaSelector(4) })
+    });
+    fetchPage({ dbQuery }, req.query, res);
 }
 
 export function getTrainingReport(req, res) {

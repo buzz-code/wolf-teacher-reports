@@ -27,6 +27,7 @@ import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
+import SeminarKitaReport from '../containers/att-reports/SeminarKitaReportsContainer';
 import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
 import ManhaReports from '../containers/att-reports/ManhaReportsContainer';
 import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
@@ -92,6 +93,13 @@ export default [
       icon: StorageIcon,
       title: titles.ATT_REPORTS,
       props: { entity: entities.ATT_REPORTS, title: titles.ATT_REPORTS },
+    },
+    {
+      path: '/seminar-kita-reports',
+      component: SeminarKitaReport,
+      icon: StorageIcon,
+      title: titles.SEMINAR_KITA_REPORTS,
+      props: { entity: entities.SEMINAR_KITA_REPORTS, title: titles.SEMINAR_KITA_REPORTS },
     },
     {
       path: '/training-reports',
