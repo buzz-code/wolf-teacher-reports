@@ -8,23 +8,23 @@ export class YemotCall extends CallBase {
         super(params, callId, user);
     }
 
-    texts = {
-        phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
-        welcomeForTeacher: 'שלום המורה {0} הגעת לתיקופון',
-        teacherTypeIsNotRecognizedInTheSystem: 'סוג המורה לא מוכר במערכת, אנא פני למזכירה',
-        existingReportWillBeDeleted: 'שימי לב, קיים כבר דיווח היום, במידה ותבחרי להמשיך הוא יימחק',
-        howManyWatchedLessonWereToday: 'בכמה שיעורים צפו תלמידות?',
-        howManyTeachedByStudentLessonWereToday: 'בכמה שיעורים מסרו תלמידות?',
-        howManyMethodicLessonWereToday: 'כמה שיעורים מתודיקה או דיון היו היום?',
-        whatTypeOfActivityWasToday: 'איזה סוג פעילות הייתה היום בבית הספר? לצפיה הקישי 1 למסירה הקישי 2',
-        teacherHasNotStudents: 'אין לך תלמידות מקושרות, אנא פני למזכירה',
-        whatTypeOfStudentAttendance: 'תלמידה {0}, שיעור מספר {1}, מה היה?, צפיה או פרטני הקישי 1, מסירה או מעורבות הקישי 2, דיון הקישי 3, התלמידה חסרה מסיבות אישיות הקישי 4, לתלמידה הבאה הקישי 5',
-        dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
-        dataWasSavedSuccessfully: 'התיקוף הסתיים בהצלחה',
-    }
+    // texts = {
+    //     phoneIsNotRecognizedInTheSystem: 'מספר הטלפון אינו רשום במערכת',
+    //     welcomeForTeacher: 'שלום המורה {0} הגעת לתיקופון',
+    //     teacherTypeIsNotRecognizedInTheSystem: 'סוג המורה לא מוכר במערכת, אנא פני למזכירה',
+    //     existingReportWillBeDeleted: 'שימי לב, קיים כבר דיווח היום, במידה ותבחרי להמשיך הוא יימחק',
+    //     howManyWatchedLessonWereToday: 'בכמה שיעורים צפו תלמידות?',
+    //     howManyTeachedByStudentLessonWereToday: 'בכמה שיעורים מסרו תלמידות?',
+    //     howManyMethodicLessonWereToday: 'כמה שיעורים מתודיקה או דיון היו היום?',
+    //     whatTypeOfActivityWasToday: 'איזה סוג פעילות הייתה היום בבית הספר? לצפיה הקישי 1 למסירה הקישי 2',
+    //     teacherHasNotStudents: 'אין לך תלמידות מקושרות, אנא פני למזכירה',
+    //     whatTypeOfStudentAttendance: 'תלמידה {0}, שיעור מספר {1}, מה היה?, צפיה או פרטני הקישי 1, מסירה או מעורבות הקישי 2, דיון הקישי 3, התלמידה חסרה מסיבות אישיות הקישי 4, לתלמידה הבאה הקישי 5',
+    //     dataWasNotSaved: 'ארעה שגיאה, נסי שוב במועד מאוחר יותר',
+    //     dataWasSavedSuccessfully: 'התיקוף הסתיים בהצלחה',
+    // }
 
     async start() {
-        // await this.getTexts();
+        await this.getTexts();
         try {
             const teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
             if (!teacher) {
