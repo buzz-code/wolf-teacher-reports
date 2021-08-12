@@ -9,6 +9,7 @@ const getColumns = () => [
   { field: 'lesson_2', title: 'כמה שיעור צפיה או מעורבות' },
   { field: 'lesson_3', title: 'כמה שיעורי דיון' },
   { field: 'lesson_4', title: 'כמה שיעורים התלמידה חסרה' },
+  { field: 'total_pay', title: 'סה"כ לתשלום' },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },

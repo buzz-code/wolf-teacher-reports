@@ -16,10 +16,37 @@ const student_columns = [
     'student_3_3_att_type',
     'student_3_4_att_type',
     'student_3_5_att_type',
-]
+];
 
-export function getSeminarKitaSelector(lessonType) {
+const seminarKitaPrices = {
+    1: 25,
+    2: 35,
+    3: 60,
+    4: 20
+};
+
+function getSeminarKitaSelector(lessonType) {
     return bookshelf.knex.raw(
         '(' + student_columns.map(item => 'COALESCE(' + item + ', 0) = ' + lessonType).join(') + (') + ')'
     );
+}
+
+function getSeminarKitaLessonCount(lessonCount) {
+    const res = {};
+    for (var i = 1; i <= lessonCount; i++) {
+        res['lesson_' + i] = getSeminarKitaSelector(i);
+    }
+    return res;
+}
+
+export function getSeminarKitaComputedFields(lessonCount) {
+    const lessonQuery = getSeminarKitaLessonCount(lessonCount);
+    return {
+        ...lessonQuery,
+        total_pay: bookshelf.knex.raw('(' +
+            Object.values(lessonQuery)
+                .map((value, index) => '(' + value + ') * ' + seminarKitaPrices[index + 1])
+                .join(' + ')
+            + ')'),
+    };
 }
