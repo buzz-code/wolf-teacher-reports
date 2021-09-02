@@ -14,7 +14,7 @@ export const { findById, store, update, destroy, uploadMultiple } = genericContr
  * @returns {*}
  */
 export async function findAll(req, res) {
-    const dbQuery = new Teacher().where({ user_id: req.currentUser.id })
+    const dbQuery = new Teacher().where({ 'teachers.user_id': req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teacher_types', 'teacher_types.id', 'teachers.teacher_type_id')
             qb.leftJoin({ students1: 'students' }, 'students1.tz', 'teachers.student_tz_1')
