@@ -6,8 +6,8 @@ import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
 const getColumns = ({ teacherTypes, students }) => [
-  { field: 'tz', title: 'תעודת זהות' },
-  { field: 'name', title: 'שם' },
+  { field: 'tz', title: 'תעודת זהות', columnOrder: 'teachers.tz' },
+  { field: 'name', title: 'שם', columnOrder: 'teachers.name' },
   { field: 'phone', title: 'מספר טלפון' },
   { field: 'school', title: 'בית ספר' },
   {
