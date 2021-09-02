@@ -2,16 +2,16 @@ import path from 'path';
 import app from '../common-modules/server/config/express';
 import routes from './routes/index.route';
 import swagger from '../common-modules/server/config/swagger';
-import * as errorHandler from './middlewares/errorHandler';
-import joiErrorHandler from './middlewares/joiErrorHandler';
-import requestLogger from './middlewares/requestLogger';
+import * as errorHandler from '../common-modules/server/middlewares/errorHandler';
+import joiErrorHandler from '../common-modules/server/middlewares/joiErrorHandler';
+import requestLogger from '../common-modules/server/middlewares/requestLogger';
 import PACKAGE from '../package.json';
 
 // enable webpack hot module replacement in development mode
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack/webpack.config.dev';
+import webpackConfig from '../common-modules/webpack/webpack.config.dev';
 
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'development') {
   });
 } else {
   app.get('*', (req, res) => {
-    res.render(path.join(__dirname, '../public/index-prod'), { name: PACKAGE.name, title: PACKAGE.displayName });
+    res.render(path.join(__dirname, '../public/index-prod'), { name: PACKAGE.name, title: PACKAGE.displayName, customDomain: PACKAGE.customDomain });
   });
 }
 
