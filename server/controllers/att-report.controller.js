@@ -82,10 +82,11 @@ export function getResponsibleReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 4 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('att_types', 'att_types.id', 'att_reports.activity_type')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'activity_type')
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', { activity_type_name: 'att_types.name' })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
