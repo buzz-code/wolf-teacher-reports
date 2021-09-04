@@ -10,4 +10,5 @@ export const SEMINAR_KITA_REPORTS = 'att-reports/getSeminarKitaReport';
 export const TRAINING_REPORTS = 'att-reports/getTrainingReport';
 export const MANHA_REPORTS = 'att-reports/getManhaReport';
 export const RESPONSIBLE_REPORTS = 'att-reports/getResponsibleReport';
+export const PDS_REPORTS = 'att-reports/getPdsReport';
 export const DASHBOARD = 'dashboard';

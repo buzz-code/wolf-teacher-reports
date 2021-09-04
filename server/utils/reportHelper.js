@@ -47,3 +47,11 @@ export function getSeminarKitaTotalPay(lessonCount) {
 
     return bookshelf.knex.raw('(' + query.join(' + ') + ')');
 }
+
+export function getPdsType(lessonCount) {
+    const res = {};
+    for (var i = 1; i <= lessonCount; i++) {
+        res['pds_type_name_' + i] = 'att_types_' + i + '.name';
+    }
+    return res;
+}

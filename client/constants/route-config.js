@@ -31,6 +31,7 @@ import SeminarKitaReport from '../containers/att-reports/SeminarKitaReportsConta
 import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
 import ManhaReports from '../containers/att-reports/ManhaReportsContainer';
 import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
+import PdsReports from '../containers/att-reports/PdsReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 
 export default [
@@ -121,6 +122,13 @@ export default [
       icon: StorageIcon,
       title: titles.RESPONSIBLE_REPORTS,
       props: { entity: entities.RESPONSIBLE_REPORTS, title: titles.RESPONSIBLE_REPORTS },
+    },
+    {
+      path: '/pds-reports',
+      component: PdsReports,
+      icon: StorageIcon,
+      title: titles.PDS_REPORTS,
+      props: { entity: entities.PDS_REPORTS, title: titles.PDS_REPORTS },
     },
   ],
 ];

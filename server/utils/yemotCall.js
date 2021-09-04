@@ -54,6 +54,9 @@ export class YemotCall extends CallBase {
                 case 4:
                     await this.getReponsibleReport(teacher, messages);
                     break;
+                case 5:
+                    await this.getPdsReport(teacher, messages);
+                    break;
                 default:
                     await this.send(
                         this.id_list_message({ type: 'text', text: this.texts.teacherTypeIsNotRecognizedInTheSystem }),
@@ -86,6 +89,10 @@ export class YemotCall extends CallBase {
                     student_3_3_att_type: this.getStudentAtt(3, 2),
                     student_3_4_att_type: this.getStudentAtt(3, 3),
                     student_3_5_att_type: this.getStudentAtt(3, 4),
+                    pds_type_1: this.getPdsAtt(0),
+                    pds_type_2: this.getPdsAtt(1),
+                    pds_type_3: this.getPdsAtt(2),
+                    pds_type_4: this.getPdsAtt(3),
                 };
                 await new AttReport(attReport).save();
                 if (existing_report) {
@@ -168,6 +175,21 @@ export class YemotCall extends CallBase {
         );
     }
 
+    async getPdsReport(teacher, messages) {
+        const pdsReports = [];
+        for (var i = 1; i <= 4; i++) {
+            await this.send(
+                messages.length && messages.map(text => this.id_list_message({ type: 'text', text })),
+                this.read({ type: 'text', text: format(this.texts.whatTypeOfPdsAttendance, i) },
+                    'pdsAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            messages.length = 0;
+
+            pdsReports.push(this.params.pdsAttendance);
+        }
+        this.params.pdsAtt = pdsReports;
+    }
+
     async askForStudentAttendance({ num, student }, messages) {
         const studentReports = [];
         for (var i = 1; i <= 5; i++) {
@@ -193,5 +215,11 @@ export class YemotCall extends CallBase {
         if (!this.params.studentsAtt[studentNum])
             return undefined
         return this.params.studentsAtt[studentNum][lessonIndex];
+    }
+
+    getPdsAtt(lessonIndex) {
+        if (!this.params.pdsAtt)
+            return undefined;
+        return this.params.pdsAtt[lessonIndex];
     }
 }

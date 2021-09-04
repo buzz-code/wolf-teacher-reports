@@ -28,6 +28,11 @@ const router = genericRoute(attReportCtrl, router => {
             attReportCtrl.getResponsibleReport(req, res);
         });
 
+    router.route('/getPdsReport')
+        .get((req, res) => {
+            attReportCtrl.getPdsReport(req, res);
+        });
+
     router.route('/:report/export-pdf')
         .post((req, res) => {
             exportPdf(req, res);
