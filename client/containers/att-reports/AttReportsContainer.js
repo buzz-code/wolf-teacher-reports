@@ -8,10 +8,14 @@ import { getPropsForAutoComplete } from '../../../common-modules/client/utils/fo
 const getColumns = ({ teachers, attTypes }) => [
   { field: 'teacher_id', title: 'שם המורה', ...getPropsForAutoComplete('teacher_id', teachers) },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
-  { field: 'how_many_methodic', title: 'מזהה', type: 'numeric' },
-  { field: 'how_many_watched', title: 'מזהה', type: 'numeric' },
-  { field: 'how_many_student_teached', title: 'מזהה', type: 'numeric' },
-  { field: 'activity_type', title: 'סוג פעילות' },
+  { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
+  { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
+  { field: 'how_many_student_teached', title: 'שיעורי מסירה', type: 'numeric' },
+  {
+    field: 'activity_type',
+    title: 'סוג פעילות',
+    ...getPropsForAutoComplete('activity_type', attTypes),
+  },
   {
     field: 'student_1_1_att_type',
     title: 'תלמידה 1 שיעור 1',
