@@ -70,7 +70,7 @@ export class YemotCall extends CallBase {
                     how_many_methodic: this.params.howManyMethodic,
                     how_many_watched: this.params.howManyWatcheds,
                     how_many_student_teached: this.params.howManyTeachedByStudent,
-                    activity_type: this.params.activityType == '1' ? 'צפיה' : this.params.activityType == '2' ? 'מסירה' : undefined,
+                    activity_type: this.getActivityType(this.params.activityType),
                     student_1_1_att_type: this.getStudentAtt(1, 0),
                     student_1_2_att_type: this.getStudentAtt(1, 1),
                     student_1_3_att_type: this.getStudentAtt(1, 2),
@@ -193,5 +193,16 @@ export class YemotCall extends CallBase {
         if (!this.params.studentsAtt[studentNum])
             return undefined
         return this.params.studentsAtt[studentNum][lessonIndex];
+    }
+
+    getActivityType(activityCode) {
+        switch (activityCode) {
+            case '1':
+                return 'צפיה';
+            case '2':
+                return 'מסירה';
+            default:
+                return undefined;
+        }
     }
 }
