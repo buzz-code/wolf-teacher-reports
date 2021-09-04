@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import Table from '../../../common-modules/client/components/table/Table';
 
 const getColumns = () => [
-  { field: 'teacher_name', title: 'שם המורה' },
+  { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_watched', title: 'כמה שיעורים צפו אצלך?' },
   { field: 'how_many_student_teached', title: 'כמה שיעורים מסרו אצלך?' },
