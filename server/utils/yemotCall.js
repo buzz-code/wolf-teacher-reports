@@ -135,7 +135,7 @@ export class YemotCall extends CallBase {
 
         if (!students.length) {
             await this.send(
-                messages.map(text => this.id_list_message({ type: 'text', text })),
+                messages.length && this.id_list_message({ type: 'text', text: messages }),
                 this.id_list_message({ type: 'text', text: this.texts.teacherHasNotStudents }),
                 this.hangup()
             );
@@ -149,7 +149,7 @@ export class YemotCall extends CallBase {
 
     async getTrainingReport(teacher, messages) {
         await this.send(
-            messages.map(text => this.id_list_message({ type: 'text', text })),
+            messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
                 'howManyWatcheds', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -161,7 +161,7 @@ export class YemotCall extends CallBase {
 
     async getManhaReport(teacher, messages) {
         await this.send(
-            messages.map(text => this.id_list_message({ type: 'text', text })),
+            messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyMethodicLessonWereToday },
                 'howManyMethodic', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -169,7 +169,7 @@ export class YemotCall extends CallBase {
 
     async getReponsibleReport(teacher, messages) {
         await this.send(
-            messages.map(text => this.id_list_message({ type: 'text', text })),
+            messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.whatTypeOfActivityWasToday },
                 'activityType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -179,7 +179,7 @@ export class YemotCall extends CallBase {
         const pdsReports = [];
         for (var i = 1; i <= 4; i++) {
             await this.send(
-                messages.length && messages.map(text => this.id_list_message({ type: 'text', text })),
+                messages.length && this.id_list_message({ type: 'text', text: messages }),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfPdsAttendance, i) },
                     'pdsAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
@@ -194,7 +194,7 @@ export class YemotCall extends CallBase {
         const studentReports = [];
         for (var i = 1; i <= 5; i++) {
             await this.send(
-                messages.length && messages.map(text => this.id_list_message({ type: 'text', text })),
+                messages.length && this.id_list_message({ type: 'text', text: messages }),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
                     'studentAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
