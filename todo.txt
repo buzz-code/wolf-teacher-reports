@@ -1,6 +1,13 @@
+## TODO:
 * check time filters
 * validate rows before save
-* add pdf export
-* add yemot handler for student
 * add report editor
-* add belongsToMany in bookshelf models
+
+
+## DONE:
+* להוסיף עוד 2 שאלות למורה מאמנת
+    * 1. האם קימת שיעור דיון אם כן הקישי 1 אם לא 0
+    * 2. לכמה תלמידות סמינר נתת למסור שיעורים פרטיים?
+    
+* להוסיף עמודת שכר לדוח של מורה מאמנת
+    * עבור צפיה 60 ש"ח לשיעור, עבור מסירה של תלמידה 50, דיון 70, פרטני 50
