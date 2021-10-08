@@ -4,6 +4,7 @@ import Teacher from '../models/teacher.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getPdsType, getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
+import bookshelf from '../../common-modules/server/config/bookshelf';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
@@ -62,6 +63,7 @@ export function getTrainingReport(req, res) {
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons')
+        qb.select({ teacher_salary: bookshelf.knex.raw('(how_many_watched * 60 + how_many_student_teached * 50 + IF(was_discussing, was_discussing, 0) * 70 + IF(how_many_private_lessons, how_many_private_lessons, 0) * 50)') })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
