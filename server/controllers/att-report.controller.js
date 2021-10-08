@@ -61,7 +61,7 @@ export function getTrainingReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached')
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons')
     });
     fetchPage({ dbQuery }, req.query, res);
 }

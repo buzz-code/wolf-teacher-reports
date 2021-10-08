@@ -73,6 +73,8 @@ export class YemotCall extends CallBase {
                     how_many_methodic: this.params.howManyMethodic,
                     how_many_watched: this.params.howManyWatcheds,
                     how_many_student_teached: this.params.howManyTeachedByStudent,
+                    was_discussing: this.params.wasDiscussing == '1',
+                    how_many_private_lessons: this.params.howManyPrivateLessons,
                     activity_type: this.params.activityType,
                     student_1_1_att_type: this.getStudentAtt(1, 0),
                     student_1_2_att_type: this.getStudentAtt(1, 1),
@@ -156,6 +158,14 @@ export class YemotCall extends CallBase {
         await this.send(
             this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereToday },
                 'howManyTeachedByStudent', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.haveYouMadeADiscussing },
+                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.howManyPrivateLessonsWereToday },
+                'howManyPrivateLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
         );
     }
 

@@ -11,6 +11,8 @@ const getColumns = ({ teachers, attTypes }) => [
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
   { field: 'how_many_student_teached', title: 'שיעורי מסירה', type: 'numeric' },
+  { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
+  { field: 'how_many_private_lessons', title: 'כמה שיעורים פרטיים?' },
   {
     field: 'activity_type',
     title: 'סוג פעילות',
