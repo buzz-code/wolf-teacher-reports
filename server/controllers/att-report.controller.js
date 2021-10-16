@@ -1,6 +1,7 @@
 import AttReport from '../models/att-report.model';
 import AttType from '../models/att-type.model';
 import Teacher from '../models/teacher.model';
+import TeacherType from '../models/teacher-type.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getPdsType, getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
@@ -19,7 +20,9 @@ export async function findAll(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('teacher_types', 'teacher_types.id', 'teachers.teacher_type_id')
             qb.select('att_reports.*')
+            qb.select({ teacher_type_name: 'teacher_types.name' })
         });
     applyFilters(dbQuery, req.query.filters);
     fetchPage({ dbQuery }, req.query, res);
@@ -33,13 +36,14 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [teachers, attTypes] = await Promise.all([
+    const [teachers, attTypes, teacherTypes] = await Promise.all([
         getListFromTable(Teacher, req.currentUser.id),
         getListFromTable(AttType, req.currentUser.id),
+        getListFromTable(TeacherType, req.currentUser.id),
     ]);
     res.json({
         error: null,
-        data: { teachers, attTypes }
+        data: { teachers, attTypes, teacherTypes }
     });
 }
 

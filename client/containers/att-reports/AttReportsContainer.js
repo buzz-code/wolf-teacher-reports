@@ -5,8 +5,9 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
-const getColumns = ({ teachers, attTypes }) => [
+const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teacher_id', title: 'שם המורה', ...getPropsForAutoComplete('teacher_id', teachers) },
+  { field: 'teacher_type_name', title: 'סוג המורה' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
@@ -114,8 +115,17 @@ const getColumns = ({ teachers, attTypes }) => [
     ...getPropsForAutoComplete('pds_type_4', attTypes),
   },
 ];
-const getFilters = () => [
+const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
+  {
+    field: 'teacher_types.name',
+    label: 'סוג מורה',
+    type: 'list',
+    list: teacherTypes,
+    operator: 'eq',
+  },
+  { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
+  { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
 ];
 
 const AttReportsContainer = ({ entity, title }) => {
@@ -124,8 +134,8 @@ const AttReportsContainer = ({ entity, title }) => {
     GET: { 'get-edit-data': editData },
   } = useSelector((state) => state[entity]);
 
-  const columns = useMemo(() => editData && getColumns(editData), [editData]);
-  const filters = useMemo(() => getFilters(), []);
+  const columns = useMemo(() => getColumns(editData || {}), [editData]);
+  const filters = useMemo(() => getFilters(editData || {}), [editData]);
 
   const manipulateDataToSave = (dataToSave) => ({
     ...dataToSave,
