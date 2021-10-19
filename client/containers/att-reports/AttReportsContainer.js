@@ -94,26 +94,6 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     title: 'תלמידה 3 שיעור 5',
     ...getPropsForAutoComplete('student_3_5_att_type', attTypes),
   },
-  {
-    field: 'pds_type_1',
-    title: 'PDS שיעור 1',
-    ...getPropsForAutoComplete('pds_type_1', attTypes),
-  },
-  {
-    field: 'pds_type_2',
-    title: 'PDS שיעור 2',
-    ...getPropsForAutoComplete('pds_type_2', attTypes),
-  },
-  {
-    field: 'pds_type_3',
-    title: 'PDS שיעור 3',
-    ...getPropsForAutoComplete('pds_type_3', attTypes),
-  },
-  {
-    field: 'pds_type_4',
-    title: 'PDS שיעור 4',
-    ...getPropsForAutoComplete('pds_type_4', attTypes),
-  },
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },

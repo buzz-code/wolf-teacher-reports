@@ -71,7 +71,7 @@ export class YemotCall extends CallBase {
                     teacher_id: teacher.id,
                     report_date: new Date(),
                     how_many_methodic: this.params.howManyMethodic,
-                    how_many_watched: this.params.howManyWatcheds,
+                    how_many_watched: this.params.howManyWatched,
                     how_many_student_teached: this.params.howManyTeachedByStudent,
                     was_discussing: this.params.wasDiscussing == '1',
                     how_many_private_lessons: this.params.howManyPrivateLessons,
@@ -91,10 +91,6 @@ export class YemotCall extends CallBase {
                     student_3_3_att_type: this.getStudentAtt(3, 2),
                     student_3_4_att_type: this.getStudentAtt(3, 3),
                     student_3_5_att_type: this.getStudentAtt(3, 4),
-                    pds_type_1: this.getPdsAtt(0),
-                    pds_type_2: this.getPdsAtt(1),
-                    pds_type_3: this.getPdsAtt(2),
-                    pds_type_4: this.getPdsAtt(3),
                 };
                 await new AttReport(attReport).save();
                 if (existing_report) {
@@ -153,7 +149,7 @@ export class YemotCall extends CallBase {
         await this.send(
             messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
-                'howManyWatcheds', 'tap', { max: 1, min: 1, block_asterisk: true })
+                'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
         await this.send(
             this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereToday },
@@ -186,18 +182,19 @@ export class YemotCall extends CallBase {
     }
 
     async getPdsReport(teacher, messages) {
-        const pdsReports = [];
-        for (var i = 1; i <= 4; i++) {
-            await this.send(
-                messages.length && this.id_list_message({ type: 'text', text: messages }),
-                this.read({ type: 'text', text: format(this.texts.whatTypeOfPdsAttendance, i) },
-                    'pdsAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            messages.length = 0;
-
-            pdsReports.push(this.params.pdsAttendance);
-        }
-        this.params.pdsAtt = pdsReports;
+        await this.send(
+            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereTodayPds },
+                'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereTodayPds },
+                'howManyTeachedByStudent', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.haveYouMadeADiscussingPds },
+                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
     }
 
     async askForStudentAttendance({ num, student }, messages) {

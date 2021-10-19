@@ -1,4 +1,5 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
+import { seminarKitaPrices } from './pricesHelper';
 
 const student_columns = [
     'student_1_1_att_type',
@@ -18,11 +19,11 @@ const student_columns = [
     'student_3_5_att_type',
 ];
 
-const seminarKitaPrices = {
-    1: 25,
-    2: 35,
-    3: 60,
-    4: 20
+const seminarKitaPriceDict = {
+    1: seminarKitaPrices.watch,
+    2: seminarKitaPrices.teach,
+    3: seminarKitaPrices.discuss,
+    4: seminarKitaPrices.absence,
 };
 
 function getSeminarKitaSelector(lessonType) {
@@ -42,16 +43,8 @@ export function getSeminarKitaLessonCount(lessonCount) {
 export function getSeminarKitaTotalPay(lessonCount) {
     const query = [];
     for (var i = 1; i <= lessonCount; i++) {
-        query.push('(SELECT lesson_' + i + ') * ' + seminarKitaPrices[i]);
+        query.push('(SELECT lesson_' + i + ') * ' + seminarKitaPriceDict[i]);
     }
 
     return bookshelf.knex.raw('(' + query.join(' + ') + ')');
-}
-
-export function getPdsType(lessonCount) {
-    const res = {};
-    for (var i = 1; i <= lessonCount; i++) {
-        res['pds_type_name_' + i] = 'att_types_' + i + '.name';
-    }
-    return res;
 }
