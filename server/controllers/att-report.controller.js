@@ -67,7 +67,7 @@ export function getTrainingReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons')
+        qb.select({ teacher_name: 'teachers.name' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'training_teacher')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + trainingPrices.watch + ' + ' +
                 'how_many_student_teached * ' + trainingPrices.teach + ' + ' +

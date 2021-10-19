@@ -75,6 +75,7 @@ export class YemotCall extends CallBase {
                     how_many_student_teached: this.params.howManyTeachedByStudent,
                     was_discussing: this.params.wasDiscussing == '1',
                     how_many_private_lessons: this.params.howManyPrivateLessons,
+                    training_teacher: this.params.whoTrainingTeacher,
                     activity_type: this.params.activityType,
                     student_1_1_att_type: this.getStudentAtt(1, 0),
                     student_1_2_att_type: this.getStudentAtt(1, 1),
@@ -163,6 +164,10 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.howManyPrivateLessonsWereToday },
                 'howManyPrivateLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
         );
+        await this.send(
+            this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
+                'whoTrainingTeacher', 'voice', { record_engine: true })
+        );
     }
 
     async getManhaReport(teacher, messages) {
@@ -222,11 +227,5 @@ export class YemotCall extends CallBase {
         if (!this.params.studentsAtt[studentNum])
             return undefined
         return this.params.studentsAtt[studentNum][lessonIndex];
-    }
-
-    getPdsAtt(lessonIndex) {
-        if (!this.params.pdsAtt)
-            return undefined;
-        return this.params.pdsAtt[lessonIndex];
     }
 }
