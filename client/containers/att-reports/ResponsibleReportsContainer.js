@@ -4,11 +4,13 @@ import Table from '../../../common-modules/client/components/table/Table';
 
 const getColumns = () => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
+  { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'activity_type_name', title: 'סוג פעילות' },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
+  { field: 'teachers.tz', label: 'תז', type: 'text', operator: 'like' },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
   { field: 'att_types.name', label: 'סוג פעילות', type: 'text', operator: 'like' },
