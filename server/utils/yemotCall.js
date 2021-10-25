@@ -148,6 +148,10 @@ export class YemotCall extends CallBase {
 
     async getTrainingReport(teacher, messages) {
         await this.send(
+            this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
+                'whoTrainingTeacher', 'voice', { record_engine: true })
+        );
+        await this.send(
             messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
                 'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
@@ -163,10 +167,6 @@ export class YemotCall extends CallBase {
         await this.send(
             this.read({ type: 'text', text: this.texts.howManyPrivateLessonsWereToday },
                 'howManyPrivateLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
-        );
-        await this.send(
-            this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
-                'whoTrainingTeacher', 'voice', { record_engine: true })
         );
     }
 
