@@ -1,23 +1,10 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
+import { lessonsCount, studentsCount } from './constantsHelper';
 import { seminarKitaPrices } from './pricesHelper';
 
-const student_columns = [
-    'student_1_1_att_type',
-    'student_1_2_att_type',
-    'student_1_3_att_type',
-    'student_1_4_att_type',
-    'student_1_5_att_type',
-    'student_2_1_att_type',
-    'student_2_2_att_type',
-    'student_2_3_att_type',
-    'student_2_4_att_type',
-    'student_2_5_att_type',
-    'student_3_1_att_type',
-    'student_3_2_att_type',
-    'student_3_3_att_type',
-    'student_3_4_att_type',
-    'student_3_5_att_type',
-];
+const student_columns = new Array(studentsCount).fill(0)
+    .flatMap((a, studentIndex) => new Array(lessonsCount).fill(0)
+        .map((b, lessonIndex) => `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`));
 
 const seminarKitaPriceDict = {
     1: seminarKitaPrices.watch,

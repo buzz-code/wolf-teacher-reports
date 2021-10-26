@@ -4,6 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
+import { lessonsCount, studentsCount } from '../../../server/utils/constantsHelper';
+
+getStudentAttColumns = (attTypes) => {
+  return new Array(studentsCount).fill(0).flatMap((a, studentIndex) =>
+    new Array(lessonsCount).fill(0).map((b, lessonIndex) => ({
+      field: `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
+      title: `תלמידה ${studentIndex + 1} שיעור ${lessonIndex + 1}`,
+      ...getPropsForAutoComplete(
+        `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
+        attTypes
+      ),
+    }))
+  );
+};
 
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teacher_id', title: 'שם המורה', ...getPropsForAutoComplete('teacher_id', teachers) },
@@ -20,81 +34,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     title: 'סוג פעילות',
     ...getPropsForAutoComplete('activity_type', attTypes),
   },
-  {
-    field: 'student_1_1_att_type',
-    title: 'תלמידה 1 שיעור 1',
-    ...getPropsForAutoComplete('student_1_1_att_type', attTypes),
-  },
-  {
-    field: 'student_1_2_att_type',
-    title: 'תלמידה 1 שיעור 2',
-    ...getPropsForAutoComplete('student_1_2_att_type', attTypes),
-  },
-  {
-    field: 'student_1_3_att_type',
-    title: 'תלמידה 1 שיעור 3',
-    ...getPropsForAutoComplete('student_1_3_att_type', attTypes),
-  },
-  {
-    field: 'student_1_4_att_type',
-    title: 'תלמידה 1 שיעור 4',
-    ...getPropsForAutoComplete('student_1_4_att_type', attTypes),
-  },
-  {
-    field: 'student_1_5_att_type',
-    title: 'תלמידה 1 שיעור 5',
-    ...getPropsForAutoComplete('student_1_5_att_type', attTypes),
-  },
-  {
-    field: 'student_2_1_att_type',
-    title: 'תלמידה 2 שיעור 1',
-    ...getPropsForAutoComplete('student_2_1_att_type', attTypes),
-  },
-  {
-    field: 'student_2_2_att_type',
-    title: 'תלמידה 2 שיעור 2',
-    ...getPropsForAutoComplete('student_2_2_att_type', attTypes),
-  },
-  {
-    field: 'student_2_3_att_type',
-    title: 'תלמידה 2 שיעור 3',
-    ...getPropsForAutoComplete('student_2_3_att_type', attTypes),
-  },
-  {
-    field: 'student_2_4_att_type',
-    title: 'תלמידה 2 שיעור 4',
-    ...getPropsForAutoComplete('student_2_4_att_type', attTypes),
-  },
-  {
-    field: 'student_2_5_att_type',
-    title: 'תלמידה 2 שיעור 5',
-    ...getPropsForAutoComplete('student_2_5_att_type', attTypes),
-  },
-  {
-    field: 'student_3_1_att_type',
-    title: 'תלמידה 3 שיעור 1',
-    ...getPropsForAutoComplete('student_3_1_att_type', attTypes),
-  },
-  {
-    field: 'student_3_2_att_type',
-    title: 'תלמידה 3 שיעור 2',
-    ...getPropsForAutoComplete('student_3_2_att_type', attTypes),
-  },
-  {
-    field: 'student_3_3_att_type',
-    title: 'תלמידה 3 שיעור 3',
-    ...getPropsForAutoComplete('student_3_3_att_type', attTypes),
-  },
-  {
-    field: 'student_3_4_att_type',
-    title: 'תלמידה 3 שיעור 4',
-    ...getPropsForAutoComplete('student_3_4_att_type', attTypes),
-  },
-  {
-    field: 'student_3_5_att_type',
-    title: 'תלמידה 3 שיעור 5',
-    ...getPropsForAutoComplete('student_3_5_att_type', attTypes),
-  },
+  ...getStudentAttColumns(attTypes),
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },

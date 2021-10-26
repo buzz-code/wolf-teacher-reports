@@ -2,6 +2,7 @@ import { CallBase } from "../../common-modules/server/utils/callBase";
 import format from 'string-format';
 import * as queryHelper from './queryHelper';
 import AttReport from "../models/att-report.model";
+import { lessonsCount, studentsCount } from "./constantsHelper";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -77,21 +78,7 @@ export class YemotCall extends CallBase {
                     how_many_private_lessons: this.params.howManyPrivateLessons,
                     training_teacher: this.params.whoTrainingTeacher,
                     activity_type: this.params.activityType,
-                    student_1_1_att_type: this.getStudentAtt(1, 0),
-                    student_1_2_att_type: this.getStudentAtt(1, 1),
-                    student_1_3_att_type: this.getStudentAtt(1, 2),
-                    student_1_4_att_type: this.getStudentAtt(1, 3),
-                    student_1_5_att_type: this.getStudentAtt(1, 4),
-                    student_2_1_att_type: this.getStudentAtt(2, 0),
-                    student_2_2_att_type: this.getStudentAtt(2, 1),
-                    student_2_3_att_type: this.getStudentAtt(2, 2),
-                    student_2_4_att_type: this.getStudentAtt(2, 3),
-                    student_2_5_att_type: this.getStudentAtt(2, 4),
-                    student_3_1_att_type: this.getStudentAtt(3, 0),
-                    student_3_2_att_type: this.getStudentAtt(3, 1),
-                    student_3_3_att_type: this.getStudentAtt(3, 2),
-                    student_3_4_att_type: this.getStudentAtt(3, 3),
-                    student_3_5_att_type: this.getStudentAtt(3, 4),
+                    ...this.getAllStudentAtt(),
                 };
                 await new AttReport(attReport).save();
                 if (existing_report) {
@@ -204,7 +191,7 @@ export class YemotCall extends CallBase {
 
     async askForStudentAttendance({ num, student }, messages) {
         const studentReports = [];
-        for (var i = 1; i <= 5; i++) {
+        for (var i = 1; i <= lessonsCount; i++) {
             await this.send(
                 messages.length && this.id_list_message({ type: 'text', text: messages }),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
@@ -219,6 +206,17 @@ export class YemotCall extends CallBase {
             studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
+    }
+
+    getAllStudentAtt() {
+        return Object.fromEntries(
+            new Array(studentsCount).fill(0)
+                .flatMap((a, studentIndex) => new Array(lessonsCount).fill(0)
+                    .map((b, lessonIndex) => ([
+                        `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
+                        this.getStudentAtt(studentIndex + 1, lessonIndex)
+                    ])))
+        );
     }
 
     getStudentAtt(studentNum, lessonIndex) {
