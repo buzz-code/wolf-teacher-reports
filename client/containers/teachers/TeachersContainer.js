@@ -16,7 +16,7 @@ const getColumns = ({ teacherTypes, students }) => [
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes),
   },
   { field: 'price', title: 'שכר שעתי למורה' },
-  { field: 'department', title: 'מחלקה' },
+  { field: 'training_teacher', title: 'מורה מנחה' },
   {
     field: 'student_tz_1',
     title: 'תלמידה א',
@@ -40,7 +40,7 @@ const getFilters = () => [
   { field: 'school', label: 'בית ספר', type: 'text', operator: 'like' },
   { field: 'teacher_types.name', label: 'סוג המורה', type: 'text', operator: 'like' },
   { field: 'price', label: 'שכר שעתי למורה', type: 'text', operator: 'like' },
-  { field: 'department', label: 'מחלקה', type: 'text', operator: 'like' },
+  { field: 'training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
   { field: 'students1.name', label: 'תלמידה א', type: 'text', operator: 'like' },
   { field: 'students2.name', label: 'תלמידה ב', type: 'text', operator: 'like' },
   { field: 'students3.name', label: 'תלמידה ג', type: 'text', operator: 'like' },

@@ -23,7 +23,7 @@ export async function findAll(req, res) {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin('teacher_types', 'teacher_types.id', 'teachers.teacher_type_id')
             qb.select('att_reports.*')
-            qb.select({ teacher_type_name: 'teacher_types.name' })
+            qb.select({ teacher_type_name: 'teacher_types.name', teacher_training_teacher: 'teachers.training_teacher' })
         });
     applyFilters(dbQuery, req.query.filters);
     fetchPage({ dbQuery }, req.query, res);
@@ -55,7 +55,7 @@ export function getSeminarKitaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz' }, 'report_date', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -67,7 +67,7 @@ export function getTrainingReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'training_teacher')
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + trainingPrices.watch + ' + ' +
                 'how_many_student_teached * ' + trainingPrices.teach + ' + ' +
@@ -110,7 +110,7 @@ export function getPdsReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
                 'how_many_student_teached * ' + pdsPrices.teach + ' + ' +

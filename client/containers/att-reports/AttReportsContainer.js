@@ -6,7 +6,7 @@ import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 import { lessonsCount, studentsCount } from '../../../server/utils/constantsHelper';
 
-getStudentAttColumns = (attTypes) => {
+const getStudentAttColumns = (attTypes) => {
   return new Array(studentsCount).fill(0).flatMap((a, studentIndex) =>
     new Array(lessonsCount).fill(0).map((b, lessonIndex) => ({
       field: `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
@@ -20,8 +20,18 @@ getStudentAttColumns = (attTypes) => {
 };
 
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
-  { field: 'teacher_id', title: 'שם המורה', ...getPropsForAutoComplete('teacher_id', teachers) },
-  { field: 'teacher_type_name', title: 'סוג המורה' },
+  {
+    field: 'teacher_id',
+    title: 'שם המורה',
+    ...getPropsForAutoComplete('teacher_id', teachers),
+    columnOrder: 'teachers.name',
+  },
+  { field: 'teacher_type_name', title: 'סוג המורה', columnOrder: 'teacher_types.name' },
+  {
+    field: 'teacher_training_teacher',
+    title: 'מורה מנחה',
+    columnOrder: 'teachers.training_teacher',
+  },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
@@ -38,6 +48,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
+  { field: 'teachers.training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
   {
     field: 'teacher_types.name',
     label: 'סוג מורה',

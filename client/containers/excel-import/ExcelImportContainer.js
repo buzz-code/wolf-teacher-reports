@@ -16,7 +16,7 @@ const supportedEntities = [
       'school',
       'teacher_type_id',
       'price',
-      'department',
+      'training_teacher',
       'student_tz_1',
       'student_tz_2',
       'student_tz_3',
