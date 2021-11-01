@@ -26,11 +26,17 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     ...getPropsForAutoComplete('teacher_id', teachers),
     columnOrder: 'teachers.name',
   },
-  { field: 'teacher_type_name', title: 'סוג המורה', columnOrder: 'teacher_types.name' },
+  {
+    field: 'teacher_type_name',
+    title: 'סוג המורה',
+    columnOrder: 'teacher_types.name',
+    editable: 'never',
+  },
   {
     field: 'teacher_training_teacher',
     title: 'מורה מנחה',
     columnOrder: 'teachers.training_teacher',
+    editable: 'never',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
@@ -75,6 +81,8 @@ const AttReportsContainer = ({ entity, title }) => {
       dataToSave.report_date instanceof Date
         ? dataToSave.report_date.toISOString().substr(0, 10)
         : dataToSave.report_date.substr(0, 10),
+    teacher_type_name: undefined,
+    teacher_training_teacher: undefined,
   });
 
   useEffect(() => {
