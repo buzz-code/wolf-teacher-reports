@@ -56,11 +56,12 @@ const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
   { field: 'teachers.training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
   {
-    field: 'teacher_types.name',
+    field: 'teacher_types.id',
     label: 'סוג מורה',
     type: 'list',
     list: teacherTypes,
     operator: 'eq',
+    idField: 'id',
   },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
