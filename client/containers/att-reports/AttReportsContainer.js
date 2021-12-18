@@ -39,6 +39,8 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     editable: 'never',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  { field: 'first_conference', title: 'השתתפות במפגש פתיחה', type: 'numeric' },
+  { field: 'second_conference', title: 'השתתפות במפגש חנוכה', type: 'numeric' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
   { field: 'how_many_student_teached', title: 'שיעורי מסירה', type: 'numeric' },

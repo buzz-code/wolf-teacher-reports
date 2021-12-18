@@ -71,6 +71,8 @@ export class YemotCall extends CallBase {
                     user_id: this.user.id,
                     teacher_id: teacher.id,
                     report_date: new Date(),
+                    first_conference: this.params.firstConference,
+                    second_conference: this.params.secondConference,
                     how_many_methodic: this.params.howManyMethodic,
                     how_many_watched: this.params.howManyWatched,
                     how_many_student_teached: this.params.howManyTeachedByStudent,
@@ -127,6 +129,8 @@ export class YemotCall extends CallBase {
             );
         }
 
+        await this.askForConferenceAttendance(messages);
+
         this.params.studentsAtt = [];
         for (const student of students) {
             await this.askForStudentAttendance(student, messages);
@@ -174,6 +178,8 @@ export class YemotCall extends CallBase {
     }
 
     async getPdsReport(teacher, messages) {
+        await this.askForConferenceAttendance(messages);
+
         await this.send(
             messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereTodayPds },
@@ -206,6 +212,19 @@ export class YemotCall extends CallBase {
             studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
+    }
+
+    async askForConferenceAttendance(messages) {
+        await this.send(
+            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            this.read({ type: 'text', text: this.texts.didYouAttendFirstConference },
+                'firstConference', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        messages.length = 0;
+        await this.send(
+            this.read({ type: 'text', text: this.texts.didYouAttendSecondConference },
+                'secondConference', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
     }
 
     getAllStudentAtt() {

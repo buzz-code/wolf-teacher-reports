@@ -11,6 +11,8 @@ const getColumns = () => [
     columnOrder: 'teachers.training_teacher',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  { field: 'first_conference', title: 'השתתפות במפגש פתיחה', type: 'numeric' },
+  { field: 'second_conference', title: 'השתתפות במפגש חנוכה', type: 'numeric' },
   { field: 'lesson_1', title: 'כמה שיעורי צפיה או פרטני' },
   { field: 'lesson_2', title: 'כמה שיעור צפיה או מעורבות' },
   { field: 'lesson_3', title: 'כמה שיעורי דיון' },

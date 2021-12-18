@@ -55,7 +55,7 @@ export function getSeminarKitaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -110,7 +110,7 @@ export function getPdsReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
                 'how_many_student_teached * ' + pdsPrices.teach + ' + ' +
