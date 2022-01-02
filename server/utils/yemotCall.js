@@ -42,62 +42,7 @@ export class YemotCall extends CallBase {
                 messages.push(this.texts.existingReportWillBeDeleted);
             }
 
-            switch (teacher.teacher_type_id) {
-                case 1:
-                    await this.getSeminarKitaReport(teacher, messages);
-                    break;
-                case 2:
-                    await this.getTrainingReport(teacher, messages);
-                    break;
-                case 3:
-                    await this.getManhaReport(teacher, messages);
-                    break;
-                case 4:
-                    await this.getReponsibleReport(teacher, messages);
-                    break;
-                case 5:
-                    await this.getPdsReport(teacher, messages);
-                    break;
-                default:
-                    await this.send(
-                        this.id_list_message({ type: 'text', text: this.texts.teacherTypeIsNotRecognizedInTheSystem }),
-                        this.hangup()
-                    );
-                    break;
-            }
-
-            try {
-                const attReport = {
-                    user_id: this.user.id,
-                    teacher_id: teacher.id,
-                    report_date: new Date(),
-                    first_conference: this.params.firstConference,
-                    second_conference: this.params.secondConference,
-                    how_many_methodic: this.params.howManyMethodic,
-                    how_many_watched: this.params.howManyWatched,
-                    how_many_student_teached: this.params.howManyTeachedByStudent,
-                    was_discussing: this.params.wasDiscussing == '1',
-                    how_many_private_lessons: this.params.howManyPrivateLessons,
-                    training_teacher: this.params.whoTrainingTeacher,
-                    activity_type: this.params.activityType,
-                    ...this.getAllStudentAtt(),
-                };
-                await new AttReport(attReport).save();
-                if (existing_report) {
-                    await new AttReport().where({ id: existing_report.id }).destroy();
-                }
-                await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
-                    this.hangup()
-                );
-            }
-            catch (e) {
-                console.log('catch yemot exception', e);
-                await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
-                    this.hangup()
-                );
-            }
+            await this.getReportAndSave(teacher, messages);
         }
         catch (e) {
             if (e) {
@@ -105,6 +50,65 @@ export class YemotCall extends CallBase {
             }
         } finally {
             this.end();
+        }
+    }
+
+    async getReportAndSave(teacher, messages) {
+        switch (teacher.teacher_type_id) {
+            case 1:
+                await this.getSeminarKitaReport(teacher, messages);
+                break;
+            case 2:
+                await this.getTrainingReport(teacher, messages);
+                break;
+            case 3:
+                await this.getManhaReport(teacher, messages);
+                break;
+            case 4:
+                await this.getReponsibleReport(teacher, messages);
+                break;
+            case 5:
+                await this.getPdsReport(teacher, messages);
+                break;
+            default:
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.teacherTypeIsNotRecognizedInTheSystem }),
+                    this.hangup()
+                );
+                break;
+        }
+
+        try {
+            const attReport = {
+                user_id: this.user.id,
+                teacher_id: teacher.id,
+                report_date: new Date(),
+                first_conference: this.params.firstConference,
+                second_conference: this.params.secondConference,
+                how_many_methodic: this.params.howManyMethodic,
+                how_many_watched: this.params.howManyWatched,
+                how_many_student_teached: this.params.howManyTeachedByStudent,
+                was_discussing: this.params.wasDiscussing == '1',
+                how_many_private_lessons: this.params.howManyPrivateLessons,
+                training_teacher: this.params.whoTrainingTeacher,
+                activity_type: this.params.activityType,
+                ...this.getAllStudentAtt(),
+            };
+            await new AttReport(attReport).save();
+            if (existing_report) {
+                await new AttReport().where({ id: existing_report.id }).destroy();
+            }
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                this.hangup()
+            );
+        }
+        catch (e) {
+            console.log('catch yemot exception', e);
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
+                this.hangup()
+            );
         }
     }
 
