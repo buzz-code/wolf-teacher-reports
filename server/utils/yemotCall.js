@@ -1,5 +1,6 @@
 import { CallBase } from "../../common-modules/server/utils/callBase";
 import format from 'string-format';
+import moment from "moment";
 import * as queryHelper from './queryHelper';
 import AttReport from "../models/att-report.model";
 import { lessonsCount, studentsCount } from "./constantsHelper";
@@ -37,7 +38,9 @@ export class YemotCall extends CallBase {
 
             const messages = [format(this.texts.welcomeForTeacher, teacher.name)];
 
-            const existing_report = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id);
+            this.report_date = moment().format('YYYY-MM-DD')
+
+            const existing_report = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
             if (existing_report) {
                 messages.push(this.texts.existingReportWillBeDeleted);
             }
@@ -82,7 +85,7 @@ export class YemotCall extends CallBase {
             const attReport = {
                 user_id: this.user.id,
                 teacher_id: teacher.id,
-                report_date: new Date(),
+                report_date: this.report_date,
                 first_conference: this.params.firstConference,
                 second_conference: this.params.secondConference,
                 how_many_methodic: this.params.howManyMethodic,
