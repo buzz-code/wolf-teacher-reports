@@ -36,13 +36,37 @@ export class YemotCall extends CallBase {
                 );
             }
 
-            const messages = [format(this.texts.welcomeForTeacher, teacher.name)];
+            await this.send(
+                this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, teacher.name) }),
+                this.read({ type: 'text', text: this.texts.chooseReportDateType },
+                    'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
 
-            this.report_date = moment().format('YYYY-MM-DD')
+            if (this.params.reportDateType === '1') {
+                this.report_date = moment().format('YYYY-MM-DD');
+            } else if (this.params.reportDateType === '2') {
+                await this.send(
+                    this.read({ type: 'text', text: this.texts.chooseReportDate },
+                        'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+                );
+                this.report_date = moment(this.params.reportDate, 'DDMMYYYY').format('YYYY-MM-DD');
+            } else {
+                await this.send(
+                    this.hangup()
+                );
+            }
 
+            const messages = [];
             const existing_report = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
             if (existing_report) {
-                messages.push(this.texts.existingReportWillBeDeleted);
+                if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
+                    await this.send(
+                        this.id_list_message({ type: 'text', text: this.texts.cannotChangeReportOfPreviousMonth }),
+                        this.hangup()
+                    );
+                } else {
+                    messages.push(this.texts.existingReportWillBeDeleted);
+                }
             }
 
             await this.getReportAndSave(teacher, messages);
@@ -86,6 +110,7 @@ export class YemotCall extends CallBase {
                 user_id: this.user.id,
                 teacher_id: teacher.id,
                 report_date: this.report_date,
+                update_date: new Date(),
                 first_conference: this.params.firstConference,
                 second_conference: this.params.secondConference,
                 how_many_methodic: this.params.howManyMethodic,

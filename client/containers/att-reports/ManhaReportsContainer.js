@@ -6,6 +6,7 @@ const getColumns = () => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_methodic', title: 'כמה שיעורים היו לך היום' },
 ];
 const getFilters = () => [

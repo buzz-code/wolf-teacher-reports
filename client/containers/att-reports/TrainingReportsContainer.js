@@ -11,6 +11,7 @@ const getColumns = () => [
     columnOrder: 'teachers.training_teacher',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_watched', title: 'כמה שיעורים צפו אצלך?' },
   { field: 'how_many_student_teached', title: 'כמה שיעורים מסרו אצלך?' },
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
