@@ -57,8 +57,8 @@ export class YemotCall extends CallBase {
             }
 
             const messages = [];
-            const existing_report = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
-            if (existing_report) {
+            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
+            if (this.existingReport) {
                 if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
                     await this.send(
                         this.id_list_message({ type: 'text', text: this.texts.cannotChangeReportOfPreviousMonth }),
@@ -123,8 +123,8 @@ export class YemotCall extends CallBase {
                 ...this.getAllStudentAtt(),
             };
             await new AttReport(attReport).save();
-            if (existing_report) {
-                await new AttReport().where({ id: existing_report.id }).destroy();
+            if (this.existingReport) {
+                await new AttReport().where({ id: this.existingReport.id }).destroy();
             }
             await this.send(
                 this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
