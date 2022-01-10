@@ -10,6 +10,7 @@ const getColumns = () => [
     title: 'מורה מנחה',
     columnOrder: 'teachers.training_teacher',
   },
+  { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'first_conference', title: 'השתתפות במפגש פתיחה', type: 'numeric' },
@@ -23,6 +24,7 @@ const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
   { field: 'teachers.tz', label: 'תז', type: 'text', operator: 'like' },
   { field: 'teachers.training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
+  { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
 ];

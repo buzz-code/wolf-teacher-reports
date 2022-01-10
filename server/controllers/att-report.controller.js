@@ -52,10 +52,11 @@ export function getSeminarKitaReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 1 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'update_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher', teacher_salary_type: 'teacher_salary_types.name' }, 'report_date', 'update_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -107,10 +108,11 @@ export function getPdsReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 5 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
+        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher', teacher_salary_type: 'teacher_salary_types.name' }, 'report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
                 'how_many_student_teached * ' + pdsPrices.teach + ' + ' +
