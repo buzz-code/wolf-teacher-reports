@@ -1,3 +1,4 @@
+import HttpStatus from 'http-status-codes';
 import AttReport from '../models/att-report.model';
 import AttType from '../models/att-type.model';
 import Teacher from '../models/teacher.model';
@@ -7,6 +8,7 @@ import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import { pdsPrices, trainingPrices } from '../utils/pricesHelper';
+import { updateSalaryMonthByUserId } from '../utils/queryHelper';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
@@ -57,12 +59,14 @@ export function getSeminarKitaReport(req, res) {
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({
+            id: 'att_reports.id',
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
             teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
+        qb.select('salary_month', 'comment')
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -133,12 +137,14 @@ export function getPdsReport(req, res) {
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({
+            id: 'att_reports.id',
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
             teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
+        qb.select('salary_month', 'comment')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
                 'how_many_student_teached * ' + pdsPrices.teach + ' + ' +
@@ -146,4 +152,21 @@ export function getPdsReport(req, res) {
         })
     });
     fetchPage({ dbQuery }, req.query, res);
+}
+
+export async function updateSalaryMonth(req, res) {
+    const { body: { ids, salaryMonth } } = req;
+
+    try {
+        await updateSalaryMonthByUserId(req.currentUser.id, ids, salaryMonth);
+    } catch (e) {
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            error: e.message,
+        });
+    }
+
+    res.json({
+        error: null,
+        data: { message: 'הנתונים נשמרו בהצלחה.' }
+    });
 }

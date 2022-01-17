@@ -38,6 +38,11 @@ const router = genericRoute(attReportCtrl, router => {
             exportPdf(req, res);
         });
 
+    router.route('/updateSalaryMonth')
+        .post((req, res) => {
+            attReportCtrl.updateSalaryMonth(req, res);
+        });
+
 });
 
 export default router;

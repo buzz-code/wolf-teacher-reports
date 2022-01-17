@@ -20,3 +20,9 @@ export function getReportByTeacherIdAndToday(user_id, teacher_id, report_date) {
         .then(res => res ? res.toJSON() : null);
 }
 
+export function updateSalaryMonthByUserId(user_id, ids, salary_month) {
+    return new AttReport().query()
+        .where({ user_id, salary_month: null })
+        .whereIn('id', ids)
+        .update({ salary_month });
+}
