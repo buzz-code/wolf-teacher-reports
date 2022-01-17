@@ -27,6 +27,7 @@ const getColumns = (handleEditComment) => [
   {
     field: 'salary_month',
     title: 'חודש שכר',
+    type: 'date',
     render: ({ salary_month }) => (salary_month ? moment(salary_month).format('MM-yyyy') : ''),
   },
   {
