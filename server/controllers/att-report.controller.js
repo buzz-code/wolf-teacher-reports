@@ -56,7 +56,13 @@ export function getSeminarKitaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher', teacher_salary_type: 'teacher_salary_types.name' }, 'report_date', 'update_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz',
+            teacher_training_teacher: 'teachers.training_teacher',
+            teacher_salary_type: 'teacher_salary_types.name'
+        })
+        qb.select('report_date', 'update_date', 'first_conference', 'second_conference', getSeminarKitaLessonCount(4), { total_pay: getSeminarKitaTotalPay(4) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -68,7 +74,12 @@ export function getTrainingReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher' }, 'report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz',
+            teacher_training_teacher: 'teachers.training_teacher'
+        })
+        qb.select('report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + trainingPrices.watch + ' + ' +
                 'how_many_student_teached * ' + trainingPrices.teach + ' + ' +
@@ -86,7 +97,11 @@ export function getManhaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz' }, 'report_date', 'update_date', 'how_many_methodic')
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz'
+        })
+        qb.select('report_date', 'update_date', 'how_many_methodic')
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -99,7 +114,12 @@ export function getResponsibleReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz' }, 'report_date', 'update_date', { activity_type_name: 'att_types.name' })
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz',
+            activity_type_name: 'att_types.name'
+        })
+        qb.select('report_date', 'update_date')
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -112,7 +132,13 @@ export function getPdsReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
-        qb.select({ teacher_name: 'teachers.name', teacher_tz: 'teachers.tz', teacher_training_teacher: 'teachers.training_teacher', teacher_salary_type: 'teacher_salary_types.name' }, 'report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz',
+            teacher_training_teacher: 'teachers.training_teacher',
+            teacher_salary_type: 'teacher_salary_types.name'
+        })
+        qb.select('report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select({
             teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
                 'how_many_student_teached * ' + pdsPrices.teach + ' + ' +
