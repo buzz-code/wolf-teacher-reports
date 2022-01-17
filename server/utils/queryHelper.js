@@ -26,3 +26,9 @@ export function updateSalaryMonthByUserId(user_id, ids, salary_month) {
         .whereIn('id', ids)
         .update({ salary_month });
 }
+
+export function updateSalaryCommentByUserId(user_id, id, comment) {
+    return new AttReport().query()
+        .where({ user_id, id })
+        .update({ comment });
+}

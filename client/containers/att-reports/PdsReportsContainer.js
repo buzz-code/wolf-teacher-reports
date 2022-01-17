@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 
-const getColumns = () => [
+const getColumns = (handleEditComment) => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
   {
@@ -26,6 +27,16 @@ const getColumns = () => [
     field: 'salary_month',
     title: 'חודש שכר',
     render: ({ salary_month }) => (salary_month ? moment(salary_month).format('MM-yyyy') : ''),
+  },
+  {
+    field: 'comment',
+    title: 'הערה לשכר',
+    render: (rowData) => (
+      <>
+        <EditIcon onClick={() => handleEditComment(rowData)} />
+        {rowData.comment}
+      </>
+    ),
   },
 ];
 const getFilters = () => [
@@ -81,8 +92,25 @@ const PdsReportsContainer = ({ entity, title }) => {
     },
     [entity, data, conditions]
   );
+  const handleEditComment = useCallback(
+    (rowData) => {
+      const comment = prompt('הקלידי הערה', rowData.comment || '');
+      if (comment === null) {
+        return;
+      }
 
-  const columns = useMemo(() => getColumns(), []);
+      rowData.comment = comment;
+      dispatch(
+        crudAction.customHttpRequest(entity, 'POST', '../updateSalaryComment', {
+          id: rowData.id,
+          comment,
+        })
+      );
+    },
+    [entity]
+  );
+
+  const columns = useMemo(() => getColumns(handleEditComment), [handleEditComment]);
   const filters = useMemo(() => getFilters(), []);
   const actions = useMemo(() => getActions(handleUpdateSalaryMonth), [handleUpdateSalaryMonth]);
 

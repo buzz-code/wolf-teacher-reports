@@ -8,7 +8,7 @@ import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import { pdsPrices, trainingPrices } from '../utils/pricesHelper';
-import { updateSalaryMonthByUserId } from '../utils/queryHelper';
+import { updateSalaryMonthByUserId, updateSalaryCommentByUserId } from '../utils/queryHelper';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
@@ -159,6 +159,23 @@ export async function updateSalaryMonth(req, res) {
 
     try {
         await updateSalaryMonthByUserId(req.currentUser.id, ids, salaryMonth);
+    } catch (e) {
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            error: e.message,
+        });
+    }
+
+    res.json({
+        error: null,
+        data: { message: 'הנתונים נשמרו בהצלחה.' }
+    });
+}
+
+export async function updateSalaryComment(req, res) {
+    const { body: { id, comment } } = req;
+
+    try {
+        await updateSalaryCommentByUserId(req.currentUser.id, id, comment);
     } catch (e) {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: e.message,

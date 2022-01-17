@@ -43,6 +43,11 @@ const router = genericRoute(attReportCtrl, router => {
             attReportCtrl.updateSalaryMonth(req, res);
         });
 
+    router.route('/updateSalaryComment')
+        .post((req, res) => {
+            attReportCtrl.updateSalaryComment(req, res);
+        });
+
 });
 
 export default router;
