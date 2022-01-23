@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
@@ -39,7 +40,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     editable: 'never',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
-  { field: 'update_date', title: 'תאריך עדכון', type: 'date', editable: 'never' },
+  { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'first_conference', title: 'השתתפות במפגש פתיחה', type: 'numeric' },
   { field: 'second_conference', title: 'השתתפות במפגש חנוכה', type: 'numeric' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
@@ -81,14 +82,8 @@ const AttReportsContainer = ({ entity, title }) => {
 
   const manipulateDataToSave = (dataToSave) => ({
     ...dataToSave,
-    report_date:
-      dataToSave.report_date instanceof Date
-        ? dataToSave.report_date.toISOString().substr(0, 10)
-        : dataToSave.report_date.substr(0, 10),
-    update_date:
-      dataToSave.update_date instanceof Date
-        ? dataToSave.update_date.toISOString().substr(0, 10)
-        : dataToSave.update_date && dataToSave.update_date.substr(0, 10),
+    report_date: dataToSave.report_date && moment(dataToSave.report_date).format('yyyy-MM-DD'),
+    update_date: dataToSave.update_date && moment(dataToSave.update_date).format('yyyy-MM-DD'),
     teacher_type_name: undefined,
     teacher_training_teacher: undefined,
   });
