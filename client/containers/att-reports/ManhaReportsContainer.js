@@ -14,6 +14,8 @@ const getFilters = () => [
   { field: 'teachers.tz', label: 'תז', type: 'text', operator: 'like' },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
+  { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
+  { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
 ];
 
 const ManhaReportsContainer = ({ entity, title }) => {

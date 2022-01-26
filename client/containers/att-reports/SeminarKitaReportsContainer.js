@@ -49,6 +49,8 @@ const getFilters = () => [
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
   { field: 'salary_month', label: 'חודש שכר', type: 'date', operator: null },
+  { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
+  { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
 ];
 const getActions = (handleUpdateSalaryMonth) => [
   {

@@ -15,6 +15,8 @@ const getFilters = () => [
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
   { field: 'att_types.name', label: 'סוג פעילות', type: 'text', operator: 'like' },
+  { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
+  { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
 ];
 
 const ResponsibleReportsContainer = ({ entity, title }) => {
