@@ -85,10 +85,10 @@ export function getTrainingReport(req, res) {
         })
         qb.select('report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
         qb.select({
-            teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + trainingPrices.watch + ' + ' +
-                'how_many_student_teached * ' + trainingPrices.teach + ' + ' +
-                'IF(was_discussing, was_discussing, 0) * ' + trainingPrices.discuss + ' + ' +
-                'IF(how_many_private_lessons, how_many_private_lessons, 0) * ' + trainingPrices.privateLesson + ')')
+            teacher_salary: bookshelf.knex.raw('(COALESCE(how_many_watched, 0) * ' + trainingPrices.watch + ' + ' +
+                'COALESCE(how_many_student_teached, 0) * ' + trainingPrices.teach + ' + ' +
+                'COALESCE(was_discussing, 0) * ' + trainingPrices.discuss + ' + ' +
+                'COALESCE(how_many_private_lessons, 0) * ' + trainingPrices.privateLesson + ')')
         })
     });
     fetchPage({ dbQuery }, req.query, res);
@@ -146,9 +146,9 @@ export function getPdsReport(req, res) {
         qb.select('report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select('salary_month', 'comment')
         qb.select({
-            teacher_salary: bookshelf.knex.raw('(how_many_watched * ' + pdsPrices.watch + ' + ' +
-                'how_many_student_teached * ' + pdsPrices.teach + ' + ' +
-                'IF(was_discussing, was_discussing, 0) * ' + pdsPrices.discuss + ')')
+            teacher_salary: bookshelf.knex.raw('(COALESCE(how_many_watched, 0) * ' + pdsPrices.watch + ' + ' +
+                'COALESCE(how_many_student_teached, 0) * ' + pdsPrices.teach + ' + ' +
+                'COALESCE(was_discussing, 0) * ' + pdsPrices.discuss + ')')
         })
     });
     fetchPage({ dbQuery }, req.query, res);
