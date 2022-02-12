@@ -111,8 +111,8 @@ export class YemotCall extends CallBase {
                 teacher_id: teacher.id,
                 report_date: this.report_date,
                 update_date: new Date(),
-                // first_conference: this.params.firstConference,
-                // second_conference: this.params.secondConference,
+                first_conference: this.params.firstConference,
+                second_conference: this.params.secondConference,
                 how_many_methodic: this.params.howManyMethodic,
                 how_many_watched: this.params.howManyWatched,
                 how_many_student_teached: this.params.howManyTeachedByStudent,
@@ -247,16 +247,22 @@ export class YemotCall extends CallBase {
     }
 
     async askForConferenceAttendance(messages) {
-        // await this.send(
-        //     messages.length && this.id_list_message({ type: 'text', text: messages }),
-        //     this.read({ type: 'text', text: this.texts.didYouAttendFirstConference },
-        //         'firstConference', 'tap', { max: 1, min: 1, block_asterisk: true })
-        // );
-        // messages.length = 0;
-        // await this.send(
-        //     this.read({ type: 'text', text: this.texts.didYouAttendSecondConference },
-        //         'secondConference', 'tap', { max: 1, min: 1, block_asterisk: true })
-        // );
+        if (this.texts.didYouAttendFirstConference) {
+            await this.send(
+                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                this.read({ type: 'text', text: this.texts.didYouAttendFirstConference },
+                    'firstConference', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            messages.length = 0;
+        }
+        if (this.texts.didYouAttendSecondConference) {
+            await this.send(
+                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                this.read({ type: 'text', text: this.texts.didYouAttendSecondConference },
+                    'secondConference', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            messages.length = 0;
+        }
     }
 
     getAllStudentAtt() {
