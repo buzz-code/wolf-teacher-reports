@@ -149,9 +149,11 @@ export function getPdsReport(req, res) {
         qb.select('salary_month', 'comment')
         qb.select({
             teacher_salary: bookshelf.knex.raw(`(
-                COALESCE(how_many_watched, 0) * ${pdsPrices.watch} +
-                COALESCE(how_many_student_teached, 0) * ${pdsPrices.teach} +
-                COALESCE(was_discussing, 0) * ${pdsPrices.discuss}
+                    (
+                        COALESCE(how_many_watched, 0) * ${pdsPrices.watch} +
+                        COALESCE(how_many_student_teached, 0) * ${pdsPrices.teach} +
+                        COALESCE(was_discussing, 0) * ${pdsPrices.discuss}
+                    ) * IF(teachers.student_tz_3, 1.5, 1)
                 )`)
         })
     });
