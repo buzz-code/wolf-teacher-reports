@@ -28,6 +28,7 @@ import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
 import Questions from '../containers/questions/QuestionsContainer';
+import Answers from '../containers/answers/AnswersContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import SeminarKitaReport from '../containers/att-reports/SeminarKitaReportsContainer';
 import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
@@ -138,6 +139,13 @@ export default [
       icon: StorageIcon,
       title: titles.PDS_REPORTS,
       props: { entity: entities.PDS_REPORTS, title: titles.PDS_REPORTS },
+    },
+    {
+      path: '/answers',
+      component: Answers,
+      icon: QuestionAnswerIcon,
+      title: titles.ANSWERS,
+      props: { entity: entities.ANSWERS, title: titles.ANSWERS },
     },
   ],
 ];

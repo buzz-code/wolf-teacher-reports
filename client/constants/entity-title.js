@@ -13,3 +13,4 @@ export const RESPONSIBLE_REPORTS = 'שכר לאחראית בית ספר';
 export const PDS_REPORTS = 'שכר למורת PDS';
 export const DASHBOARD = 'מחוונים';
 export const QUESTIONS = 'שאלות למורה';
+export const ANSWERS = 'תשובות לשאלות';

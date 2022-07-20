@@ -11,6 +11,7 @@ import textRoutes from './text.route';
 import attReportRoutes from './att-report.route';
 import dashboardRoutes from './dashboard.route';
 import questionRoutes from './question.route';
+import answerRoutes from './answer.route';
 
 const router = express.Router();
 
@@ -26,5 +27,6 @@ router.use('/texts', textRoutes);
 router.use('/att-reports', attReportRoutes);
 router.use('/dashboard', dashboardRoutes);
 router.use('/questions', questionRoutes);
+router.use('/answers', answerRoutes);
 
 export default router;

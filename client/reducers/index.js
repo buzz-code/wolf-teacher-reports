@@ -20,6 +20,7 @@ import {
   PDS_REPORTS,
   DASHBOARD,
   QUESTIONS,
+  ANSWERS,
 } from '../constants/entity';
 
 const appReducer = (history) =>
@@ -41,6 +42,7 @@ const appReducer = (history) =>
     [PDS_REPORTS]: crudReducer(PDS_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
     [QUESTIONS]: crudReducer(QUESTIONS),
+    [ANSWERS]: crudReducer(ANSWERS),
   });
 
 const rootReducer = (state, action) => {
