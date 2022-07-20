@@ -1,6 +1,6 @@
 import bookshelf from '../../common-modules/server/config/bookshelf';
 import { lessonsCount, studentsCount } from './constantsHelper';
-import { seminarKitaPrices } from './pricesHelper';
+import { pdsPrices, seminarKitaPrices, trainingPrices } from './pricesHelper';
 
 const student_columns = new Array(studentsCount).fill(0)
     .flatMap((a, studentIndex) => new Array(lessonsCount).fill(0)
@@ -34,4 +34,23 @@ export function getSeminarKitaTotalPay(lessonCount) {
     }
 
     return bookshelf.knex.raw('(' + query.join(' + ') + ')');
+}
+
+export function getTrainingTeacherSalary() {
+    return bookshelf.knex.raw(`(
+        COALESCE(how_many_watched, 0) * ${trainingPrices.watch} +
+        COALESCE(how_many_student_teached, 0) * ${trainingPrices.teach} +
+        COALESCE(was_discussing, 0) * ${trainingPrices.discuss} +
+        COALESCE(how_many_private_lessons, 0) * ${trainingPrices.privateLesson}
+    )`);
+}
+
+export function getPdsTeacherSalary(){
+    return bookshelf.knex.raw(`(
+        (
+            COALESCE(how_many_watched, 0) * ${pdsPrices.watch} +
+            COALESCE(how_many_student_teached, 0) * ${pdsPrices.teach} +
+            COALESCE(was_discussing, 0) * ${pdsPrices.discuss}
+        ) * IF(teachers.student_tz_3, 1.5, 1)
+    )`);
 }

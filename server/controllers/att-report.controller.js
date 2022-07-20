@@ -5,9 +5,7 @@ import Teacher from '../models/teacher.model';
 import TeacherType from '../models/teacher-type.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
-import { getSeminarKitaLessonCount, getSeminarKitaTotalPay } from '../utils/reportHelper';
-import bookshelf from '../../common-modules/server/config/bookshelf';
-import { pdsPrices, trainingPrices } from '../utils/pricesHelper';
+import { getPdsTeacherSalary, getSeminarKitaLessonCount, getSeminarKitaTotalPay, getTrainingTeacherSalary } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId } from '../utils/queryHelper';
 
 export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
@@ -84,14 +82,7 @@ export function getTrainingReport(req, res) {
             teacher_training_teacher: 'teachers.training_teacher'
         })
         qb.select('report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
-        qb.select({
-            teacher_salary: bookshelf.knex.raw(`(
-                COALESCE(how_many_watched, 0) * ${trainingPrices.watch} +
-                COALESCE(how_many_student_teached, 0) * ${trainingPrices.teach} +
-                COALESCE(was_discussing, 0) * ${trainingPrices.discuss} +
-                COALESCE(how_many_private_lessons, 0) * ${trainingPrices.privateLesson}
-                )`)
-        })
+        qb.select({ teacher_salary: getTrainingTeacherSalary() })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -147,15 +138,7 @@ export function getPdsReport(req, res) {
         })
         qb.select('report_date', 'update_date', 'first_conference', 'second_conference', 'how_many_watched', 'how_many_student_teached', 'was_discussing')
         qb.select('salary_month', 'comment')
-        qb.select({
-            teacher_salary: bookshelf.knex.raw(`(
-                    (
-                        COALESCE(how_many_watched, 0) * ${pdsPrices.watch} +
-                        COALESCE(how_many_student_teached, 0) * ${pdsPrices.teach} +
-                        COALESCE(was_discussing, 0) * ${pdsPrices.discuss}
-                    ) * IF(teachers.student_tz_3, 1.5, 1)
-                )`)
-        })
+        qb.select({ teacher_salary: getPdsTeacherSalary() })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
