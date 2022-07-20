@@ -5,6 +5,7 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import ListIcon from '@material-ui/icons/List';
 import GroupIcon from '@material-ui/icons/Group';
 import ChatIcon from '@material-ui/icons/Chat';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import FormatListNumberedRtlIcon from '@material-ui/icons/FormatListNumberedRtl';
@@ -26,6 +27,7 @@ import AttTypes from '../containers/att-types/AttTypesContainer';
 import TeacherTypes from '../containers/teacher-types/TeacherTypesContainer';
 import Prices from '../containers/prices/PricesContainer';
 import Texts from '../containers/texts/TextsContainer';
+import Questions from '../containers/questions/QuestionsContainer';
 import AttReports from '../containers/att-reports/AttReportsContainer';
 import SeminarKitaReport from '../containers/att-reports/SeminarKitaReportsContainer';
 import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
@@ -84,6 +86,13 @@ export default [
       icon: ChatIcon,
       title: titles.TEXTS,
       props: { entity: entities.TEXTS, title: titles.TEXTS },
+    },
+    {
+      path: '/questions',
+      component: Questions,
+      icon: QuestionAnswerIcon,
+      title: titles.QUESTIONS,
+      props: { entity: entities.QUESTIONS, title: titles.QUESTIONS },
     },
   ],
   [{ path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' }],

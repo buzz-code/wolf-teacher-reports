@@ -12,3 +12,4 @@ export const MANHA_REPORTS = 'att-reports/getManhaReport';
 export const RESPONSIBLE_REPORTS = 'att-reports/getResponsibleReport';
 export const PDS_REPORTS = 'att-reports/getPdsReport';
 export const DASHBOARD = 'dashboard';
+export const QUESTIONS = 'questions';
