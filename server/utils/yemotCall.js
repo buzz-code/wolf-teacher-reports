@@ -13,18 +13,18 @@ export class YemotCall extends CallBase {
     async start() {
         await this.getTexts();
         try {
-            const teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
-            if (!teacher) {
+            this.teacher = await queryHelper.getTeacherByUserIdAndPhone(this.user.id, this.params.ApiPhone);
+            if (!this.teacher) {
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.phoneIsNotRecognizedInTheSystem }),
                     this.hangup()
                 );
             }
 
-            await this.getReportDate(teacher);
+            await this.getReportDate();
 
             const messages = [];
-            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
+            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
             if (this.existingReport) {
                 if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
                     await this.send(
@@ -36,7 +36,7 @@ export class YemotCall extends CallBase {
                 }
             }
 
-            await this.getReportAndSave(teacher, messages);
+            await this.getReportAndSave(messages);
         }
         catch (e) {
             if (e) {
@@ -47,9 +47,9 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getReportDate(teacher) {
+    async getReportDate() {
         await this.send(
-            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, teacher.name) }),
+            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, this.teacher.name) }),
             this.read({ type: 'text', text: this.texts.chooseReportDateType },
                 'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -69,22 +69,22 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getReportAndSave(teacher, messages) {
-        switch (teacher.teacher_type_id) {
+    async getReportAndSave(messages) {
+        switch (this.teacher.teacher_type_id) {
             case 1:
-                await this.getSeminarKitaReport(teacher, messages);
+                await this.getSeminarKitaReport(messages);
                 break;
             case 2:
-                await this.getTrainingReport(teacher, messages);
+                await this.getTrainingReport(messages);
                 break;
             case 3:
-                await this.getManhaReport(teacher, messages);
+                await this.getManhaReport(messages);
                 break;
             case 4:
-                await this.getReponsibleReport(teacher, messages);
+                await this.getReponsibleReport(messages);
                 break;
             case 5:
-                await this.getPdsReport(teacher, messages);
+                await this.getPdsReport(messages);
                 break;
             default:
                 await this.send(
@@ -97,7 +97,7 @@ export class YemotCall extends CallBase {
         try {
             const attReport = {
                 user_id: this.user.id,
-                teacher_id: teacher.id,
+                teacher_id: this.teacher.id,
                 report_date: this.report_date,
                 update_date: new Date(),
                 first_conference: this.params.firstConference,
@@ -129,16 +129,16 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getSeminarKitaReport(teacher, messages) {
+    async getSeminarKitaReport(messages) {
         const students = [];
-        if (teacher.student1) {
-            students.push({ num: '1', student: teacher.student1 });
+        if (this.teacher.student1) {
+            students.push({ num: '1', student: this.teacher.student1 });
         }
-        if (teacher.student2) {
-            students.push({ num: '2', student: teacher.student2 });
+        if (this.teacher.student2) {
+            students.push({ num: '2', student: this.teacher.student2 });
         }
-        if (teacher.student3) {
-            students.push({ num: '3', student: teacher.student3 });
+        if (this.teacher.student3) {
+            students.push({ num: '3', student: this.teacher.student3 });
         }
 
 
@@ -158,7 +158,7 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getTrainingReport(teacher, messages) {
+    async getTrainingReport(messages) {
         await this.send(
             this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
                 'whoTrainingTeacher', 'voice', { record_engine: true })
@@ -182,7 +182,7 @@ export class YemotCall extends CallBase {
         );
     }
 
-    async getManhaReport(teacher, messages) {
+    async getManhaReport(messages) {
         await this.send(
             messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.howManyMethodicLessonWereToday },
@@ -190,7 +190,7 @@ export class YemotCall extends CallBase {
         );
     }
 
-    async getReponsibleReport(teacher, messages) {
+    async getReponsibleReport(messages) {
         await this.send(
             messages.length && this.id_list_message({ type: 'text', text: messages }),
             this.read({ type: 'text', text: this.texts.whatTypeOfActivityWasToday },
@@ -198,7 +198,7 @@ export class YemotCall extends CallBase {
         );
     }
 
-    async getPdsReport(teacher, messages) {
+    async getPdsReport(messages) {
         await this.askForConferenceAttendance(messages);
 
         await this.send(
