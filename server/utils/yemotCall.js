@@ -23,8 +23,6 @@ export class YemotCall extends CallBase {
 
             await this.getReportDate();
 
-            await this.validateExistingReports();
-
             await this.getReportAndSave();
         }
         catch (e) {
@@ -46,11 +44,7 @@ export class YemotCall extends CallBase {
         if (this.params.reportDateType === '1') {
             this.report_date = moment().format('YYYY-MM-DD');
         } else if (this.params.reportDateType === '2') {
-            await this.send(
-                this.read({ type: 'text', text: this.texts.chooseReportDate },
-                    'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
-            );
-            this.report_date = moment(this.params.reportDate, 'DDMMYYYY').format('YYYY-MM-DD');
+            await this.getAndValidateReportDate();
         } else {
             await this.send(
                 this.hangup()
@@ -58,18 +52,42 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async validateExistingReports() {
+    async getAndValidateReportDate() {
+        await this.send(
+            this.warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.chooseReportDate },
+                'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+        );
+        const reportDate = moment(this.params.reportDate, 'DDMMYYYY');
+
+        //תאריך לא חוקי
+        const reportDateIsValid = reportDate.isValid;
+        if (reportDateIsValid === false) {
+            this.warningMsg = this.texts.validationErrorReportDateIsInvalid;
+            return this.getAndValidateReportDate();
+        }
+
+        //אי אפשר לדווח על חודש לועזי שעבר
+        const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
+        if (reportDateIsPrevMonth) {
+            this.warningMsg = this.texts.validationErrorCannotReportOnPrevMonth;
+            return this.getAndValidateReportDate();
+        }
+
+        //אי אפשר לדווח על העתיד
+        const reportDateIsFuture = reportDate.isAfter(moment());
+        if (reportDateIsFuture) {
+            this.warningMsg = this.texts.validationErrorCannotReportOnFutureDate;
+            return this.getAndValidateReportDate();
+        }
+
+        //אזהרה אם כבר יש דיווח באותו תאריך
         this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
         if (this.existingReport) {
-            if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
-                await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.cannotChangeReportOfPreviousMonth }),
-                    this.hangup()
-                );
-            } else {
-                this.warningMsg = this.texts.existingReportWillBeDeleted;
-            }
+            this.warningMsg = this.texts.existingReportWillBeDeleted;
         }
+
+        this.report_date = reportDate.format('YYYY-MM-DD');
     }
 
     async getReportAndSave() {
