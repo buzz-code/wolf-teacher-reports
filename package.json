@@ -1,6 +1,6 @@
 {
   "name": "seminar-kita",
-  "displayName": "סמינר כיתה",
+  "displayName": "דיווחי מורות",
   "customDomain": false,
   "version": "1.0.0",
   "description": "MySQL, Express, React/Redux Boilerplate Application",
