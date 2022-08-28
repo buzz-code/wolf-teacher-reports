@@ -4,6 +4,7 @@ import moment from "moment";
 import * as queryHelper from './queryHelper';
 import AttReport from "../models/att-report.model";
 import { lessonsCount, studentsCount } from "./constantsHelper";
+import { formatJewishDateHebrew, getJewishDate } from "jewish-dates-core";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -85,6 +86,16 @@ export class YemotCall extends CallBase {
         this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
         if (this.existingReport) {
             this.warningMsg = this.texts.existingReportWillBeDeleted;
+        }
+
+        //בדיקת תאריך עברי
+        const hebrewDate = formatJewishDateHebrew(getJewishDate(reportDate.toDate()))
+        await this.send(
+            this.read({ type: 'text', text: format(this.texts.askReportDateConfirm, hebrewDate) },
+                'reportDateConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.reportDateConfirm == 2) {
+            return this.getAndValidateReportDate();
         }
 
         this.report_date = reportDate.format('YYYY-MM-DD');
