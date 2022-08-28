@@ -23,17 +23,7 @@ export class YemotCall extends CallBase {
 
             await this.getReportDate();
 
-            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
-            if (this.existingReport) {
-                if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
-                    await this.send(
-                        this.id_list_message({ type: 'text', text: this.texts.cannotChangeReportOfPreviousMonth }),
-                        this.hangup()
-                    );
-                } else {
-                    this.warningMsg = this.texts.existingReportWillBeDeleted;
-                }
-            }
+            await this.validateExistingReports();
 
             await this.getReportAndSave();
         }
@@ -65,6 +55,20 @@ export class YemotCall extends CallBase {
             await this.send(
                 this.hangup()
             );
+        }
+    }
+
+    async validateExistingReports() {
+        this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
+        if (this.existingReport) {
+            if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.cannotChangeReportOfPreviousMonth }),
+                    this.hangup()
+                );
+            } else {
+                this.warningMsg = this.texts.existingReportWillBeDeleted;
+            }
         }
     }
 
