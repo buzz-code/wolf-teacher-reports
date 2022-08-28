@@ -23,7 +23,6 @@ export class YemotCall extends CallBase {
 
             await this.getReportDate();
 
-            const messages = [];
             this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
             if (this.existingReport) {
                 if (moment(this.report_date, 'YYYY-MM-DD').isBefore(moment().startOf('month'))) {
@@ -32,11 +31,11 @@ export class YemotCall extends CallBase {
                         this.hangup()
                     );
                 } else {
-                    messages.push(this.texts.existingReportWillBeDeleted);
+                    this.warningMsg = this.texts.existingReportWillBeDeleted;
                 }
             }
 
-            await this.getReportAndSave(messages);
+            await this.getReportAndSave();
         }
         catch (e) {
             if (e) {
@@ -69,22 +68,22 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getReportAndSave(messages) {
+    async getReportAndSave() {
         switch (this.teacher.teacher_type_id) {
             case 1:
-                await this.getSeminarKitaReport(messages);
+                await this.getSeminarKitaReport();
                 break;
             case 2:
-                await this.getTrainingReport(messages);
+                await this.getTrainingReport();
                 break;
             case 3:
-                await this.getManhaReport(messages);
+                await this.getManhaReport();
                 break;
             case 4:
-                await this.getReponsibleReport(messages);
+                await this.getReponsibleReport();
                 break;
             case 5:
-                await this.getPdsReport(messages);
+                await this.getPdsReport();
                 break;
             default:
                 await this.send(
@@ -129,7 +128,13 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getSeminarKitaReport(messages) {
+    warningMsgIfExists() {
+        const message = this.warningMsg && this.id_list_message({ type: 'text', text: this.warningMsg });
+        this.warningMsg = null;
+        return message;
+    }
+
+    async getSeminarKitaReport() {
         const students = [];
         if (this.teacher.student1) {
             students.push({ num: '1', student: this.teacher.student1 });
@@ -144,27 +149,27 @@ export class YemotCall extends CallBase {
 
         if (!students.length) {
             await this.send(
-                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                warningMsgIfExists(),
                 this.id_list_message({ type: 'text', text: this.texts.teacherHasNotStudents }),
                 this.hangup()
             );
         }
 
-        await this.askForConferenceAttendance(messages);
+        await this.askForConferenceAttendance();
 
         this.params.studentsAtt = [];
         for (const student of students) {
-            await this.askForStudentAttendance(student, messages);
+            await this.askForStudentAttendance(student);
         }
     }
 
-    async getTrainingReport(messages) {
+    async getTrainingReport() {
         await this.send(
             this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
                 'whoTrainingTeacher', 'voice', { record_engine: true })
         );
         await this.send(
-            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
                 'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -182,27 +187,27 @@ export class YemotCall extends CallBase {
         );
     }
 
-    async getManhaReport(messages) {
+    async getManhaReport() {
         await this.send(
-            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.howManyMethodicLessonWereToday },
                 'howManyMethodic', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
     }
 
-    async getReponsibleReport(messages) {
+    async getReponsibleReport() {
         await this.send(
-            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.whatTypeOfActivityWasToday },
                 'activityType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
     }
 
-    async getPdsReport(messages) {
-        await this.askForConferenceAttendance(messages);
+    async getPdsReport() {
+        await this.askForConferenceAttendance();
 
         await this.send(
-            messages.length && this.id_list_message({ type: 'text', text: messages }),
+            warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereTodayPds },
                 'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -216,15 +221,14 @@ export class YemotCall extends CallBase {
         );
     }
 
-    async askForStudentAttendance({ num, student }, messages) {
+    async askForStudentAttendance({ num, student }) {
         const studentReports = [];
         for (var i = 1; i <= lessonsCount; i++) {
             await this.send(
-                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                warningMsgIfExists(),
                 this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
                     'studentAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
-            messages.length = 0;
 
             if (this.params.studentAttendance == 5) {
                 break;
@@ -235,22 +239,20 @@ export class YemotCall extends CallBase {
         this.params.studentsAtt[num] = studentReports;
     }
 
-    async askForConferenceAttendance(messages) {
+    async askForConferenceAttendance() {
         if (this.texts.didYouAttendFirstConference) {
             await this.send(
-                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                warningMsgIfExists(),
                 this.read({ type: 'text', text: this.texts.didYouAttendFirstConference },
                     'firstConference', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
-            messages.length = 0;
         }
         if (this.texts.didYouAttendSecondConference) {
             await this.send(
-                messages.length && this.id_list_message({ type: 'text', text: messages }),
+                warningMsgIfExists(),
                 this.read({ type: 'text', text: this.texts.didYouAttendSecondConference },
                     'secondConference', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
-            messages.length = 0;
         }
     }
 
