@@ -3,7 +3,6 @@ import format from 'string-format';
 import moment from "moment";
 import * as queryHelper from './queryHelper';
 import AttReport from "../models/att-report.model";
-import { lessonsCount, studentsCount } from "./constantsHelper";
 import { formatJewishDateHebrew, getJewishDate } from "jewish-dates-core";
 
 export class YemotCall extends CallBase {
