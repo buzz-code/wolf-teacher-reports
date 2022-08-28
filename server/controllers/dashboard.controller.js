@@ -1,6 +1,8 @@
 import Student from '../models/student.model';
 import Teacher from '../models/teacher.model';
 
+import { getCountFromTable } from '../../common-modules/server/utils/query';
+
 /**
  * Get stats
  *
@@ -17,9 +19,4 @@ export async function getStats(req, res) {
         error: null,
         data: { students, teachers }
     });
-}
-
-function getCountFromTable(table, user_id) {
-    return new table().where({ user_id })
-        .count();
 }
