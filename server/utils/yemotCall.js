@@ -75,19 +75,32 @@ export class YemotCall extends CallBase {
     async getReportAndSave() {
         switch (this.teacher.teacher_type_id) {
             case 1:
+                //מורה של סמינר כיתה
                 await this.getSeminarKitaReport();
                 break;
             case 2:
+                //מורה מאמנת - לא בשימוש
                 await this.getTrainingReport();
                 break;
             case 3:
+                //מורה מנחה
                 await this.getManhaReport();
                 break;
             case 4:
+                //אחראית בית ספר - לא בשימוש
                 await this.getReponsibleReport();
                 break;
             case 5:
+                //מורת פידיאס
                 await this.getPdsReport();
+                break;
+            case 6:
+                //גננות
+                await this.getKindergartenReport();
+                break;
+            case 7:
+                //חינוך מיוחד
+                await this.getSpecialEducationReport();
                 break;
             default:
                 await this.send(
@@ -103,16 +116,24 @@ export class YemotCall extends CallBase {
                 teacher_id: this.teacher.id,
                 report_date: this.report_date,
                 update_date: new Date(),
-                first_conference: this.params.firstConference,
-                second_conference: this.params.secondConference,
                 how_many_methodic: this.params.howManyMethodic,
-                how_many_watched: this.params.howManyWatched,
-                how_many_student_teached: this.params.howManyTeachedByStudent,
+                how_many_lessons_absence: this.params.howManyLessonsAbsence,
+                how_many_watched_lessons: this.params.howManyWatchedLessons,
                 was_discussing: this.params.wasDiscussing == '1',
-                how_many_private_lessons: this.params.howManyPrivateLessons,
-                training_teacher: this.params.whoTrainingTeacher,
-                activity_type: this.params.activityType,
-                ...this.getAllStudentAtt(),
+                how_many_teached: this.params.howManyTeached,
+                how_many_individual: this.params.howManyIndividual,
+                was_kamal: this.params.wasKamal,
+                how_many_interfering: this.params.howManyInterfering,
+                how_many_students: this.params.howManyStudents,
+                was_students_good: this.params.wasStudentsGood,
+                was_students_enter_on_time: this.params.wasStudentsEnterOnTime,
+                was_students_exit_on_time: this.params.wasStudentsExitOnTime,
+                how_many_lessons: this.params.howManyLessons,
+                how_many_students_watched: this.params.howManyStudentsWatched,
+                how_many_students_teached: this.params.howManyStudentsTeached,
+                was_phone_discussing: this.params.wasPhoneDiscussing,
+                your_training_teacher: this.params.whoIsYourTrainingTeacher,
+                what_speciality: this.params.whatIsYourSpeciality,
             };
             await new AttReport(attReport).save();
             if (this.existingReport) {
@@ -139,122 +160,153 @@ export class YemotCall extends CallBase {
     }
 
     async getSeminarKitaReport() {
-        const students = [];
-        if (this.teacher.student1) {
-            students.push({ num: '1', student: this.teacher.student1 });
-        }
-        if (this.teacher.student2) {
-            students.push({ num: '2', student: this.teacher.student2 });
-        }
-        if (this.teacher.student3) {
-            students.push({ num: '3', student: this.teacher.student3 });
-        }
-
-
-        if (!students.length) {
-            await this.send(
-                warningMsgIfExists(),
-                this.id_list_message({ type: 'text', text: this.texts.teacherHasNotStudents }),
-                this.hangup()
-            );
-        }
-
-        this.params.studentsAtt = [];
-        for (const student of students) {
-            await this.askForStudentAttendance(student);
-        }
+        //אותו דבר כמו סמינר כיתה
+        await this.getPdsReport();
     }
 
     async getTrainingReport() {
-        await this.send(
-            this.read({ type: 'text', text: this.texts.whoIsYourTrainingTeacher },
-                'whoTrainingTeacher', 'voice', { record_engine: true })
-        );
-        await this.send(
-            warningMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereToday },
-                'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        await this.send(
-            this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereToday },
-                'howManyTeachedByStudent', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        await this.send(
-            this.read({ type: 'text', text: this.texts.haveYouMadeADiscussing },
-                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        await this.send(
-            this.read({ type: 'text', text: this.texts.howManyPrivateLessonsWereToday },
-                'howManyPrivateLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
-        );
+        //לא בשימוש
     }
 
     async getManhaReport() {
+        //האם מדווחת על עצמה או על מורות אחרות?
         await this.send(
             warningMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.howManyMethodicLessonWereToday },
-                'howManyMethodic', 'tap', { max: 1, min: 1, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.askManhaReportType },
+                'manhaReportType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+        if (this.params.manhaReportType == 1) {
+            //מדווחת על עצמה
+            //כמה שיעורי מתודיקה היו?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyMethodic },
+                    'howManyMethodic', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+        } else {
+            //מדווחת על מורות אחרות
+            //TODO
+            //הקישי 4 ספרות אחרונות של הטלפון של המורה
+            //האם תעריף חוליה או תעריף כיתתי?
+            //כמה שיעורי צפיה?
+            //כמה בנות מסרו היום שיעור?
+            //אם התשובה גדולה מ0 אז  
+            //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
+            //כמה שיעורי ילקוט הרועים?
+            //כמה שיעורי דיון?
+            //ובסיום האם תרצי לדווח על מורה נוספת        
+        }
     }
 
     async getReponsibleReport() {
-        await this.send(
-            warningMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.whatTypeOfActivityWasToday },
-                'activityType', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
+        //לא בשימוש
     }
 
     async getPdsReport() {
+        //האם התלמידות חסרו?
         await this.send(
             warningMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereTodayPds },
-                'howManyWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
+                'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+        if (this.params.wasStudentAbsence == 1) {
+            //כמה שיעורים חסרו?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsence },
+                    'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+        }
+        //כמה שיעורי צפיה היו?
         await this.send(
-            this.read({ type: 'text', text: this.texts.howManyTeachedByStudentLessonWereTodayPds },
-                'howManyTeachedByStudent', 'tap', { max: 1, min: 1, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
+                'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+        //האם היה דיון?
         await this.send(
-            this.read({ type: 'text', text: this.texts.haveYouMadeADiscussingPds },
+            this.read({ type: 'text', text: this.texts.askWasDiscussing },
                 'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-    }
-
-    async askForStudentAttendance({ num, student }) {
-        const studentReports = [];
-        for (var i = 1; i <= lessonsCount; i++) {
-            await this.send(
-                warningMsgIfExists(),
-                this.read({ type: 'text', text: format(this.texts.whatTypeOfStudentAttendance, student.name, i) },
-                    'studentAttendance', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-
-            if (this.params.studentAttendance == 5) {
-                break;
-            }
-
-            studentReports.push(this.params.studentAttendance);
-        }
-        this.params.studentsAtt[num] = studentReports;
-    }
-
-    getAllStudentAtt() {
-        return Object.fromEntries(
-            new Array(studentsCount).fill(0)
-                .flatMap((a, studentIndex) => new Array(lessonsCount).fill(0)
-                    .map((b, lessonIndex) => ([
-                        `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
-                        this.getStudentAtt(studentIndex + 1, lessonIndex)
-                    ])))
+        //כמה שיעורי מסירה?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyTeached },
+                'howManyTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //כמה שיעורי פרטני?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyIndividual },
+                'howManyIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם היה קמל?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasKamal },
+                'wasKamal', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //כמה שיעורי התערבות?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyInterfering },
+                'howManyInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
     }
 
-    getStudentAtt(studentNum, lessonIndex) {
-        if (!this.params.studentsAtt)
-            return undefined;
-        if (!this.params.studentsAtt[studentNum])
-            return undefined
-        return this.params.studentsAtt[studentNum][lessonIndex];
+    async getKindergartenReport() {
+        //כמה בנות היו בצפיה בגן?
+        await this.send(
+            warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askHowManyStudents },
+                'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם היה דיון?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasDiscussing },
+                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם תפקוד הבנות ענה על ציפיותיך?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasStudentsGood },
+                'wasStudentsGood', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם התלמידות היו בגן בזמן?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasStudentsEnterOnTime },
+                'wasStudentsEnterOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם התלמידות יצאו בזמן?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasStudentsExitOnTime },
+                'wasStudentsExitOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+    }
+
+    async getSpecialEducationReport() {
+        //כמה שיעורים היו?
+        await this.send(
+            warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askHowManyLessons },
+                'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //כמה תלמידות צפו?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyStudentsWatched },
+                'howManyStudentsWatched', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //כמה תלמידות מסרו?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
+                'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //האם היה דיון טלפוני?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWasPhoneDiscussing },
+                'wasPhoneDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //מי המורה המנחה שלך?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWhoIsYourTrainingTeacher },
+                'whoIsYourTrainingTeacher', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        //מה ההתמחות?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askWhatIsYourSpeciality },
+                'whatIsYourSpeciality', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
     }
 }
