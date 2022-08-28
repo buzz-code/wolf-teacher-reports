@@ -159,8 +159,6 @@ export class YemotCall extends CallBase {
             );
         }
 
-        await this.askForConferenceAttendance();
-
         this.params.studentsAtt = [];
         for (const student of students) {
             await this.askForStudentAttendance(student);
@@ -208,8 +206,6 @@ export class YemotCall extends CallBase {
     }
 
     async getPdsReport() {
-        await this.askForConferenceAttendance();
-
         await this.send(
             warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.howManyWatchedLessonWereTodayPds },
@@ -241,23 +237,6 @@ export class YemotCall extends CallBase {
             studentReports.push(this.params.studentAttendance);
         }
         this.params.studentsAtt[num] = studentReports;
-    }
-
-    async askForConferenceAttendance() {
-        if (this.texts.didYouAttendFirstConference) {
-            await this.send(
-                warningMsgIfExists(),
-                this.read({ type: 'text', text: this.texts.didYouAttendFirstConference },
-                    'firstConference', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-        }
-        if (this.texts.didYouAttendSecondConference) {
-            await this.send(
-                warningMsgIfExists(),
-                this.read({ type: 'text', text: this.texts.didYouAttendSecondConference },
-                    'secondConference', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-        }
     }
 
     getAllStudentAtt() {
