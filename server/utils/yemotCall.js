@@ -21,25 +21,7 @@ export class YemotCall extends CallBase {
                 );
             }
 
-            await this.send(
-                this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, teacher.name) }),
-                this.read({ type: 'text', text: this.texts.chooseReportDateType },
-                    'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-
-            if (this.params.reportDateType === '1') {
-                this.report_date = moment().format('YYYY-MM-DD');
-            } else if (this.params.reportDateType === '2') {
-                await this.send(
-                    this.read({ type: 'text', text: this.texts.chooseReportDate },
-                        'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
-                );
-                this.report_date = moment(this.params.reportDate, 'DDMMYYYY').format('YYYY-MM-DD');
-            } else {
-                await this.send(
-                    this.hangup()
-                );
-            }
+            await this.getReportDate(teacher);
 
             const messages = [];
             this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, teacher.id, this.report_date);
@@ -62,6 +44,28 @@ export class YemotCall extends CallBase {
             }
         } finally {
             this.end();
+        }
+    }
+
+    async getReportDate(teacher) {
+        await this.send(
+            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, teacher.name) }),
+            this.read({ type: 'text', text: this.texts.chooseReportDateType },
+                'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        if (this.params.reportDateType === '1') {
+            this.report_date = moment().format('YYYY-MM-DD');
+        } else if (this.params.reportDateType === '2') {
+            await this.send(
+                this.read({ type: 'text', text: this.texts.chooseReportDate },
+                    'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+            );
+            this.report_date = moment(this.params.reportDate, 'DDMMYYYY').format('YYYY-MM-DD');
+        } else {
+            await this.send(
+                this.hangup()
+            );
         }
     }
 
