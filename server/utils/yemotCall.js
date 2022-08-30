@@ -166,6 +166,11 @@ export class YemotCall extends CallBase {
                 report_date: this.report_date,
                 update_date: new Date(),
                 how_many_methodic: this.params.howManyMethodic,
+                four_last_digits_of_teacher_phone: this.params.fourLastDigitsOfTeacherPhone,
+                is_taarif_hulia: this.params.isTaarifHulia,
+                teached_student_tz: this.params.teachedStudentTz,
+                how_many_yalkut_lessons: this.params.howManyYalkutLessons,
+                how_many_discussing_lessons: this.params.howManyDiscussingLessons,
                 how_many_lessons_absence: this.params.howManyLessonsAbsence,
                 how_many_watched_lessons: this.params.howManyWatchedLessons,
                 was_discussing: this.params.wasDiscussing == '1',
@@ -233,16 +238,49 @@ export class YemotCall extends CallBase {
             );
         } else {
             //מדווחת על מורות אחרות
-            //TODO
             //הקישי 4 ספרות אחרונות של הטלפון של המורה
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
+                    'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
+            );
             //האם תעריף חוליה או תעריף כיתתי?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
+                    'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //כמה שיעורי צפיה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
+                    'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //כמה בנות מסרו היום שיעור?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
+                    'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //אם התשובה גדולה מ0 אז  
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
+            if (this.params.howManyStudentsTeached != 0) {
+                for (let index = 0; index < +this.params.howManyStudentsTeached; index++) {
+                    await this.send(
+                        this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
+                            'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
+                    );
+                    this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz;
+                }
+            }
             //כמה שיעורי ילקוט הרועים?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
+                    'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //כמה שיעורי דיון?
-            //ובסיום האם תרצי לדווח על מורה נוספת        
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+                    'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            //ובסיום האם תרצי לדווח על מורה נוספת   
+            //not implemented yet     
         }
     }
 
