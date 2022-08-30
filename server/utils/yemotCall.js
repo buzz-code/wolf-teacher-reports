@@ -95,6 +95,13 @@ export class YemotCall extends CallBase {
             return this.getAndValidateReportDate();
         }
 
+        //יש טבלה של תאריכי עבודה לכל סוג מורה בנפרד, לוודא שהתאריך תואם
+        const isWorkingDay = await queryHelper.validateWorkingDateForTeacher(this.user.id, this.teacher.teacher_type_id, reportDate.format('YYYY-MM-DD'));
+        if (!isWorkingDay) {
+            this.warningMsg = this.texts.validationErrorCannotReportOnNonWorkingDay;
+            return this.getAndValidateReportDate();
+        }
+
         //אזהרה אם כבר יש דיווח באותו תאריך
         this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
         if (this.existingReport) {

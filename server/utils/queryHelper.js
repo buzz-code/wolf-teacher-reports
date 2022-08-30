@@ -81,3 +81,11 @@ export function getAbsencesCountForTeacher(user_id, teacher_id, report_date) {
         .sum({ sum: 'how_many_lessons_absence' })
         .then(res => res[0].sum);
 }
+
+export async function validateWorkingDateForTeacher(user_id, teacher_type_id, report_date) {
+    // return new WorkingDate()
+    //     .where({ user_id, teacher_type_id, working_date: report_date })
+    //     .fetch({ require: false })
+    //     .then(res => res ? res.toJSON() : null);
+    return true;
+}
