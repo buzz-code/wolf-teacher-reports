@@ -23,6 +23,8 @@ export class YemotCall extends CallBase {
 
             await this.getReportDate();
 
+            await this.askQuestions();
+
             await this.getReportAndSave();
         }
         catch (e) {
@@ -31,6 +33,18 @@ export class YemotCall extends CallBase {
             }
         } finally {
             this.end();
+        }
+    }
+
+    async getReportDate() {
+        const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id);
+        for (const question of questions) {
+            await this.send(
+                this.id_list_message({ type: 'text', text: question.content }),
+                this.read({ type: 'text', text: this.texts.chooseAnswerForQuestion },
+                    'questionAnswer', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            await queryHelper.saveAnswerForQuestion(this.user.id, this.teacher.id, question.id, this.params.questionAnswer);
         }
     }
 

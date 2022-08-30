@@ -1,6 +1,10 @@
 import Teacher from "../models/teacher.model";
 import AttReport from "../models/att-report.model";
 import User from "../models/user.model";
+import Question from "../models/question.model";
+import Answer from "../models/answer.model";
+
+import moment from 'moment';
 
 export function getUserByPhone(phone_number) {
     return new User().where({ phone_number })
@@ -31,4 +35,41 @@ export function updateSalaryCommentByUserId(user_id, id, comment) {
     return new AttReport().query()
         .where({ user_id, id })
         .update({ comment });
+}
+
+export async function getQuestionsForTeacher(user_id, teacher_id) {
+    const [answers, questions] = await Promise.all([
+        new Answer()
+            .where({ user_id, teacher_id })
+            .fetchAll()
+            .then(result => result.toJSON()),
+        new Question()
+            .where({ user_id })
+            .fetchAll()
+            .then(result => result.toJSON())
+    ]);
+
+    const answerByQuestion = {};
+    answers.forEach(ans => {
+        if (!answerByQuestion[ans.question_id]) {
+            answerByQuestion[ans.question_id] = [[false, false]];
+        }
+        answerByQuestion[ans.question_id][ans.answer] = true;
+    });
+    return questions.filter(question => {
+        return question.question_type_id == 1 ||
+            question.question_type_id == 2 && answerByQuestion[question.id]?.[1] == false ||
+            question.question_type_id == 3 && answerByQuestion[question.id]?.[0] == false
+    });
+}
+
+export function saveAnswerForQuestion(user_id, teacher_id, question_id, answer) {
+    return new Answer({
+        user_id,
+        teacher_id,
+        question_id,
+        answer,
+        answer_date: moment().format('YYYY-MM-DD')
+    })
+        .save();
 }
