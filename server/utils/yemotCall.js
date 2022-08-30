@@ -266,7 +266,7 @@ export class YemotCall extends CallBase {
                         this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
                             'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
                     );
-                    this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz;
+                    this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
                 }
             }
             //כמה שיעורי ילקוט הרועים?
