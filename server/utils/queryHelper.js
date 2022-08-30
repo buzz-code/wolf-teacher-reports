@@ -45,6 +45,11 @@ export async function getQuestionsForTeacher(user_id, teacher_id) {
             .then(result => result.toJSON()),
         new Question()
             .where({ user_id })
+            .query(qb => {
+                qb.leftJoin('question_types', 'question_types.key', 'questions.question_type_id')
+                qb.select('questions.*')
+                qb.select({ question_type_key: 'question_types.key' })
+            })
             .fetchAll()
             .then(result => result.toJSON())
     ]);
@@ -57,9 +62,9 @@ export async function getQuestionsForTeacher(user_id, teacher_id) {
         answerByQuestion[ans.question_id][ans.answer] = true;
     });
     return questions.filter(question => {
-        return question.question_type_id == 1 ||
-            question.question_type_id == 2 && answerByQuestion[question.id]?.[1] == false ||
-            question.question_type_id == 3 && answerByQuestion[question.id]?.[0] == false
+        return question.question_type_key == 1 ||
+            question.question_type_key == 2 && answerByQuestion[question.id]?.[1] == false ||
+            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] == false
     });
 }
 
