@@ -14,7 +14,7 @@ export function getUserByPhone(phone_number) {
 
 export function getTeacherByUserIdAndPhone(user_id, phone) {
     return new Teacher().where({ user_id, phone })
-        .fetch({ require: false, withRelated: ['student1', 'student2', 'student3'] })
+        .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
 

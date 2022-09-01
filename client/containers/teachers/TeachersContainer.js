@@ -5,7 +5,7 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
-const getColumns = ({ teacherTypes, teacherSalaryTypes, students }) => [
+const getColumns = ({ teacherTypes, teacherSalaryTypes }) => [
   { field: 'tz', title: 'תעודת זהות', columnOrder: 'teachers.tz' },
   { field: 'name', title: 'שם', columnOrder: 'teachers.name' },
   { field: 'phone', title: 'מספר טלפון' },
@@ -22,21 +22,6 @@ const getColumns = ({ teacherTypes, teacherSalaryTypes, students }) => [
   },
   { field: 'price', title: 'שכר שעתי למורה' },
   { field: 'training_teacher', title: 'מורה מנחה' },
-  {
-    field: 'student_tz_1',
-    title: 'תלמידה א',
-    ...getPropsForAutoComplete('student_tz_1', students, 'tz'),
-  },
-  {
-    field: 'student_tz_2',
-    title: 'תלמידה ב',
-    ...getPropsForAutoComplete('student_tz_2', students, 'tz'),
-  },
-  {
-    field: 'student_tz_3',
-    title: 'תלמידה ג',
-    ...getPropsForAutoComplete('student_tz_3', students, 'tz'),
-  },
 ];
 const getFilters = () => [
   { field: 'teachers.tz', label: 'תעודת זהות', type: 'text', operator: 'like' },
@@ -47,9 +32,6 @@ const getFilters = () => [
   { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
   { field: 'price', label: 'שכר שעתי למורה', type: 'text', operator: 'like' },
   { field: 'training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
-  { field: 'students1.name', label: 'תלמידה א', type: 'text', operator: 'like' },
-  { field: 'students2.name', label: 'תלמידה ב', type: 'text', operator: 'like' },
-  { field: 'students3.name', label: 'תלמידה ג', type: 'text', operator: 'like' },
 ];
 
 const TeachersContainer = ({ entity, title }) => {

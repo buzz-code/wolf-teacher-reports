@@ -19,9 +19,6 @@ export async function findAll(req, res) {
         .query(qb => {
             qb.leftJoin('teacher_types', 'teacher_types.id', 'teachers.teacher_type_id')
             qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
-            qb.leftJoin({ students1: 'students' }, 'students1.tz', 'teachers.student_tz_1')
-            qb.leftJoin({ students2: 'students' }, 'students2.tz', 'teachers.student_tz_2')
-            qb.leftJoin({ students3: 'students' }, 'students3.tz', 'teachers.student_tz_3')
             qb.select('teachers.*')
         });
     applyFilters(dbQuery, req.query.filters);
@@ -36,13 +33,12 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [teacherTypes, teacherSalaryTypes, students] = await Promise.all([
+    const [teacherTypes, teacherSalaryTypes] = await Promise.all([
         getListFromTable(TeacherType, req.currentUser.id),
         getListFromTable(TeacherSalaryType, req.currentUser.id),
-        getListFromTable(Student, req.currentUser.id, 'tz'),
     ]);
     res.json({
         error: null,
-        data: { teacherTypes, teacherSalaryTypes, students }
+        data: { teacherTypes, teacherSalaryTypes }
     });
 }
