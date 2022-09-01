@@ -14,3 +14,4 @@ export const PDS_REPORTS = 'att-reports/getPdsReport';
 export const DASHBOARD = 'dashboard';
 export const QUESTIONS = 'questions';
 export const ANSWERS = 'answers';
+export const WORKING_DATES = 'working-dates';

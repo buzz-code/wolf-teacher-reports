@@ -14,3 +14,4 @@ export const PDS_REPORTS = 'שכר למורת PDS';
 export const DASHBOARD = 'מחוונים';
 export const QUESTIONS = 'שאלות למורה';
 export const ANSWERS = 'תשובות לשאלות';
+export const WORKING_DATES = 'תאריכי עבודה';

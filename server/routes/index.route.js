@@ -12,6 +12,7 @@ import attReportRoutes from './att-report.route';
 import dashboardRoutes from './dashboard.route';
 import questionRoutes from './question.route';
 import answerRoutes from './answer.route';
+import workingDateRoutes from './working-date.route';
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.use('/att-reports', attReportRoutes);
 router.use('/dashboard', dashboardRoutes);
 router.use('/questions', questionRoutes);
 router.use('/answers', answerRoutes);
+router.use('/working-dates', workingDateRoutes);
 
 export default router;

@@ -16,6 +16,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PrintIcon from '@material-ui/icons/Print';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import StorageIcon from '@material-ui/icons/Storage';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import * as entities from './entity';
 import * as titles from './entity-title';
@@ -36,6 +37,7 @@ import ManhaReports from '../containers/att-reports/ManhaReportsContainer';
 import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
 import PdsReports from '../containers/att-reports/PdsReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
+import WorkingDates from '../containers/working-dates/WorkingDatesContainer';
 
 export default [
   [
@@ -146,6 +148,13 @@ export default [
       icon: QuestionAnswerIcon,
       title: titles.ANSWERS,
       props: { entity: entities.ANSWERS, title: titles.ANSWERS },
+    },
+    {
+      path: '/working-dates',
+      component: WorkingDates,
+      icon: CalendarTodayIcon,
+      title: titles.WORKING_DATES,
+      props: { entity: entities.WORKING_DATES, title: titles.WORKING_DATES },
     },
   ],
 ];

@@ -21,6 +21,7 @@ import {
   DASHBOARD,
   QUESTIONS,
   ANSWERS,
+  WORKING_DATES,
 } from '../constants/entity';
 
 const appReducer = (history) =>
@@ -43,6 +44,7 @@ const appReducer = (history) =>
     [DASHBOARD]: crudReducer(DASHBOARD),
     [QUESTIONS]: crudReducer(QUESTIONS),
     [ANSWERS]: crudReducer(ANSWERS),
+    [WORKING_DATES]: crudReducer(WORKING_DATES),
   });
 
 const rootReducer = (state, action) => {
