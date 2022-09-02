@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
@@ -37,7 +38,22 @@ const WorkingDatesContainer = ({ entity, title }) => {
     dispatch(crudAction.customHttpRequest(entity, 'GET', 'get-edit-data'));
   }, []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
+  const manipulateDataToSave = (dataToSave) => ({
+    ...dataToSave,
+    working_date: dataToSave.working_date
+      ? moment(dataToSave.working_date).format('yyyy-MM-DD')
+      : null,
+  });
+
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      filters={filters}
+      manipulateDataToSave={manipulateDataToSave}
+    />
+  );
 };
 
 export default WorkingDatesContainer;
