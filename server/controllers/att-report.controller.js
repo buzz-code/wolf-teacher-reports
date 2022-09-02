@@ -21,7 +21,7 @@ export async function findAll(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('teacher_types', 'teacher_types.id', 'teachers.teacher_type_id')
+            qb.leftJoin('teacher_types', { 'teacher_types.key': 'teachers.teacher_type_id', 'teacher_types.user_id': 'teachers.user_id' })
             qb.select('att_reports.*')
             qb.select({ teacher_type_name: 'teacher_types.name', teacher_training_teacher: 'teachers.training_teacher' })
         });
@@ -40,7 +40,7 @@ export async function getEditData(req, res) {
     const [teachers, attTypes, teacherTypes] = await Promise.all([
         getListFromTable(Teacher, req.currentUser.id),
         getListFromTable(AttType, req.currentUser.id),
-        getListFromTable(TeacherType, req.currentUser.id),
+        getListFromTable(TeacherType, req.currentUser.id, 'key'),
     ]);
     res.json({
         error: null,

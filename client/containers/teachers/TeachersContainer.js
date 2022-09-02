@@ -13,7 +13,7 @@ const getColumns = ({ teacherTypes, teacherSalaryTypes }) => [
   {
     field: 'teacher_type_id',
     title: 'סוג המורה',
-    ...getPropsForAutoComplete('teacher_type_id', teacherTypes),
+    ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
   {
     field: 'teacher_salary_type_id',

@@ -10,18 +10,18 @@ const getColumns = ({ teacherTypes }) => [
   {
     field: 'teacher_type_id',
     title: 'סוג המורה',
-    ...getPropsForAutoComplete('teacher_type_id', teacherTypes),
+    ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
   { field: 'working_date', title: 'תאריך', type: 'date' },
 ];
 const getFilters = ({ teacherTypes }) => [
   {
-    field: 'teacher_types.id',
+    field: 'teacher_types.key',
     label: 'סוג מורה',
     type: 'list',
     list: teacherTypes,
     operator: 'eq',
-    idField: 'id',
+    idField: 'key',
   },
 ];
 

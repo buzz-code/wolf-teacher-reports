@@ -15,7 +15,7 @@ export const { findById, store, update, destroy, uploadMultiple } = genericContr
 export async function findAll(req, res) {
     const dbQuery = new WorkingDate().where({ 'working_dates.user_id': req.currentUser.id })
         .query(qb => {
-            qb.leftJoin('teacher_types', 'teacher_types.id', 'working_dates.teacher_type_id')
+            qb.leftJoin('teacher_types', { 'teacher_types.key': 'working_dates.teacher_type_id', 'teacher_types.user_id': 'working_dates.user_id' })
             qb.select('working_dates.*')
         });
     applyFilters(dbQuery, req.query.filters);
@@ -31,7 +31,7 @@ export async function findAll(req, res) {
  */
 export async function getEditData(req, res) {
     const [teacherTypes] = await Promise.all([
-        getListFromTable(TeacherType, req.currentUser.id),
+        getListFromTable(TeacherType, req.currentUser.id, 'key'),
     ]);
     res.json({
         error: null,
