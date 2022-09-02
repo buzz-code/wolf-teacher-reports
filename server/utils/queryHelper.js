@@ -45,7 +45,7 @@ export async function getQuestionsForTeacher(user_id, teacher_id) {
             .fetchAll()
             .then(result => result.toJSON()),
         new Question()
-            .where({ user_id })
+            .where({ 'questions.user_id': user_id })
             .query(qb => {
                 qb.leftJoin('question_types', 'question_types.key', 'questions.question_type_id')
                 qb.select('questions.*')
