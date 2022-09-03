@@ -225,7 +225,7 @@ export class YemotCall extends CallBase {
     async getManhaReport() {
         //האם מדווחת על עצמה או על מורות אחרות?
         await this.send(
-            warningMsgIfExists(),
+            this.warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askManhaReportType },
                 'manhaReportType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -291,7 +291,7 @@ export class YemotCall extends CallBase {
     async getPdsReport() {
         //האם התלמידות חסרו?
         await this.send(
-            warningMsgIfExists(),
+            this.warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
                 'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -346,7 +346,7 @@ export class YemotCall extends CallBase {
     async getKindergartenReport() {
         //כמה בנות היו בצפיה בגן?
         await this.send(
-            warningMsgIfExists(),
+            this.warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyStudents },
                 'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -375,7 +375,7 @@ export class YemotCall extends CallBase {
     async getSpecialEducationReport() {
         //כמה שיעורים היו?
         await this.send(
-            warningMsgIfExists(),
+            this.warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyLessons },
                 'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
