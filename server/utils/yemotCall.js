@@ -103,7 +103,7 @@ export class YemotCall extends CallBase {
         }
 
         //אזהרה אם כבר יש דיווח באותו תאריך
-        this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, this.report_date);
+        this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
         if (this.existingReport) {
             this.warningMsg = this.texts.existingReportWillBeDeleted;
         }
