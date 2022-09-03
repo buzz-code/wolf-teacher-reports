@@ -83,7 +83,10 @@ export function saveAnswerForQuestion(user_id, teacher_id, question_id, answer) 
 export function getAbsencesCountForTeacher(user_id, teacher_id, report_date) {
     return new AttReport().where({ user_id, teacher_id })
         .query()
-        .whereBetween('report_date', [moment(report_date, 'YYYY-MM-DD').startOf('month'), moment(report_date, 'YYYY-MM-DD').endOf('month')])
+        .whereBetween('report_date', [
+            moment(report_date, 'YYYY-MM-DD').startOf('month').format('YYYY-MM-DD'),
+            moment(report_date, 'YYYY-MM-DD').endOf('month').format('YYYY-MM-DD')
+        ])
         .sum({ sum: 'how_many_lessons_absence' })
         .then(res => res[0].sum);
 }
