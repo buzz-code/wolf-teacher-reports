@@ -7,19 +7,6 @@ import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 import { lessonsCount, studentsCount } from '../../../server/utils/constantsHelper';
 
-const getStudentAttColumns = (attTypes) => {
-  return new Array(studentsCount).fill(0).flatMap((a, studentIndex) =>
-    new Array(lessonsCount).fill(0).map((b, lessonIndex) => ({
-      field: `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
-      title: `תלמידה ${studentIndex + 1} שיעור ${lessonIndex + 1}`,
-      ...getPropsForAutoComplete(
-        `student_${studentIndex + 1}_${lessonIndex + 1}_att_type`,
-        attTypes
-      ),
-    }))
-  );
-};
-
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   {
     field: 'teacher_id',
@@ -41,20 +28,29 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
-  { field: 'first_conference', title: 'השתתפות במפגש פתיחה', type: 'numeric' },
-  { field: 'second_conference', title: 'השתתפות במפגש חנוכה', type: 'numeric' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
-  { field: 'how_many_watched', title: 'שיעורי צפיה', type: 'numeric' },
-  { field: 'how_many_student_teached', title: 'שיעורי מסירה', type: 'numeric' },
+  { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות' },
+  { field: 'is_taarif_hulia', title: 'תעריף חוליה' },
+  { field: 'teached_student_tz', title: 'תז תלמידה' },
+  { field: 'how_many_yalkut_lessons', title: 'שיעורי ילקוט' },
+  { field: 'how_many_discussing_lessons', title: 'שיעורי דיון' },
+  { field: 'how_many_lessons_absence', title: 'העדרות' },
+  { field: 'how_many_watched_lessons', title: 'צפיה' },
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
-  { field: 'how_many_private_lessons', title: 'כמה שיעורים פרטיים?' },
-  { field: 'training_teacher', title: 'מורה מאמנת' },
-  {
-    field: 'activity_type',
-    title: 'סוג פעילות',
-    ...getPropsForAutoComplete('activity_type', attTypes),
-  },
-  ...getStudentAttColumns(attTypes),
+  { field: 'how_many_teached', title: 'כמה מסרו' },
+  { field: 'how_many_individual', title: 'כמה אינדיוידואלי' },
+  { field: 'was_kamal', title: 'קמל' },
+  { field: 'how_many_interfering', title: 'התערבות' },
+  { field: 'how_many_students', title: 'תלמידות' },
+  { field: 'was_students_good', title: 'תפקוד הבנות' },
+  { field: 'was_students_enter_on_time', title: 'הגעה בזמן' },
+  { field: 'was_students_exit_on_time', title: 'יציאה בזמן' },
+  { field: 'how_many_lessons', title: 'כמה שיעורים' },
+  { field: 'how_many_students_watched', title: 'כמה תלמידות צפו' },
+  { field: 'how_many_students_teached', title: 'כמה תלמידות מסרו' },
+  { field: 'was_phone_discussing', title: 'דיון טלפוני' },
+  { field: 'your_training_teacher', title: 'מורה מנחה' },
+  { field: 'what_speciality', title: 'התמחות' },
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
