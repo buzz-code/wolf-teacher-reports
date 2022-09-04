@@ -258,10 +258,7 @@ export class YemotCall extends CallBase {
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
             if (this.params.howManyStudentsTeached != 0) {
                 for (let index = 0; index < +this.params.howManyStudentsTeached; index++) {
-                    await this.send(
-                        this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
-                            'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
-                    );
+                    await this.getTeachedStudentTz();
                     this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
                 }
             }
@@ -423,6 +420,29 @@ export class YemotCall extends CallBase {
             );
             if (this.params.fourLastDigitsConfirm == 2) {
                 return this.getTeacherFourLastDigits();
+            }
+        }
+    }
+
+    async getTeachedStudentTz() {
+        //הקישי את מ.ז. של התלמידה
+        await this.send(
+            this.warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
+                'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
+        );
+        const teachedStudent = await queryHelper.getStudentByTz(this.user.id, this.params.partialTeachedStudentTz);
+        if (!teachedStudent) {
+            this.warningMsg = this.texts.noTeachedStudentFound;
+            return this.getTeachedStudentTz();
+        }
+        else {
+            await this.send(
+                this.read({ type: 'text', text: format(this.texts.askTeachedStudentConfirm, teachedStudent.name) },
+                    'teachedStudentConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.teachedStudentConfirm == 2) {
+                return this.getTeachedStudentTz();
             }
         }
     }

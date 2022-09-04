@@ -4,6 +4,7 @@ import User from "../models/user.model";
 import Question from "../models/question.model";
 import Answer from "../models/answer.model";
 import WorkingDate from "../models/working-date.model";
+import Student from "../models/student.model";
 
 import moment from 'moment';
 
@@ -104,6 +105,13 @@ export async function getTeacherByFourLastDigits(user_id, four_last_digits) {
     return new Teacher()
         .where({ user_id })
         .where('phone', 'like', `%${four_last_digits}`)
+        .fetch({ require: false })
+        .then(res => res ? res.toJSON() : null);
+}
+
+export async function getStudentByTz(user_id, tz) {
+    return new Student()
+        .where({ user_id, tz })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
