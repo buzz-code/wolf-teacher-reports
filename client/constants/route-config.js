@@ -76,13 +76,13 @@ export default [
       title: titles.TEACHER_TYPES,
       props: { entity: entities.TEACHER_TYPES, title: titles.TEACHER_TYPES },
     },
-    // {
-    //   path: '/prices',
-    //   component: Prices,
-    //   icon: MenuIcon,
-    //   title: titles.PRICES,
-    //   props: { entity: entities.PRICES, title: titles.PRICES },
-    // },
+    {
+      path: '/prices',
+      component: Prices,
+      icon: MenuIcon,
+      title: titles.PRICES,
+      props: { entity: entities.PRICES, title: titles.PRICES },
+    },
     {
       path: '/texts',
       component: Texts,

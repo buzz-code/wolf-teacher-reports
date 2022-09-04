@@ -16,17 +16,7 @@ const PricesContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
   const filters = useMemo(() => getFilters(), []);
 
-  return (
-    <Table
-      entity={entity}
-      title={title}
-      columns={columns}
-      filters={filters}
-      disableAdd={true}
-      disableUpdate={true}
-      disableDelete={true}
-    />
-  );
+  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
 };
 
 export default PricesContainer;
