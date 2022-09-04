@@ -37,7 +37,7 @@ export class YemotCall extends CallBase {
     }
 
     async askQuestions() {
-        const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id);
+        const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id, this.teacher.teacher_type_id);
         for (const question of questions) {
             await this.send(
                 this.id_list_message({ type: 'text', text: question.content }),

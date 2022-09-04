@@ -1,5 +1,6 @@
 import Question from '../models/question.model';
 import QuestionType from '../models/question-type.model';
+import TeacherType from '../models/teacher-type.model';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 
@@ -30,11 +31,12 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [questionTypes] = await Promise.all([
+    const [questionTypes, teacherTypes] = await Promise.all([
         getListFromTable(QuestionType, req.currentUser.id, 'key'),
+        getListFromTable(TeacherType, req.currentUser.id, 'key'),
     ]);
     res.json({
         error: null,
-        data: { questionTypes }
+        data: { questionTypes, teacherTypes }
     });
 }

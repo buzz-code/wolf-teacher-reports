@@ -38,14 +38,16 @@ export function updateSalaryCommentByUserId(user_id, id, comment) {
         .update({ comment });
 }
 
-export async function getQuestionsForTeacher(user_id, teacher_id) {
+export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_id) {
     const [answers, questions] = await Promise.all([
         new Answer()
             .where({ user_id, teacher_id })
             .fetchAll()
             .then(result => result.toJSON()),
         new Question()
-            .where({ 'questions.user_id': user_id })
+            .where({ 'questions.user_id': user_id, teacher_type_id })
+            .where('start_date', '<=', moment().format('YYYY-MM-DD'))
+            .where('end_date', '>=', moment().format('YYYY-MM-DD'))
             .query(qb => {
                 qb.leftJoin('question_types', 'question_types.key', 'questions.question_type_id')
                 qb.select('questions.*')
