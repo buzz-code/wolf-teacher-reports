@@ -97,6 +97,13 @@ export default [
       title: titles.QUESTIONS,
       props: { entity: entities.QUESTIONS, title: titles.QUESTIONS },
     },
+    {
+      path: '/working-dates',
+      component: WorkingDates,
+      icon: CalendarTodayIcon,
+      title: titles.WORKING_DATES,
+      props: { entity: entities.WORKING_DATES, title: titles.WORKING_DATES },
+    },
   ],
   [{ path: '/excel-import', component: ExcelImport, icon: FileCopyIcon, title: 'העלאת קבצים' }],
   [
@@ -148,13 +155,6 @@ export default [
       icon: QuestionAnswerIcon,
       title: titles.ANSWERS,
       props: { entity: entities.ANSWERS, title: titles.ANSWERS },
-    },
-    {
-      path: '/working-dates',
-      component: WorkingDates,
-      icon: CalendarTodayIcon,
-      title: titles.WORKING_DATES,
-      props: { entity: entities.WORKING_DATES, title: titles.WORKING_DATES },
     },
   ],
 ];
