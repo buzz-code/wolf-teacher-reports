@@ -99,3 +99,11 @@ export async function validateWorkingDateForTeacher(user_id, teacher_type_id, re
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }
+
+export async function getTeacherByFourLastDigits(user_id, four_last_digits) {
+    return new Teacher()
+        .where({ user_id })
+        .where('phone', 'like', `%${four_last_digits}`)
+        .fetch({ require: false })
+        .then(res => res ? res.toJSON() : null);
+}

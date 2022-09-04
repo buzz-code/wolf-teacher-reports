@@ -238,11 +238,7 @@ export class YemotCall extends CallBase {
             );
         } else {
             //מדווחת על מורות אחרות
-            //הקישי 4 ספרות אחרונות של הטלפון של המורה
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
-                    'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
-            );
+            await this.getTeacherFourLastDigits()
             //האם תעריף חוליה או תעריף כיתתי?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
@@ -404,5 +400,30 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askWhatIsYourSpeciality },
                 'whatIsYourSpeciality', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+    }
+
+
+    //helpers
+    async getTeacherFourLastDigits() {
+        //הקישי 4 ספרות אחרונות של הטלפון של המורה
+        await this.send(
+            this.warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
+                'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
+        );
+        const teacherToReportFor = await queryHelper.getTeacherByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
+        if (!teacherToReportFor) {
+            this.warningMsg = this.texts.noTeacherWasFoundByFourLastDigits;
+            return this.getTeacherFourLastDigits();
+        }
+        else {
+            await this.send(
+                this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, teacherToReportFor.name) },
+                    'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.fourLastDigitsConfirm == 2) {
+                return this.getTeacherFourLastDigits();
+            }
+        }
     }
 }
