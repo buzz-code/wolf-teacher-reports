@@ -15,7 +15,12 @@ export function getUserByPhone(phone_number) {
 }
 
 export function getTeacherByUserIdAndPhone(user_id, phone) {
-    return new Teacher().where({ user_id, phone })
+    return new Teacher().where({ 'teachers.user_id': user_id, phone })
+        .query(qb => {
+            qb.leftJoin('teacher_types', { 'teacher_types.key': 'teachers.teacher_type_id', 'teacher_types.user_id': 'teachers.user_id' })
+            qb.select('teachers.*')
+            qb.select({ teacher_type_name: 'teacher_types.name' })
+        })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
 }

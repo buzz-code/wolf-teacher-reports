@@ -50,7 +50,7 @@ export class YemotCall extends CallBase {
 
     async getReportDate() {
         await this.send(
-            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, this.teacher.name) }),
+            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, this.teacher.teacher_type_name, this.teacher.name) }),
             this.read({ type: 'text', text: this.texts.chooseReportDateType },
                 'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
