@@ -295,14 +295,7 @@ export class YemotCall extends CallBase {
                     'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
 
-            //לא לאפשר יותר מ 10 חיסורים 
-            const existingAbsences = await queryHelper.getAbsencesCountForTeacher(this.user.id, this.teacher.id);
-            if (existingAbsences + this.params.howManyLessonsAbsence - (this.existingReport?.how_many_lessons_absence ?? 0) > 10) {
-                await this.send(
-                    this.id_list_message({ type: 'text', text: this.texts.validationErrorCannotReportMoreThanTenAbsences }),
-                    this.hangup()
-                );
-            }
+            await validateNoMoreThanTenAbsences();
         }
         //כמה שיעורי צפיה היו?
         await this.send(
@@ -444,6 +437,17 @@ export class YemotCall extends CallBase {
             if (this.params.teachedStudentConfirm == 2) {
                 return this.getTeachedStudentTz();
             }
+        }
+    }
+
+    async validateNoMoreThanTenAbsences() {
+        //לא לאפשר יותר מ 10 חיסורים 
+        const existingAbsences = await queryHelper.getAbsencesCountForTeacher(this.user.id, this.teacher.id);
+        if (existingAbsences + this.params.howManyLessonsAbsence - (this.existingReport?.how_many_lessons_absence ?? 0) > 10) {
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.validationErrorCannotReportMoreThanTenAbsences }),
+                this.hangup()
+            );
         }
     }
 }
