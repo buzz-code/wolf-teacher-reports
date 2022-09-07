@@ -178,6 +178,8 @@ export class YemotCall extends CallBase {
                 how_many_individual: this.params.howManyIndividual,
                 was_kamal: this.params.wasKamal,
                 how_many_interfering: this.params.howManyInterfering,
+                how_many_watch_or_individual: this.params.howManyWatchOrIndividual,
+                how_many_teached_or_interfering: this.params.howManyTeachedOrInterfering,
                 how_many_students: this.params.howManyStudents,
                 was_students_good: this.params.wasStudentsGood,
                 was_students_enter_on_time: this.params.wasStudentsEnterOnTime,
@@ -214,8 +216,38 @@ export class YemotCall extends CallBase {
     }
 
     async getSeminarKitaReport() {
-        //אותו דבר כמו סמינר כיתה
-        await this.getPdsReport();
+        //על כמה שיעורי סמינר כתה תרצי לדווח
+        await this.send(
+            this.warningMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askHowManyLessonsSeminarKita },
+                'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        // מתוכם כמה שיעורי צפיה או פרטני
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyWatchOrIndividual },
+                'howManyWatchOrIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        // כמה שיעורי מסירה או מעורבות
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyTeachedOrInterfering },
+                'howManyTeachedOrInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        // כמה שיעורי דיון
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+                'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        // כמה שיעורים התלמידות חסרו מסיבות אישיות
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsenceSeminarKita },
+                'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        await validateNoMoreThanTenAbsences();
     }
 
     async getTrainingReport() {
