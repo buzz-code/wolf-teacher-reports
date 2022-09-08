@@ -247,7 +247,7 @@ export class YemotCall extends CallBase {
                 'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
 
-        await validateNoMoreThanTenAbsences();
+        await this.validateNoMoreThanTenAbsences();
     }
 
     async getTrainingReport() {
