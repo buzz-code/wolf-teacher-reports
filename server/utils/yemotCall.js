@@ -220,7 +220,7 @@ export class YemotCall extends CallBase {
         await this.send(
             this.warningMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyLessonsSeminarKita },
-                'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+                'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [1, 2, 3, 4, 5, 6, 7, 8] })
         );
 
         // מתוכם כמה שיעורי צפיה או פרטני
@@ -248,6 +248,8 @@ export class YemotCall extends CallBase {
         );
 
         await this.validateNoMoreThanTenAbsences();
+
+        await this.validateSeminarKitaLessonCount();
     }
 
     async getTrainingReport() {
@@ -478,6 +480,21 @@ export class YemotCall extends CallBase {
         if (existingAbsences + this.params.howManyLessonsAbsence - (this.existingReport?.how_many_lessons_absence ?? 0) > 10) {
             await this.send(
                 this.id_list_message({ type: 'text', text: this.texts.validationErrorCannotReportMoreThanTenAbsences }),
+                this.hangup()
+            );
+        }
+    }
+
+    async validateSeminarKitaLessonCount() {
+        //סה"כ שיעורים שמורה מדווחת בפועל צריך להיות תואם למספר שהקישה שרוצה לדווח
+        const totalCount = this.params.howManyLessons;
+        const reportedCount = Number(this.params.howManyWatchOrIndividual) +
+            Number(this.params.howManyTeachedOrInterfering) +
+            Number(this.params.howManyDiscussingLessons) +
+            Number(this.params.howManyLessonsAbsence);
+        if (totalCount != reportedCount) {
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.validationErrorSeminarKitaLessonCount }),
                 this.hangup()
             );
         }
