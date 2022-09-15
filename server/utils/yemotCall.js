@@ -21,11 +21,8 @@ export class YemotCall extends CallBase {
                 );
             }
 
-            await this.getReportDate();
-
-            await this.askQuestions();
-
-            await this.getReportAndSave();
+            this.globalMsg = format(this.texts.welcomeForTeacher, this.teacher.teacher_type_name, this.teacher.name);
+            await this.askForReportDataAndSave();
         }
         catch (e) {
             if (e) {
@@ -34,6 +31,14 @@ export class YemotCall extends CallBase {
         } finally {
             this.end();
         }
+    }
+
+    async askForReportDataAndSave() {
+        await this.getReportDate();
+
+        await this.askQuestions();
+
+        await this.getReportAndSave();
     }
 
     async askQuestions() {
@@ -50,7 +55,7 @@ export class YemotCall extends CallBase {
 
     async getReportDate() {
         await this.send(
-            this.id_list_message({ type: 'text', text: format(this.texts.welcomeForTeacher, this.teacher.teacher_type_name, this.teacher.name) }),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.chooseReportDateType },
                 'reportDateType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -68,7 +73,7 @@ export class YemotCall extends CallBase {
 
     async getAndValidateReportDate() {
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.chooseReportDate },
                 'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
         );
@@ -77,35 +82,35 @@ export class YemotCall extends CallBase {
         //תאריך לא חוקי
         const reportDateIsValid = reportDate.isValid;
         if (reportDateIsValid === false) {
-            this.warningMsg = this.texts.validationErrorReportDateIsInvalid;
+            this.globalMsg = this.texts.validationErrorReportDateIsInvalid;
             return this.getAndValidateReportDate();
         }
 
         //אי אפשר לדווח על חודש לועזי שעבר
         const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
         if (reportDateIsPrevMonth) {
-            this.warningMsg = this.texts.validationErrorCannotReportOnPrevMonth;
+            this.globalMsg = this.texts.validationErrorCannotReportOnPrevMonth;
             return this.getAndValidateReportDate();
         }
 
         //אי אפשר לדווח על העתיד
         const reportDateIsFuture = reportDate.isAfter(moment());
         if (reportDateIsFuture) {
-            this.warningMsg = this.texts.validationErrorCannotReportOnFutureDate;
+            this.globalMsg = this.texts.validationErrorCannotReportOnFutureDate;
             return this.getAndValidateReportDate();
         }
 
         //יש טבלה של תאריכי עבודה לכל סוג מורה בנפרד, לוודא שהתאריך תואם
         const isWorkingDay = await queryHelper.validateWorkingDateForTeacher(this.user.id, this.teacher.teacher_type_id, reportDate.format('YYYY-MM-DD'));
         if (!isWorkingDay) {
-            this.warningMsg = this.texts.validationErrorCannotReportOnNonWorkingDay;
+            this.globalMsg = this.texts.validationErrorCannotReportOnNonWorkingDay;
             return this.getAndValidateReportDate();
         }
 
         //אזהרה אם כבר יש דיווח באותו תאריך
         this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
         if (this.existingReport) {
-            this.warningMsg = this.texts.existingReportWillBeDeleted;
+            this.globalMsg = this.texts.existingReportWillBeDeleted;
         }
 
         //בדיקת תאריך עברי
@@ -209,16 +214,16 @@ export class YemotCall extends CallBase {
         }
     }
 
-    warningMsgIfExists() {
-        const message = this.warningMsg && this.id_list_message({ type: 'text', text: this.warningMsg });
-        this.warningMsg = null;
+    globalMsgIfExists() {
+        const message = this.globalMsg && this.id_list_message({ type: 'text', text: this.globalMsg });
+        this.globalMsg = null;
         return message;
     }
 
     async getSeminarKitaReport() {
         //על כמה שיעורי סמינר כתה תרצי לדווח
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyLessonsSeminarKita },
                 'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [1, 2, 3, 4, 5, 6, 7, 8] })
         );
@@ -259,7 +264,7 @@ export class YemotCall extends CallBase {
     async getManhaReport() {
         //האם מדווחת על עצמה או על מורות אחרות?
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askManhaReportType },
                 'manhaReportType', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -318,7 +323,7 @@ export class YemotCall extends CallBase {
     async getPdsReport() {
         //האם התלמידות חסרו?
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
                 'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -366,7 +371,7 @@ export class YemotCall extends CallBase {
     async getKindergartenReport() {
         //כמה בנות היו בצפיה בגן?
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyStudents },
                 'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -395,7 +400,7 @@ export class YemotCall extends CallBase {
     async getSpecialEducationReport() {
         //כמה שיעורים היו?
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askHowManyLessons },
                 'howManyLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
@@ -431,13 +436,13 @@ export class YemotCall extends CallBase {
     async getTeacherFourLastDigits() {
         //הקישי 4 ספרות אחרונות של הטלפון של המורה
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
                 'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
         );
         const teacherToReportFor = await queryHelper.getTeacherByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
         if (!teacherToReportFor) {
-            this.warningMsg = this.texts.noTeacherWasFoundByFourLastDigits;
+            this.globalMsg = this.texts.noTeacherWasFoundByFourLastDigits;
             return this.getTeacherFourLastDigits();
         }
         else {
@@ -454,13 +459,13 @@ export class YemotCall extends CallBase {
     async getTeachedStudentTz() {
         //הקישי את מ.ז. של התלמידה
         await this.send(
-            this.warningMsgIfExists(),
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
                 'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
         );
         const teachedStudent = await queryHelper.getStudentByTz(this.user.id, this.params.partialTeachedStudentTz);
         if (!teachedStudent) {
-            this.warningMsg = this.texts.noTeachedStudentFound;
+            this.globalMsg = this.texts.noTeachedStudentFound;
             return this.getTeachedStudentTz();
         }
         else {
