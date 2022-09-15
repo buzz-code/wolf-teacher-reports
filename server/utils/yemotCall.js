@@ -42,6 +42,10 @@ export class YemotCall extends CallBase {
     }
 
     async askQuestions() {
+        if (this.params.questionAnswer) {
+            return;
+        }
+
         const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id, this.teacher.teacher_type_id);
         for (const question of questions) {
             await this.send(
@@ -54,6 +58,10 @@ export class YemotCall extends CallBase {
     }
 
     async getReportDate() {
+        if (this.report_date) {
+            return;
+        }
+
         await this.send(
             this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.chooseReportDateType },
@@ -262,12 +270,14 @@ export class YemotCall extends CallBase {
     }
 
     async getManhaReport() {
-        //האם מדווחת על עצמה או על מורות אחרות?
-        await this.send(
-            this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.askManhaReportType },
-                'manhaReportType', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
+        if (!this.params.manhaReportType) {
+            //האם מדווחת על עצמה או על מורות אחרות?
+            await this.send(
+                this.globalMsgIfExists(),
+                this.read({ type: 'text', text: this.texts.askManhaReportType },
+                    'manhaReportType', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+        }
         if (this.params.manhaReportType == 1) {
             //מדווחת על עצמה
             //כמה שיעורי מתודיקה היו?
