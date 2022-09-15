@@ -208,10 +208,8 @@ export class YemotCall extends CallBase {
             if (this.existingReport) {
                 await new AttReport().where({ id: this.existingReport.id }).destroy();
             }
-            await this.send(
-                this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
-                this.hangup()
-            );
+
+            await this.finishSavingReport();
         }
         catch (e) {
             console.log('catch yemot exception', e);
@@ -321,8 +319,6 @@ export class YemotCall extends CallBase {
                 this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
                     'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
-            //ובסיום האם תרצי לדווח על מורה נוספת   
-            //not implemented yet     
         }
     }
 
@@ -439,6 +435,31 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askWhatIsYourSpeciality },
                 'whatIsYourSpeciality', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+    }
+
+    async finishSavingReport() {
+        const isManhaAndOnOthers = this.teacher.teacher_type_id == 3 && this.params.manhaReportType == 2;
+        if (isManhaAndOnOthers) {
+            //בסיום האם תרצי לדווח על מורה נוספת   
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                this.read({ type: 'text', text: this.texts.askForAnotherTeacherReport },
+                    'anotherTeacherReport', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.anotherTeacherReport == 1) {
+                return this.askForReportDataAndSave();
+            } else {
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.goodbyeToManhaTeacher }),
+                    this.hangup()
+                );
+            }
+        } else {
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                this.hangup()
+            );
+        }
     }
 
 
