@@ -319,6 +319,8 @@ export class YemotCall extends CallBase {
                 this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
                     'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
+
+            await this.validateManhaReport();
         }
     }
 
@@ -471,14 +473,14 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
                 'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
         );
-        const teacherToReportFor = await queryHelper.getTeacherByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
-        if (!teacherToReportFor) {
+        this.teacherToReportFor = await queryHelper.getTeacherByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
+        if (!this.teacherToReportFor) {
             this.globalMsg = this.texts.noTeacherWasFoundByFourLastDigits;
             return this.getTeacherFourLastDigits();
         }
         else {
             await this.send(
-                this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, teacherToReportFor.name) },
+                this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, this.teacherToReportFor.name) },
                     'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             if (this.params.fourLastDigitsConfirm == 2) {
@@ -533,6 +535,27 @@ export class YemotCall extends CallBase {
                 this.id_list_message({ type: 'text', text: this.texts.validationErrorSeminarKitaLessonCount }),
                 this.hangup()
             );
+        }
+    }
+
+    async validateManhaReport() {
+        await this.send(
+            this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+            this.read({
+                type: 'text', text: format(
+                    this.texts.validationConfirmManhaReport,
+                    this.teacherToReportFor.name,
+                    this.params.isTaarifHulia,
+                    this.params.howManyWatchedLessons,
+                    this.params.howManyStudentsTeached,
+                    this.params.howManyYalkutLessons,
+                    this.params.howManyDiscussingLessons,
+                )
+            },
+                'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.reportConfirm == 2) {
+            return this.askForReportDataAndSave();
         }
     }
 }
