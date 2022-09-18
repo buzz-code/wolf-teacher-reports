@@ -69,9 +69,9 @@ export class YemotCall extends CallBase {
         );
 
         if (this.params.reportDateType === '1') {
-            this.report_date = moment().format('YYYY-MM-DD');
+            await this.getAndValidateReportDate(true);
         } else if (this.params.reportDateType === '2') {
-            await this.getAndValidateReportDate();
+            await this.getAndValidateReportDate(false);
         } else {
             await this.send(
                 this.hangup()
@@ -79,13 +79,19 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getAndValidateReportDate() {
-        await this.send(
-            this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.chooseReportDate },
-                'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
-        );
-        const reportDate = moment(this.params.reportDate, 'DDMMYYYY');
+    async getAndValidateReportDate(isToday) {
+        let reportDate = null;
+
+        if (!isToday) {
+            await this.send(
+                this.globalMsgIfExists(),
+                this.read({ type: 'text', text: this.texts.chooseReportDate },
+                    'reportDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+            );
+            reportDate = moment(this.params.reportDate, 'DDMMYYYY');
+        } else {
+            reportDate = moment();
+        }
 
         //תאריך לא חוקי
         const reportDateIsValid = reportDate.isValid;
