@@ -72,6 +72,8 @@ export class YemotCall extends CallBase {
             await this.getAndValidateReportDate(true);
         } else if (this.params.reportDateType === '2') {
             await this.getAndValidateReportDate(false);
+        } else if (this.params.reportDateType === '3') {
+            await this.showReports();
         } else {
             await this.send(
                 this.hangup()
@@ -470,6 +472,28 @@ export class YemotCall extends CallBase {
         }
     }
 
+    async showReports() {
+        // הקישי תאריך התחלה
+        await this.send(
+            this.read({ type: 'text', text: this.texts.chooseStartReportsDate },
+                'startReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+        );
+        const startReportsDate = moment(this.params.startReportsDate, 'DDMMYYYY');
+        // הקישי תאריך סיום
+        await this.send(
+            this.read({ type: 'text', text: this.texts.chooseEndReportsDate },
+                'endReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+        );
+        const endReportsDate = moment(this.params.endReportsDate, 'DDMMYYYY');
+
+        const previousReports = await queryHelper.getPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
+
+        const messages = previousReports.map(this.getReportMessage.bind(this));
+        await this.send(
+            ...messages,
+            this.hangup()
+        );
+    }
 
     //helpers
     async getTeacherFourLastDigits() {
@@ -563,5 +587,35 @@ export class YemotCall extends CallBase {
         if (this.params.reportConfirm == 2) {
             return this.askForReportDataAndSave();
         }
+    }
+
+    async getReportMessage({
+        report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, teached_student_tz,
+        how_many_yalkut_lessons, how_many_discussing_lessons, how_many_lessons_absence, how_many_watched_lessons,
+        was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
+        how_many_watch_or_individual, how_many_teached_or_interfering, how_many_students, was_students_good,
+        was_students_enter_on_time, was_students_exit_on_time, how_many_lessons, how_many_students_watched,
+        how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality
+    }) {
+        const reportMessages = {
+            1: this.texts.seminarKitaPreviousReports,
+            2: '',
+            3: this.texts.manhaPreviousReports,
+            4: '',
+            5: this.texts.pdsPreviousReports,
+            6: this.texts.kindergartenPreviousReports,
+            7: this.texts.specialEducationPreviousReports,
+        };
+        const params = {
+            1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, was_discussing, how_many_lessons_absence],
+            2: [],
+            3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons],
+            4: [],
+            5: [report_date, how_many_lessons_absence, how_many_watched_lessons, was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering],
+            6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time],
+            7: [report_date, how_many_students, how_many_students_watched, how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality],
+        };
+
+        return this.id_list_message({ type: 'text', text: format(reportMessages[this.teacher.teacher_type_id], ...params[this.teacher.teacher_type_id]) });
     }
 }

@@ -31,6 +31,14 @@ export function getReportByTeacherIdAndToday(user_id, teacher_id, report_date) {
         .then(res => res ? res.toJSON() : null);
 }
 
+export function getPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {
+    return new AttReport().where({ user_id, teacher_id })
+        .where('report_date', '>=', start_report_date.format('YYYY-MM-DD'))
+        .where('report_date', '<=', end_report_date.format('YYYY-MM-DD'))
+        .fetchAll()
+        .then(result => result.toJSON());
+}
+
 export function updateSalaryMonthByUserId(user_id, ids, salary_month) {
     return new AttReport().query()
         .where({ user_id, salary_month: null })
