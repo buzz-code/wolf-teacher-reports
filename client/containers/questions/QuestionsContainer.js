@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Table from '../../../common-modules/client/components/table/Table';
@@ -55,7 +55,24 @@ const QuestionsContainer = ({ entity, title }) => {
     dispatch(crudAction.customHttpRequest(entity, 'GET', 'get-edit-data'));
   }, []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
+  const manipulateDataToSave = useCallback(
+    (dataToSave) => ({
+      ...dataToSave,
+      start_date: dataToSave.start_date && moment(dataToSave.start_date).format('yyyy-MM-DD'),
+      end_date: dataToSave.end_date && moment(dataToSave.end_date).format('yyyy-MM-DD'),
+    }),
+    []
+  );
+
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      filters={filters}
+      manipulateDataToSave={manipulateDataToSave}
+    />
+  );
 };
 
 export default QuestionsContainer;
