@@ -337,21 +337,6 @@ export class YemotCall extends CallBase {
     }
 
     async getPdsReport() {
-        //האם התלמידות חסרו?
-        await this.send(
-            this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
-                'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        if (this.params.wasStudentAbsence == 1) {
-            //כמה שיעורים חסרו?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsence },
-                    'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-
-            await validateNoMoreThanTenAbsences();
-        }
         //כמה שיעורי צפיה היו?
         await this.send(
             this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
@@ -372,17 +357,27 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askHowManyIndividual },
                 'howManyIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-        //האם היה קמל?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasKamal },
-                'wasKamal', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
         //כמה שיעורי התערבות?
         await this.send(
             this.read({ type: 'text', text: this.texts.askHowManyInterfering },
                 'howManyInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-    }
+           //האם התלמידות חסרו?
+           await this.send(
+            this.globalMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
+                'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.wasStudentAbsence == 1) {
+            //כמה שיעורים חסרו?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsence },
+                    'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+
+            await validateNoMoreThanTenAbsences();
+        }
+ }
 
     async getKindergartenReport() {
         //כמה בנות היו בצפיה בגן?
