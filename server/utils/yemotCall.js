@@ -294,11 +294,11 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
-            //האם תעריף חוליה או תעריף כיתתי?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
-                    'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //האם תעריף חוליה או תעריף כיתתי?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
+            //         'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             //כמה שיעורי צפיה?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
@@ -317,10 +317,15 @@ export class YemotCall extends CallBase {
                     this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
                 }
             }
-            //כמה שיעורי ילקוט הרועים?
+            // //כמה שיעורי ילקוט הרועים?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
+            //         'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            //כמה שיעורי מרתון עזרת לתלמידות למסור?
             await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
-                    'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+                this.read({ type: 'text', text: this.texts.askHowManyStudentsHelpTeached },
+                    'howManyStudentsHelpTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             //כמה שיעורי דיון?
             await this.send(
@@ -362,8 +367,8 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askHowManyInterfering },
                 'howManyInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-           //האם התלמידות חסרו?
-           await this.send(
+        //האם התלמידות חסרו?
+        await this.send(
             this.globalMsgIfExists(),
             this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
                 'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
@@ -377,7 +382,7 @@ export class YemotCall extends CallBase {
 
             await validateNoMoreThanTenAbsences();
         }
- }
+    }
 
     async getKindergartenReport() {
         //כמה בנות היו בצפיה בגן?
