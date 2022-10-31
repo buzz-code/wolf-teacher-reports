@@ -34,6 +34,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teached_student_tz', title: 'תז תלמידה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעורי ילקוט' },
   { field: 'how_many_discussing_lessons', title: 'שיעורי דיון' },
+  { field: 'how_many_students_help_teached', title: 'עזרה בשיעורי מרתון' },
   { field: 'how_many_lessons_absence', title: 'העדרות' },
   { field: 'how_many_watched_lessons', title: 'צפיה' },
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },

@@ -192,6 +192,7 @@ export class YemotCall extends CallBase {
                 teached_student_tz: this.params.teachedStudentTz,
                 how_many_yalkut_lessons: this.params.howManyYalkutLessons,
                 how_many_discussing_lessons: this.params.howManyDiscussingLessons,
+                how_many_students_help_teached: this.params.howManyStudentsHelpTeached,
                 how_many_lessons_absence: this.params.howManyLessonsAbsence,
                 how_many_watched_lessons: this.params.howManyWatchedLessons,
                 was_discussing: this.params.wasDiscussing == '1',
@@ -579,6 +580,7 @@ export class YemotCall extends CallBase {
                     this.params.howManyStudentsTeached,
                     this.params.howManyYalkutLessons,
                     this.params.howManyDiscussingLessons,
+                    this.params.howManyStudentsHelpTeached,
                 )
             },
                 'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
