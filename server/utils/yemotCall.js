@@ -570,7 +570,6 @@ export class YemotCall extends CallBase {
 
     async validateManhaReport() {
         await this.send(
-            this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
             this.read({
                 type: 'text', text: format(
                     this.texts.validationConfirmManhaReport,
