@@ -1,5 +1,4 @@
-import Student from '../models/student.model';
-import Teacher from '../models/teacher.model';
+import {Student, Teacher} from '../models';
 
 import { getCountFromTable } from '../../common-modules/server/utils/query';
 

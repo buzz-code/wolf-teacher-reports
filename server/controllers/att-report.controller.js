@@ -1,8 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import AttReport from '../models/att-report.model';
-import AttType from '../models/att-type.model';
-import Teacher from '../models/teacher.model';
-import TeacherType from '../models/teacher-type.model';
+import {AttReport,AttType,Teacher,TeacherType} from '../models';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getPdsTeacherSalary, getSeminarKitaLessonCount, getSeminarKitaTotalPay, getTrainingTeacherSalary } from '../utils/reportHelper';

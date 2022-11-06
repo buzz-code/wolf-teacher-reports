@@ -1,6 +1,4 @@
-import Question from '../models/question.model';
-import QuestionType from '../models/question-type.model';
-import TeacherType from '../models/teacher-type.model';
+import {Question,QuestionType,TeacherType} from '../models';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 

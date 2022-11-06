@@ -1,7 +1,4 @@
-import Teacher from '../models/teacher.model';
-import TeacherType from '../models/teacher-type.model';
-import TeacherSalaryType from '../models/teacher-salary-type.model';
-import Student from '../models/student.model';
+import {Teacher,TeacherType,TeacherSalaryType} from '../models';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 

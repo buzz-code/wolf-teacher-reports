@@ -1,10 +1,4 @@
-import Teacher from "../models/teacher.model";
-import AttReport from "../models/att-report.model";
-import User from "../models/user.model";
-import Question from "../models/question.model";
-import Answer from "../models/answer.model";
-import WorkingDate from "../models/working-date.model";
-import Student from "../models/student.model";
+import {Teacher,AttReport,User,Question,Answer,WorkingDate,Student} from "../models";
 
 import moment from 'moment';
 

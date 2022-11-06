@@ -1,5 +1,4 @@
-import WorkingDate from '../models/working-date.model';
-import TeacherType from '../models/teacher-type.model';
+import {WorkingDate,TeacherType} from '../models';
 import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 
