@@ -1,11 +1,9 @@
 import HttpStatus from 'http-status-codes';
 import {AttReport,AttType,Teacher,TeacherType} from '../models';
-import genericController, { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
+import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getPdsTeacherSalary, getSeminarKitaLessonCount, getSeminarKitaTotalPay, getTrainingTeacherSalary } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId } from '../utils/queryHelper';
-
-export const { findById, store, update, destroy, uploadMultiple } = genericController(AttReport);
 
 /**
  * Find all the items

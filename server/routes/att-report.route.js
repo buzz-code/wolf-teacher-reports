@@ -1,8 +1,7 @@
-import * as attReportCtrl from '../controllers/att-report.controller';
-import genericRoute from '../../common-modules/server/routes/generic.route';
 import { exportPdf } from '../../common-modules/server/utils/template';
+import { genericRouteWithController } from '../../common-modules/server/controllers/loader';
 
-const router = genericRoute(attReportCtrl, (router, ctrl) => {
+const router = genericRouteWithController('att-report', 'AttReport', (router, ctrl) => {
     router.route('/get-edit-data')
         .get((req, res) => {
             ctrl.getEditData(req, res);

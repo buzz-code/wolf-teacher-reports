@@ -1,6 +1,5 @@
-import * as answerCtrl from '../controllers/answer.controller';
-import genericRoute from '../../common-modules/server/routes/generic.route';
+import { genericRouteWithController } from '../../common-modules/server/controllers/loader';
 
-const router = genericRoute(answerCtrl);
+const router = genericRouteWithController('answer', 'Answer');
 
 export default router;

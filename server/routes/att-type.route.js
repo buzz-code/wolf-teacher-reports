@@ -1,6 +1,5 @@
-import * as attTypeCtrl from '../controllers/att-type.controller';
-import genericRoute from '../../common-modules/server/routes/generic.route';
+import { genericRouteWithController } from '../../common-modules/server/controllers/loader';
 
-const router = genericRoute(attTypeCtrl);
+const router = genericRouteWithController('att-type', 'AttType');
 
 export default router;

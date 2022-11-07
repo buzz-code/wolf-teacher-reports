@@ -1,6 +1,5 @@
-import * as priceCtrl from '../controllers/price.controller';
-import genericRoute from '../../common-modules/server/routes/generic.route';
+import { genericRouteWithController } from "../../common-modules/server/controllers/loader";
 
-const router = genericRoute(priceCtrl);
+const router = genericRouteWithController('price', 'Price');
 
 export default router;
