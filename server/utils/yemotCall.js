@@ -314,7 +314,7 @@ export class YemotCall extends CallBase {
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
             if (this.params.howManyStudentsTeached != 0) {
                 for (let index = 0; index < +this.params.howManyStudentsTeached; index++) {
-                    await this.getTeachedStudentTz();
+                    await this.getTeachedStudentTz(index + 1);
                     this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
                 }
             }
@@ -520,11 +520,11 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getTeachedStudentTz() {
+    async getTeachedStudentTz(number) {
         //הקישי את מ.ז. של התלמידה
         await this.send(
             this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.askPartialTeachedStudentTz },
+            this.read({ type: 'text', text: format(this.texts.askPartialTeachedStudentTz, number) },
                 'partialTeachedStudentTz', 'tap', { max: 9, min: 9, block_asterisk: true })
         );
         const teachedStudent = await queryHelper.getStudentByTz(this.user.id, this.params.partialTeachedStudentTz);
