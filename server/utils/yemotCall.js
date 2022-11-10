@@ -312,12 +312,12 @@ export class YemotCall extends CallBase {
             );
             //אם התשובה גדולה מ0 אז  
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
-            if (this.params.howManyStudentsTeached != 0) {
-                for (let index = 0; index < +this.params.howManyStudentsTeached; index++) {
-                    await this.getTeachedStudentTz(index + 1);
-                    this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
-                }
-            }
+            // if (this.params.howManyStudentsTeached != 0) {
+            //     for (let index = 0; index < +this.params.howManyStudentsTeached; index++) {
+            //         await this.getTeachedStudentTz(index + 1);
+            //         this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
+            //     }
+            // }
             //כמה שיעורי ילקוט הרועים?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
@@ -530,7 +530,7 @@ export class YemotCall extends CallBase {
         const teachedStudent = await queryHelper.getStudentByTz(this.user.id, this.params.partialTeachedStudentTz);
         if (!teachedStudent) {
             this.globalMsg = this.texts.noTeachedStudentFound;
-            return this.getTeachedStudentTz();
+            return this.getTeachedStudentTz(number);
         }
         else {
             await this.send(
@@ -538,7 +538,7 @@ export class YemotCall extends CallBase {
                     'teachedStudentConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             if (this.params.teachedStudentConfirm == 2) {
-                return this.getTeachedStudentTz();
+                return this.getTeachedStudentTz(number);
             }
         }
     }
