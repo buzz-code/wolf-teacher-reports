@@ -17,11 +17,12 @@ const getColumns = (handleEditComment) => [
   { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
-  { field: 'how_many_watch_or_individual', title: 'כמה שיעורי צפיה או פרטני' },
-  { field: 'how_many_teached_or_interfering', title: 'כמה שיעור צפיה או מעורבות' },
-  { field: 'how_many_discussing_lessons', title: 'כמה שיעורי דיון' },
-  { field: 'how_many_lessons_absence', title: 'כמה שיעורים התלמידה חסרה' },
-  { field: 'total_pay', title: 'סה"כ לתשלום' },
+  { field: 'how_many_students', title: 'כמה תלמידות?' },
+  { field: 'was_students_good', title: 'האם התנהגו כראוי?' },
+  { field: 'was_students_enter_on_time', title: 'האם נכנסו בזמן?', type: 'boolean' },
+  { field: 'was_students_exit_on_time', title: 'האם יצאו בזמן?', type: 'boolean' },
+  { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
+  { field: 'total_pay', title: 'שכר למורה' },
   {
     field: 'salary_month',
     title: 'חודש שכר',
@@ -59,7 +60,7 @@ const getActions = (handleUpdateSalaryMonth) => [
   },
 ];
 
-const SeminarKitaReportsContainer = ({ entity, title }) => {
+const KindergartenReportsContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     data,
@@ -131,4 +132,4 @@ const SeminarKitaReportsContainer = ({ entity, title }) => {
   );
 };
 
-export default SeminarKitaReportsContainer;
+export default KindergartenReportsContainer;

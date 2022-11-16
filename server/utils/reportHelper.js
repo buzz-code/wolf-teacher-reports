@@ -45,10 +45,14 @@ export function getTrainingTeacherSalary() {
     )`);
 }
 
-export function getPdsTeacherSalary(){
+export function getPdsTeacherSalary() {
     return bookshelf.knex.raw(`(
         COALESCE(how_many_watched, 0) * ${pdsPrices.watch} +
         COALESCE(how_many_student_teached, 0) * ${pdsPrices.teach} +
         COALESCE(was_discussing, 0) * ${pdsPrices.discuss}
     )`);
+}
+
+export function getCoalesceAndPrice(column, price) {
+    return `COALESCE(${column}, 0) * ${price}`;
 }

@@ -22,6 +22,8 @@ import {
   QUESTIONS,
   ANSWERS,
   WORKING_DATES,
+  KINDERGARTEN_REPORTS,
+  SPECIAL_EDUCATION_REPORTS,
 } from '../constants/entity';
 
 const appReducer = (history) =>
@@ -41,6 +43,8 @@ const appReducer = (history) =>
     [MANHA_REPORTS]: crudReducer(MANHA_REPORTS),
     [RESPONSIBLE_REPORTS]: crudReducer(RESPONSIBLE_REPORTS),
     [PDS_REPORTS]: crudReducer(PDS_REPORTS),
+    [SPECIAL_EDUCATION_REPORTS]: crudReducer(SPECIAL_EDUCATION_REPORTS),
+    [KINDERGARTEN_REPORTS]: crudReducer(KINDERGARTEN_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
     [QUESTIONS]: crudReducer(QUESTIONS),
     [ANSWERS]: crudReducer(ANSWERS),

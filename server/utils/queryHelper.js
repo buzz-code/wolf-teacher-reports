@@ -1,4 +1,4 @@
-import {Teacher,AttReport,User,Question,Answer,WorkingDate,Student} from "../models";
+import { Teacher, AttReport, User, Question, Answer, WorkingDate, Student, Price } from "../models";
 
 import moment from 'moment';
 
@@ -121,4 +121,13 @@ export async function getStudentByTz(user_id, tz) {
         .where({ user_id, tz })
         .fetch({ require: false })
         .then(res => res ? res.toJSON() : null);
+}
+
+export async function getPrices(user_id) {
+    const data = await new Price()
+        .where({ user_id })
+        .fetchAll()
+        .then(result => result.toJSON());
+    const dict = data.reduce((a, b) => ({ ...a, [b.key]: b.price }), {});
+    return dict;
 }

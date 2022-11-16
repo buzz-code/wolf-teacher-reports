@@ -36,6 +36,8 @@ import TrainingReport from '../containers/att-reports/TrainingReportsContainer';
 import ManhaReports from '../containers/att-reports/ManhaReportsContainer';
 import ResponsibleReports from '../containers/att-reports/ResponsibleReportsContainer';
 import PdsReports from '../containers/att-reports/PdsReportsContainer';
+import SpecialEducationReports from '../containers/att-reports/SpecialEducationReportsContainer';
+import KindergartenReports from '../containers/att-reports/KindergartenReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 import WorkingDates from '../containers/working-dates/WorkingDatesContainer';
 
@@ -131,33 +133,50 @@ export default [
           title: titles.SEMINAR_KITA_REPORTS,
           props: { entity: entities.SEMINAR_KITA_REPORTS, title: titles.SEMINAR_KITA_REPORTS },
         },
-        {
-          path: '/training-reports',
-          component: TrainingReport,
-          icon: StorageIcon,
-          title: titles.TRAINING_REPORTS,
-          props: { entity: entities.TRAINING_REPORTS, title: titles.TRAINING_REPORTS },
-        },
-        {
-          path: '/manha-reports',
-          component: ManhaReports,
-          icon: StorageIcon,
-          title: titles.MANHA_REPORTS,
-          props: { entity: entities.MANHA_REPORTS, title: titles.MANHA_REPORTS },
-        },
-        {
-          path: '/responsible-reports',
-          component: ResponsibleReports,
-          icon: StorageIcon,
-          title: titles.RESPONSIBLE_REPORTS,
-          props: { entity: entities.RESPONSIBLE_REPORTS, title: titles.RESPONSIBLE_REPORTS },
-        },
+        // {
+        //   path: '/training-reports',
+        //   component: TrainingReport,
+        //   icon: StorageIcon,
+        //   title: titles.TRAINING_REPORTS,
+        //   props: { entity: entities.TRAINING_REPORTS, title: titles.TRAINING_REPORTS },
+        // },
+        // {
+        //   path: '/manha-reports',
+        //   component: ManhaReports,
+        //   icon: StorageIcon,
+        //   title: titles.MANHA_REPORTS,
+        //   props: { entity: entities.MANHA_REPORTS, title: titles.MANHA_REPORTS },
+        // },
+        // {
+        //   path: '/responsible-reports',
+        //   component: ResponsibleReports,
+        //   icon: StorageIcon,
+        //   title: titles.RESPONSIBLE_REPORTS,
+        //   props: { entity: entities.RESPONSIBLE_REPORTS, title: titles.RESPONSIBLE_REPORTS },
+        // },
         {
           path: '/pds-reports',
           component: PdsReports,
           icon: StorageIcon,
           title: titles.PDS_REPORTS,
           props: { entity: entities.PDS_REPORTS, title: titles.PDS_REPORTS },
+        },
+        {
+          path: '/special-education-reports',
+          component: SpecialEducationReports,
+          icon: StorageIcon,
+          title: titles.SPECIAL_EDUCATION_REPORTS,
+          props: {
+            entity: entities.SPECIAL_EDUCATION_REPORTS,
+            title: titles.SPECIAL_EDUCATION_REPORTS,
+          },
+        },
+        {
+          path: '/kindergarten-reports',
+          component: KindergartenReports,
+          icon: StorageIcon,
+          title: titles.KINDERGARTEN_REPORTS,
+          props: { entity: entities.KINDERGARTEN_REPORTS, title: titles.KINDERGARTEN_REPORTS },
         },
         {
           path: '/answers',
