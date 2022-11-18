@@ -343,46 +343,64 @@ export class YemotCall extends CallBase {
     }
 
     async getPdsReport() {
-        //כמה שיעורי צפיה היו?
+        //  כמה שיעורי צפיה או פרטני
         await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
-                'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.askHowManyWatchOrIndividual },
+                'howManyWatchOrIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-        //האם היה דיון?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasDiscussing },
-                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        //כמה שיעורי מסירה?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyTeached },
-                'howManyTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        //כמה שיעורי פרטני?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyIndividual },
-                'howManyIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        //כמה שיעורי התערבות?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyInterfering },
-                'howManyInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        //האם התלמידות חסרו?
-        await this.send(
-            this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
-                'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        if (this.params.wasStudentAbsence == 1) {
-            //כמה שיעורים חסרו?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsence },
-                    'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
 
-            await validateNoMoreThanTenAbsences();
-        }
+        // כמה שיעורי מסירה או מעורבות
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyTeachedOrInterfering },
+                'howManyTeachedOrInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+
+        // כמה שיעורי דיון
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+                'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
+        );
+
+        // //כמה שיעורי צפיה היו?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
+        //         'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //האם היה דיון?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askWasDiscussing },
+        //         'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //כמה שיעורי מסירה?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askHowManyTeached },
+        //         'howManyTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //כמה שיעורי פרטני?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askHowManyIndividual },
+        //         'howManyIndividual', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //כמה שיעורי התערבות?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askHowManyInterfering },
+        //         'howManyInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //האם התלמידות חסרו?
+        // await this.send(
+        //     this.globalMsgIfExists(),
+        //     this.read({ type: 'text', text: this.texts.askWasStudentAbsence },
+        //         'wasStudentAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // if (this.params.wasStudentAbsence == 1) {
+        //     //כמה שיעורים חסרו?
+        //     await this.send(
+        //         this.read({ type: 'text', text: this.texts.askHowManyLessonsAbsence },
+        //             'howManyLessonsAbsence', 'tap', { max: 1, min: 1, block_asterisk: true })
+        //     );
+
+        //     await validateNoMoreThanTenAbsences();
+        // }
     }
 
     async getKindergartenReport() {

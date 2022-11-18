@@ -145,15 +145,12 @@ export async function getPdsReport(req, res) {
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
-        qb.select('how_many_watched_lessons', 'was_discussing', 'how_many_teached', 'how_many_individual', 'how_many_interfering', 'how_many_lessons_absence')
+        qb.select('how_many_watch_or_individual', 'how_many_teached_or_interfering', 'how_many_discussing_lessons')
         qb.select({
             total_pay: bookshelf.knex.raw([
-                getCoalesceAndPrice('how_many_watched_lessons', prices[11]),
-                getCoalesceAndPrice('was_discussing', prices[13]),
-                getCoalesceAndPrice('how_many_teached', prices[12]),
-                getCoalesceAndPrice('how_many_individual', prices[11]),
-                getCoalesceAndPrice('how_many_interfering', prices[12]),
-                getCoalesceAndPrice('how_many_lessons_absence', 0),
+                getCoalesceAndPrice('how_many_watch_or_individual', prices[40]),
+                getCoalesceAndPrice('how_many_teached_or_interfering', prices[42]),
+                getCoalesceAndPrice('how_many_discussing_lessons', prices[41]),
             ].join(' + '))
         })
     });
