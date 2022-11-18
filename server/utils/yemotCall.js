@@ -509,6 +509,13 @@ export class YemotCall extends CallBase {
         const previousReports = await queryHelper.getPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
 
         const messages = previousReports.map(this.getReportMessage.bind(this));
+
+        if (messages.length == 0) {
+            messages.push(
+                this.id_list_message({ type: 'text', text: this.texts.noReportFound }),
+            )
+        }
+
         await this.send(
             ...messages,
             this.hangup()
