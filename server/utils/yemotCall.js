@@ -212,6 +212,7 @@ export class YemotCall extends CallBase {
                 was_phone_discussing: this.params.wasPhoneDiscussing,
                 your_training_teacher: this.params.whoIsYourTrainingTeacher,
                 what_speciality: this.params.whatIsYourSpeciality,
+                teacher_to_report_for: this.teacherToReportFor?.id,
             };
             await new AttReport(attReport).save();
             if (this.existingReport) {

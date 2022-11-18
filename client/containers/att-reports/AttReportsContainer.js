@@ -30,6 +30,11 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות' },
+  {
+    field: 'teacher_to_report_for',
+    title: 'שם המורה לדיווח',
+    ...getPropsForAutoComplete('teacher_to_report_for', teachers),
+  },
   { field: 'is_taarif_hulia', title: 'תעריף חוליה' },
   { field: 'teached_student_tz', title: 'תז תלמידה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעורי ילקוט' },
