@@ -93,18 +93,36 @@ export function getTrainingReport(req, res) {
     fetchPage({ dbQuery }, req.query, res);
 }
 
-export function getManhaReport(req, res) {
+export async function getManhaReport(req, res) {
+    const prices = await getPrices(req.currentUser.id)
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 3 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin({ 'teacher_to_report_for': 'teachers' }, 'teacher_to_report_for.id', 'att_reports.teacher_to_report_for')
+            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({
+            id: 'att_reports.id',
             teacher_name: 'teachers.name',
-            teacher_tz: 'teachers.tz'
+            teacher_tz: 'teachers.tz',
+            teacher_training_teacher: 'teachers.training_teacher',
+            teacher_salary_type: 'teacher_salary_types.name',
+            teacher_to_report_for_name: 'teacher_to_report_for.name',
         })
-        qb.select('report_date', 'update_date', 'how_many_methodic')
+        qb.select('report_date', 'update_date')
+        qb.select('salary_month', 'comment')
+        qb.select('four_last_digits_of_teacher_phone', 'teacher_to_report_for', 'how_many_watched_lessons', 'how_many_students_teached', 'how_many_yalkut_lessons', 'how_many_students_help_teached', 'how_many_discussing_lessons')
+        qb.select({
+            total_pay: bookshelf.knex.raw([
+                getCoalesceAndPrice('how_many_watched_lessons', prices[51]),
+                getCoalesceAndPrice('how_many_students_teached', prices[52]),
+                getCoalesceAndPrice('how_many_yalkut_lessons', prices[53]),
+                getCoalesceAndPrice('how_many_discussing_lessons', prices[54]),
+                getCoalesceAndPrice('how_many_students_help_teached', prices[55]),
+            ].join(' + '))
+        })
     });
     fetchPage({ dbQuery }, req.query, res);
 }

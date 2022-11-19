@@ -7,7 +7,14 @@ const getColumns = () => [
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
-  { field: 'how_many_methodic', title: 'כמה שיעורים היו לך היום' },
+  { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
+  { field: 'teacher_to_report_for_name', title: 'שם המורה המאמנת' },
+  { field: 'how_many_watched_lessons', title: 'שיעורי צפיה' },
+  { field: 'how_many_students_teached', title: 'שיעורי מסירה' },
+  { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
+  { field: 'how_many_students_help_teached', title: 'עזרה במרתון' },
+  { field: 'how_many_discussing_lessons', title: 'דיון' },
+  { field: 'total_pay', title: 'שכר למורה' },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },

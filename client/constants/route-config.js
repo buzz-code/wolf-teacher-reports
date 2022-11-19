@@ -140,13 +140,13 @@ export default [
         //   title: titles.TRAINING_REPORTS,
         //   props: { entity: entities.TRAINING_REPORTS, title: titles.TRAINING_REPORTS },
         // },
-        // {
-        //   path: '/manha-reports',
-        //   component: ManhaReports,
-        //   icon: StorageIcon,
-        //   title: titles.MANHA_REPORTS,
-        //   props: { entity: entities.MANHA_REPORTS, title: titles.MANHA_REPORTS },
-        // },
+        {
+          path: '/manha-reports',
+          component: ManhaReports,
+          icon: StorageIcon,
+          title: titles.MANHA_REPORTS,
+          props: { entity: entities.MANHA_REPORTS, title: titles.MANHA_REPORTS },
+        },
         // {
         //   path: '/responsible-reports',
         //   component: ResponsibleReports,
