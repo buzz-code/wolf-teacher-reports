@@ -256,11 +256,20 @@ export class YemotCall extends CallBase {
                 'howManyTeachedOrInterfering', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
 
-        // כמה שיעורי דיון
+        //האם היה קמל?
         await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
-                'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
+            this.read({ type: 'text', text: this.texts.askWasKamal },
+                'wasKamal', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
+
+
+        if (this.params.wasKamal == 0) {
+            // כמה שיעורי דיון
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+                    'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
+            );
+        }
 
         // כמה שיעורים התלמידות חסרו מסיבות אישיות
         await this.send(
