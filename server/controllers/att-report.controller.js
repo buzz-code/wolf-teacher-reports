@@ -110,6 +110,7 @@ export async function getManhaReport(req, res) {
             teacher_training_teacher: 'teachers.training_teacher',
             teacher_salary_type: 'teacher_salary_types.name',
             teacher_to_report_for_name: 'teacher_to_report_for.name',
+            teacher_to_report_for_tz: 'teacher_to_report_for.tz',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')

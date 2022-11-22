@@ -7,13 +7,17 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 
 const getColumns = (handleEditComment) => [
-  { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
-  { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
+  {
+    field: 'teacher_to_report_for_name',
+    title: 'שם המורה המאמנת',
+    columnOrder: 'teacher_to_report_for.name',
+  },
+  { field: 'teacher_to_report_for_tz', title: 'תז', columnOrder: 'teacher_to_report_for.tz' },
+  { field: 'teacher_name', title: 'שם המורה המנחה', columnOrder: 'teachers.name' },
   { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
-  { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
-  { field: 'teacher_to_report_for_name', title: 'שם המורה המאמנת' },
+  // { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
   { field: 'how_many_watched_lessons', title: 'שיעורי צפיה' },
   { field: 'how_many_students_teached', title: 'שיעורי מסירה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
