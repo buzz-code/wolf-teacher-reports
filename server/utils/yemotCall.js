@@ -123,10 +123,13 @@ export class YemotCall extends CallBase {
             return this.getAndValidateReportDate();
         }
 
-        //אזהרה אם כבר יש דיווח באותו תאריך
-        this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
-        if (this.existingReport) {
-            this.globalMsg = this.texts.existingReportWillBeDeleted;
+        //לא למורות מנחות
+        if (this.teacher.teacher_type_id != 3) {
+            //אזהרה אם כבר יש דיווח באותו תאריך
+            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
+            if (this.existingReport) {
+                this.globalMsg = this.texts.existingReportWillBeDeleted;
+            }
         }
 
         //בדיקת תאריך עברי
@@ -594,6 +597,7 @@ export class YemotCall extends CallBase {
         const totalCount = this.params.howManyLessons;
         const reportedCount = Number(this.params.howManyWatchOrIndividual) +
             Number(this.params.howManyTeachedOrInterfering) +
+            Number(this.params.wasKamal) +
             Number(this.params.howManyDiscussingLessons) +
             Number(this.params.howManyLessonsAbsence);
         if (totalCount != reportedCount) {
