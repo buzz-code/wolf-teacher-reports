@@ -595,11 +595,11 @@ export class YemotCall extends CallBase {
     async validateSeminarKitaLessonCount() {
         //סה"כ שיעורים שמורה מדווחת בפועל צריך להיות תואם למספר שהקישה שרוצה לדווח
         const totalCount = this.params.howManyLessons;
-        const reportedCount = Number(this.params.howManyWatchOrIndividual) +
-            Number(this.params.howManyTeachedOrInterfering) +
-            Number(this.params.wasKamal) +
-            Number(this.params.howManyDiscussingLessons) +
-            Number(this.params.howManyLessonsAbsence);
+        const reportedCount = Number(this.params.howManyWatchOrIndividual ?? 0) +
+            Number(this.params.howManyTeachedOrInterfering ?? 0) +
+            Number(this.params.wasKamal ?? 0) +
+            Number(this.params.howManyDiscussingLessons ?? 0) +
+            Number(this.params.howManyLessonsAbsence ?? 0);
         if (totalCount != reportedCount) {
             await this.send(
                 this.id_list_message({ type: 'text', text: this.texts.validationErrorSeminarKitaLessonCount }),
