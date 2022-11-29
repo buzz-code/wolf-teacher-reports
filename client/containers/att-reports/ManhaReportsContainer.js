@@ -18,7 +18,7 @@ const getColumns = (handleEditComment) => [
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   // { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
-  { field: 'how_many_watched_lessons', title: 'שיעורי צפיה' },
+  { field: 'how_many_watched_lessons', title: 'שיעורי צפיה או מטלה' },
   { field: 'how_many_students_teached', title: 'שיעורי מסירה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
   { field: 'how_many_students_help_teached', title: 'עזרה במרתון' },
