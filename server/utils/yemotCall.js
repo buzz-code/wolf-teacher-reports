@@ -629,7 +629,7 @@ export class YemotCall extends CallBase {
         }
     }
 
-    async getReportMessage({
+    getReportMessage({
         report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, teached_student_tz,
         how_many_yalkut_lessons, how_many_discussing_lessons, how_many_lessons_absence, how_many_watched_lessons,
         was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
