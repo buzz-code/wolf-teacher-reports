@@ -646,6 +646,7 @@ export class YemotCall extends CallBase {
             6: this.texts.kindergartenPreviousReports,
             7: this.texts.specialEducationPreviousReports,
         };
+        report_date = formatJewishDateHebrew(getJewishDate(report_date));
         const params = {
             1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, was_discussing, how_many_lessons_absence],
             2: [],
