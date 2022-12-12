@@ -648,7 +648,7 @@ export class YemotCall extends CallBase {
         };
         report_date = formatJewishDateHebrew(getJewishDate(report_date));
         const params = {
-            1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, was_discussing, how_many_lessons_absence],
+            1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons, how_many_lessons_absence, was_kamal],
             2: [],
             3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons],
             4: [],
