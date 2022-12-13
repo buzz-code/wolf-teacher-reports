@@ -62,13 +62,14 @@ export async function getSeminarKitaReport(req, res) {
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
-        qb.select('how_many_watch_or_individual', 'how_many_teached_or_interfering', 'how_many_discussing_lessons', 'how_many_lessons_absence')
+        qb.select('how_many_watch_or_individual', 'how_many_teached_or_interfering', 'was_kamal', 'how_many_discussing_lessons', 'how_many_lessons_absence')
         qb.select({
             total_pay: bookshelf.knex.raw([
                 getCoalesceAndPrice('how_many_watch_or_individual', prices[11]),
                 getCoalesceAndPrice('how_many_teached_or_interfering', prices[12]),
                 getCoalesceAndPrice('how_many_discussing_lessons', prices[13]),
-                getCoalesceAndPrice('how_many_lessons_absence', prices[14]),
+                getCoalesceAndPrice('was_kamal', prices[14]),
+                getCoalesceAndPrice('how_many_lessons_absence', prices[15]),
             ].join(' + '))
         })
     });

@@ -19,6 +19,7 @@ const getColumns = (handleEditComment) => [
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_watch_or_individual', title: 'כמה שיעורי צפיה או פרטני' },
   { field: 'how_many_teached_or_interfering', title: 'כמה שיעור צפיה או מעורבות' },
+  { field: 'was_kamal', title: 'קמל' },
   { field: 'how_many_discussing_lessons', title: 'כמה שיעורי דיון' },
   { field: 'how_many_lessons_absence', title: 'כמה שיעורים התלמידה חסרה' },
   { field: 'total_pay', title: 'סה"כ לתשלום' },
