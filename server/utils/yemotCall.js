@@ -423,26 +423,26 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askHowManyStudents },
                 'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-        //האם היה דיון?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasDiscussing },
-                'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
+        // //האם היה דיון?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askWasDiscussing },
+        //         'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
         //האם תפקוד הבנות ענה על ציפיותיך?
         await this.send(
             this.read({ type: 'text', text: this.texts.askWasStudentsGood },
                 'wasStudentsGood', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-        //האם התלמידות היו בגן בזמן?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasStudentsEnterOnTime },
-                'wasStudentsEnterOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        //האם התלמידות יצאו בזמן?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasStudentsExitOnTime },
-                'wasStudentsExitOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
+        // //האם התלמידות היו בגן בזמן?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askWasStudentsEnterOnTime },
+        //         'wasStudentsEnterOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
+        // //האם התלמידות יצאו בזמן?
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.askWasStudentsExitOnTime },
+        //         'wasStudentsExitOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+        // );
     }
 
     async getSpecialEducationReport() {
