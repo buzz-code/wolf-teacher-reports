@@ -631,8 +631,8 @@ export class YemotCall extends CallBase {
 
     getReportMessage({
         report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, teached_student_tz,
-        how_many_yalkut_lessons, how_many_discussing_lessons, how_many_lessons_absence, how_many_watched_lessons,
-        was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
+        how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached, how_many_lessons_absence,
+        how_many_watched_lessons, was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
         how_many_watch_or_individual, how_many_teached_or_interfering, how_many_students, was_students_good,
         was_students_enter_on_time, was_students_exit_on_time, how_many_lessons, how_many_students_watched,
         how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality
@@ -650,7 +650,7 @@ export class YemotCall extends CallBase {
         const params = {
             1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons, how_many_lessons_absence, was_kamal],
             2: [],
-            3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons],
+            3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached],
             4: [],
             5: [report_date, how_many_lessons_absence, how_many_watched_lessons, was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering],
             6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time],
