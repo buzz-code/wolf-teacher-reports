@@ -542,12 +542,13 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askFourLastDigitsOfTeacherPhone },
                 'fourLastDigitsOfTeacherPhone', 'tap', { max: 4, min: 4, block_asterisk: true })
         );
-        this.teacherToReportFor = await queryHelper.getTeacherByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
-        if (!this.teacherToReportFor) {
+        const teachers = await queryHelper.getTeachersByFourLastDigits(this.user.id, this.params.fourLastDigitsOfTeacherPhone);
+        if (teachers.length === 0) {
             this.globalMsg = this.texts.noTeacherWasFoundByFourLastDigits;
             return this.getTeacherFourLastDigits();
         }
-        else {
+        else if (teachers.length === 1) {
+            this.teacherToReportFor = teachers[0];
             await this.send(
                 this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, this.teacherToReportFor.name) },
                     'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
@@ -555,6 +556,17 @@ export class YemotCall extends CallBase {
             if (this.params.fourLastDigitsConfirm == 2) {
                 return this.getTeacherFourLastDigits();
             }
+        }
+        else {
+            const teacherSelectionStr = teachers.map((item, index) => `${item.name} - ${index + 1}`).join(', ');
+            await this.send(
+                this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirmMulti, teacherSelectionStr) },
+                    'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.fourLastDigitsConfirm == 0) {
+                return this.getTeacherFourLastDigits();
+            }
+            this.teacherToReportFor = teachers[this.params.fourLastDigitsConfirm - 1];
         }
     }
 
