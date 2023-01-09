@@ -546,18 +546,7 @@ export class YemotCall extends CallBase {
         if (teachers.length === 0) {
             this.globalMsg = this.texts.noTeacherWasFoundByFourLastDigits;
             return this.getTeacherFourLastDigits();
-        }
-        else if (teachers.length === 1) {
-            this.teacherToReportFor = teachers[0];
-            await this.send(
-                this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, this.teacherToReportFor.name) },
-                    'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            if (this.params.fourLastDigitsConfirm == 2) {
-                return this.getTeacherFourLastDigits();
-            }
-        }
-        else {
+        } else if (teachers.length > 1) {
             const teacherSelectionStr = teachers.map((item, index) => `${item.name} - ${index + 1}`).join(', ');
             await this.send(
                 this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirmMulti, teacherSelectionStr) },
@@ -567,6 +556,15 @@ export class YemotCall extends CallBase {
                 return this.getTeacherFourLastDigits();
             }
             this.teacherToReportFor = teachers[this.params.fourLastDigitsConfirm - 1];
+        } else {
+            this.teacherToReportFor = teachers[0];
+        }
+        await this.send(
+            this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirm, this.teacherToReportFor.name) },
+                'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.fourLastDigitsConfirm == 2) {
+            return this.getTeacherFourLastDigits();
         }
     }
 
