@@ -73,9 +73,9 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
         answerByQuestion[ans.question_id][ans.answer] = true;
     });
     return questions.filter(question => {
-        return question.question_type_key == 1 ||
-            question.question_type_key == 2 && answerByQuestion[question.id]?.[1] == false ||
-            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] == false
+        return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] || answerByQuestion[question.id]?.[1]) ||
+            question.question_type_key == 2 && answerByQuestion[question.id]?.[1] != true ||
+            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] != true
     });
 }
 
