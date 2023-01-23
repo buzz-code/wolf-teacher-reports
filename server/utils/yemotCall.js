@@ -548,7 +548,7 @@ export class YemotCall extends CallBase {
             this.globalMsg = this.texts.noTeacherWasFoundByFourLastDigits;
             return this.getTeacherFourLastDigits();
         } else if (teachers.length > 1) {
-            const teacherSelectionStr = teachers.map((item, index) => `${item.name} - ${index + 1}`).join(', ');
+            const teacherSelectionStr = teachers.map((item, index) => `${item.name}  ${index + 1}`).join(', ');
             await this.send(
                 this.read({ type: 'text', text: format(this.texts.askFourLastDigitsConfirmMulti, teacherSelectionStr) },
                     'fourLastDigitsConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
