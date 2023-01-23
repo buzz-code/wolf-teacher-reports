@@ -34,9 +34,9 @@ export class YemotCall extends CallBase {
     }
 
     async askForReportDataAndSave() {
-        await this.getReportDate();
-
         await this.askQuestions();
+
+        await this.getReportDate();
 
         await this.getReportAndSave();
     }
@@ -49,6 +49,7 @@ export class YemotCall extends CallBase {
         const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id, this.teacher.teacher_type_id);
         for (const question of questions) {
             await this.send(
+                this.globalMsgIfExists(),
                 this.id_list_message({ type: 'text', text: question.content }),
                 this.read({ type: 'text', text: this.texts.chooseAnswerForQuestion },
                     'questionAnswer', 'tap', { max: 1, min: 1, block_asterisk: true })
