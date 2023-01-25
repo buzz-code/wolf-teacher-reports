@@ -6,7 +6,7 @@ const getColumns = () => [
   { field: 'question_name', title: 'שאלה' },
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז המורה', columnOrder: 'teachers.tz' },
-  { field: 'answer_date', title: 'תאריך' },
+  { field: 'answer_date', title: 'תאריך', type: 'date' },
   { field: 'answer', title: 'תשובה' },
 ];
 const getFilters = () => [
