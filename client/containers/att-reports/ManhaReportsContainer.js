@@ -42,7 +42,8 @@ const getColumns = (handleEditComment) => [
   },
 ];
 const getFilters = () => [
-  { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
+  { field: 'teachers.name', label: 'מורה מנחה', type: 'text', operator: 'like' },
+  { field: 'teacher_to_report_for.name', label: 'מורה מאמנת', type: 'text', operator: 'like' },
   { field: 'teachers.tz', label: 'תז', type: 'text', operator: 'like' },
   { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
