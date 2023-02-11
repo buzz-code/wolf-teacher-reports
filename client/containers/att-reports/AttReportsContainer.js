@@ -5,7 +5,6 @@ import moment from 'moment';
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
-import { lessonsCount, studentsCount } from '../../../server/utils/constantsHelper';
 
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   {
