@@ -5,6 +5,24 @@ export function getCoalesceAndPrice(column, price) {
     return `COALESCE(${column}, 0) * ${price}`;
 }
 
+export function getTotalPay(teacher_type_id, prices) {
+    switch (teacher_type_id) {
+        case 1:
+            return getSeminarKitaTotalPay(prices);
+        case 2:
+            return getTrainingTeacherSalary();
+        case 3:
+            return getManhaTotalPay(prices);
+        case 4:
+            return null;
+        case 5:
+            return getPdsTotalPay(prices);
+        case 6:
+            return getKindergartenTotalPay(prices);
+        case 7:
+            return getSpecialEducationTotalPay(prices);
+    }
+}
 
 export function getTrainingTeacherSalary() {
     return bookshelf.knex.raw([

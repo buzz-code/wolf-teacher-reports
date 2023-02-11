@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import { AttReport, AttType, Teacher, TeacherType } from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
-import { getKindergartenTotalPay, getManhaTotalPay, getPdsTotalPay, getSeminarKitaTotalPay, getSpecialEducationTotalPay, getTrainingTeacherSalary } from '../utils/reportHelper';
+import { getTotalPay } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices } from '../utils/queryHelper';
 
 /**
@@ -62,9 +62,7 @@ export async function getSeminarKitaReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('how_many_watch_or_individual', 'how_many_teached_or_interfering', 'was_kamal', 'how_many_discussing_lessons', 'how_many_lessons_absence')
-        qb.select({
-            total_pay: getSeminarKitaTotalPay(prices)
-        })
+        qb.select({ total_pay: getTotalPay(1, prices) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -82,7 +80,7 @@ export function getTrainingReport(req, res) {
             teacher_training_teacher: 'teachers.training_teacher'
         })
         qb.select('report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
-        qb.select({ teacher_salary: getTrainingTeacherSalary() })
+        qb.select({ teacher_salary: getTotalPay(2) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -109,9 +107,7 @@ export async function getManhaReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('four_last_digits_of_teacher_phone', 'teacher_to_report_for', 'how_many_watched_lessons', 'how_many_students_teached', 'how_many_yalkut_lessons', 'how_many_students_help_teached', 'how_many_discussing_lessons')
-        qb.select({
-            total_pay: getManhaTotalPay(prices)
-        })
+        qb.select({ total_pay: getTotalPay(3, prices) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -153,9 +149,7 @@ export async function getPdsReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('how_many_watch_or_individual', 'how_many_teached_or_interfering', 'how_many_discussing_lessons')
-        qb.select({
-            total_pay: getPdsTotalPay(prices)
-        })
+        qb.select({ total_pay: getTotalPay(5, prices) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -179,9 +173,7 @@ export async function getSpecialEducationReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('how_many_lessons', 'how_many_students_watched', 'how_many_students_teached', 'was_phone_discussing', 'your_training_teacher', 'what_speciality')
-        qb.select({
-            total_pay: getSpecialEducationTotalPay(prices)
-        })
+        qb.select({ total_pay: getTotalPay(7, prices) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
@@ -205,9 +197,7 @@ export async function getKindergartenReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('how_many_students', 'was_discussing', 'was_students_good', 'was_students_enter_on_time', 'was_students_exit_on_time')
-        qb.select({
-            total_pay: getKindergartenTotalPay(prices)
-        })
+        qb.select({ total_pay: getTotalPay(6, prices) })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
