@@ -13,6 +13,7 @@ export const MANHA_REPORTS = 'שכר למורה מנחה';
 export const PDS_REPORTS = 'שכר למורת PDS';
 export const SPECIAL_EDUCATION_REPORTS = 'שכר לחינוך מיוחד';
 export const KINDERGARTEN_REPORTS = 'שכר לגננות';
+export const TOTAL_MONTHLY_REPORTS = 'שכר חודשי';
 export const DASHBOARD = 'מחוונים';
 export const QUESTIONS = 'שאלות למורה';
 export const ANSWERS = 'תשובות לשאלות';

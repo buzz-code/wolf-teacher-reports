@@ -13,6 +13,7 @@ export const MANHA_REPORTS = 'att-reports/getManhaReport';
 export const PDS_REPORTS = 'att-reports/getPdsReport';
 export const SPECIAL_EDUCATION_REPORTS = 'att-reports/getSpecialEducationReport';
 export const KINDERGARTEN_REPORTS = 'att-reports/getKindergartenReport';
+export const TOTAL_MONTHLY_REPORTS = 'att-reports/getTotalMonthlyReport';
 export const DASHBOARD = 'dashboard';
 export const QUESTIONS = 'questions';
 export const ANSWERS = 'answers';

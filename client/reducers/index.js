@@ -24,6 +24,7 @@ import {
   WORKING_DATES,
   KINDERGARTEN_REPORTS,
   SPECIAL_EDUCATION_REPORTS,
+  TOTAL_MONTHLY_REPORTS,
 } from '../constants/entity';
 
 const appReducer = (history) =>
@@ -45,6 +46,7 @@ const appReducer = (history) =>
     [PDS_REPORTS]: crudReducer(PDS_REPORTS),
     [SPECIAL_EDUCATION_REPORTS]: crudReducer(SPECIAL_EDUCATION_REPORTS),
     [KINDERGARTEN_REPORTS]: crudReducer(KINDERGARTEN_REPORTS),
+    [TOTAL_MONTHLY_REPORTS]: crudReducer(TOTAL_MONTHLY_REPORTS),
     [DASHBOARD]: crudReducer(DASHBOARD),
     [QUESTIONS]: crudReducer(QUESTIONS),
     [ANSWERS]: crudReducer(ANSWERS),

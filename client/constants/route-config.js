@@ -38,6 +38,7 @@ import ResponsibleReports from '../containers/att-reports/ResponsibleReportsCont
 import PdsReports from '../containers/att-reports/PdsReportsContainer';
 import SpecialEducationReports from '../containers/att-reports/SpecialEducationReportsContainer';
 import KindergartenReports from '../containers/att-reports/KindergartenReportsContainer';
+import TotalMonthlyReports from '../containers/att-reports/TotalMonthlyReportsContainer';
 import ExcelImport from '../containers/excel-import/ExcelImportContainer';
 import WorkingDates from '../containers/working-dates/WorkingDatesContainer';
 
@@ -177,6 +178,13 @@ export default [
           icon: StorageIcon,
           title: titles.KINDERGARTEN_REPORTS,
           props: { entity: entities.KINDERGARTEN_REPORTS, title: titles.KINDERGARTEN_REPORTS },
+        },
+        {
+          path: '/total-monthly-reports',
+          component: TotalMonthlyReports,
+          icon: StorageIcon,
+          title: titles.TOTAL_MONTHLY_REPORTS,
+          props: { entity: entities.TOTAL_MONTHLY_REPORTS, title: titles.TOTAL_MONTHLY_REPORTS },
         },
         {
           path: '/answers',

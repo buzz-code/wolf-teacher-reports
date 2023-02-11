@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import { AttReport, AttType, Teacher, TeacherType } from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
-import { getTotalPay } from '../utils/reportHelper';
+import { getTotalPay, getTotalPayForAllTeachers } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices } from '../utils/queryHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 
@@ -202,6 +202,38 @@ export async function getKindergartenReport(req, res) {
     });
     fetchPage({ dbQuery }, req.query, res);
 }
+
+
+export async function getTotalPayMonthlyReport(req, res) {
+    const prices = await getPrices(req.currentUser.id)
+    const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id })
+        .query(qb => {
+            qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
+        })
+    applyFilters(dbQuery, req.query.filters);
+
+    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name', bookshelf.knex.raw('MONTHNAME(report_date)')];
+
+    const countQuery = dbQuery.clone().query()
+        .countDistinct({ count: groupByColumns })
+        .then(res => res[0].count);
+
+    dbQuery.query(qb => {
+        qb.groupBy(groupByColumns)
+        qb.select({
+            teacher_name: 'teachers.name',
+            teacher_tz: 'teachers.tz',
+            teacher_salary_type: 'teacher_salary_types.name',
+            report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
+        })
+        // qb.select('report_date', 'update_date')
+        // qb.select('salary_month', 'comment')
+        qb.select({ total_pay: getTotalPayForAllTeachers(prices) })
+    });
+    fetchPage({ dbQuery, countQuery }, req.query, res);
+}
+
 
 export async function updateSalaryMonth(req, res) {
     const { body: { ids, salaryMonth } } = req;

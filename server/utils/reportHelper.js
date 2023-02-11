@@ -7,7 +7,7 @@ export function getCoalesceAndPrice(column, price) {
 
 export function getTotalPayForAllTeachers(prices) {
     function getCaseOneLike(number) {
-        return `WHEN teacher_type_id = ${number} THEN ${getTotalPay(number, prices)}`
+        return `WHEN teachers.teacher_type_id = ${number} THEN ${getTotalPay(number, prices)}`
     }
 
     return bookshelf.knex.raw(`
