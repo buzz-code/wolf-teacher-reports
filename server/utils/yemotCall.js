@@ -314,11 +314,11 @@ export class YemotCall extends CallBase {
             //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
             //         'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
-            //כמה שיעורי צפיה?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
-                    'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //כמה שיעורי צפיה?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
+            //         'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             //כמה בנות מסרו היום שיעור?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
@@ -332,23 +332,23 @@ export class YemotCall extends CallBase {
             //         this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
             //     }
             // }
-            //כמה שיעורי ילקוט הרועים?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
-                    'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            //כמה שיעורי מרתון עזרת לתלמידות למסור?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyStudentsHelpTeached },
-                    'howManyStudentsHelpTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            //כמה שיעורי דיון?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
-                    'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //כמה שיעורי ילקוט הרועים?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
+            //         'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            // //כמה שיעורי מרתון עזרת לתלמידות למסור?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyStudentsHelpTeached },
+            //         'howManyStudentsHelpTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            // //כמה שיעורי דיון?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+            //         'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
 
-            await this.validateManhaReport();
+            // await this.validateManhaReport();
         }
     }
 
