@@ -213,7 +213,7 @@ export async function getTotalPayMonthlyReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name', bookshelf.knex.raw('MONTHNAME(report_date)')];
+    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name', 'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)')];
 
     const countQuery = dbQuery.clone().query()
         .countDistinct({ count: groupByColumns })
@@ -229,7 +229,7 @@ export async function getTotalPayMonthlyReport(req, res) {
         })
         // qb.select('report_date', 'update_date')
         // qb.select('salary_month', 'comment')
-        qb.select({ total_pay: getTotalPayForAllTeachers(prices) })
+        qb.sum({ total_pay: getTotalPayForAllTeachers(prices) })
     });
     fetchPage({ dbQuery, countQuery }, req.query, res);
 }

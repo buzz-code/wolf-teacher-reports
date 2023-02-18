@@ -2,7 +2,7 @@ import bookshelf from '../../common-modules/server/config/bookshelf';
 import { trainingPrices } from './pricesHelper';
 
 export function getCoalesceAndPrice(column, price) {
-    return `COALESCE(${column}, 0) * ${price}`;
+    return `COALESCE(${column}, 0) * ${price ?? 0}`;
 }
 
 export function getTotalPayForAllTeachers(prices) {
@@ -83,7 +83,7 @@ export function getPdsTotalPay(prices) {
 
 export function getSpecialEducationTotalPay(prices) {
     return [
-        getCoalesceAndPrice('how_many_lessons', 1) + '*' + getCoalesceAndPrice('how_many_students_watched', 1) + '*' + prices[26],
+        getCoalesceAndPrice('how_many_lessons', 1) + '*' + getCoalesceAndPrice('how_many_students_watched', 1) + '*' + (prices[26] ?? 0),
         getCoalesceAndPrice('how_many_students_teached', prices[27]),
         getCoalesceAndPrice('was_phone_discussing', prices[28]),
     ].join(' + ')
