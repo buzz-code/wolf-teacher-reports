@@ -19,6 +19,7 @@ const getColumns = ({ questionTypes, teacherTypes }) => [
     title: 'סוג המורה',
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
+  { field: 'allowed_digits', title: 'תשובה אפשרית' },
   { field: 'start_date', title: 'תאריך התחלה', type: 'date' },
   { field: 'end_date', title: 'תאריך סיום', type: 'date' },
 ];

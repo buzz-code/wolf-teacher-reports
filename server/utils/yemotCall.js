@@ -52,7 +52,10 @@ export class YemotCall extends CallBase {
                 this.globalMsgIfExists(),
                 this.id_list_message({ type: 'text', text: question.content }),
                 this.read({ type: 'text', text: this.texts.chooseAnswerForQuestion },
-                    'questionAnswer', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
+                    'questionAnswer', 'tap', {
+                    max: 1, min: 1, block_asterisk: true,
+                    digits_allowed: question.allowed_digits?.split(',') || [0, 1]
+                })
             );
             await queryHelper.saveAnswerForQuestion(this.user.id, this.teacher.id, question.id, this.params.questionAnswer);
         }
