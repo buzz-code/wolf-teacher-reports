@@ -1,4 +1,4 @@
-import {Teacher,TeacherType,TeacherSalaryType} from '../models';
+import {Teacher,TeacherType,TeacherSalaryType, Question} from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 
@@ -28,12 +28,13 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [teacherTypes, teacherSalaryTypes] = await Promise.all([
+    const [teacherTypes, teacherSalaryTypes, questions] = await Promise.all([
         getListFromTable(TeacherType, req.currentUser.id, 'key'),
         getListFromTable(TeacherSalaryType, req.currentUser.id),
+        getListFromTable(Question, req.currentUser.id),
     ]);
     res.json({
         error: null,
-        data: { teacherTypes, teacherSalaryTypes }
+        data: { teacherTypes, teacherSalaryTypes, questions }
     });
 }

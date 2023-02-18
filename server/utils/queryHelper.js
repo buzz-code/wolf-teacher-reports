@@ -46,7 +46,7 @@ export function updateSalaryCommentByUserId(user_id, id, comment) {
         .update({ comment });
 }
 
-export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_id) {
+export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_id, teacher_special_question) {
     const [answers, questions] = await Promise.all([
         new Answer()
             .where({ user_id, teacher_id })
@@ -75,7 +75,8 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
     return questions.filter(question => {
         return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] || answerByQuestion[question.id]?.[1]) ||
             question.question_type_key == 2 && answerByQuestion[question.id]?.[1] != true ||
-            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] != true
+            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] != true ||
+            question.question_type_key == 4 && teacher_special_question == question.id
     });
 }
 

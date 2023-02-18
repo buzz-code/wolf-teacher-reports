@@ -5,7 +5,7 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
-const getColumns = ({ teacherTypes, teacherSalaryTypes }) => [
+const getColumns = ({ teacherTypes, teacherSalaryTypes, questions }) => [
   { field: 'tz', title: 'תעודת זהות', columnOrder: 'teachers.tz' },
   { field: 'name', title: 'שם', columnOrder: 'teachers.name' },
   { field: 'phone', title: 'מספר טלפון' },
@@ -22,6 +22,11 @@ const getColumns = ({ teacherTypes, teacherSalaryTypes }) => [
   },
   { field: 'price', title: 'שכר שעתי למורה' },
   { field: 'training_teacher', title: 'מורה מנחה' },
+  {
+    field: 'special_question',
+    title: 'שאלה מיוחדת',
+    ...getPropsForAutoComplete('special_question', questions),
+  },
 ];
 const getFilters = () => [
   { field: 'teachers.tz', label: 'תעודת זהות', type: 'text', operator: 'like' },
