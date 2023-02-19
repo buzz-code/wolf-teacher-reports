@@ -48,10 +48,14 @@ export class YemotCall extends CallBase {
 
         const questions = await queryHelper.getQuestionsForTeacher(this.user.id, this.teacher.id, this.teacher.teacher_type_id, this.teacher.special_question);
         for (const question of questions) {
+            const messages = [question.content];
+            if (!question.allowed_digits) {
+                messages.push(this.texts.chooseAnswerForQuestion);
+            }
+
             await this.send(
                 this.globalMsgIfExists(),
-                this.id_list_message({ type: 'text', text: question.content }),
-                this.read({ type: 'text', text: this.texts.chooseAnswerForQuestion },
+                this.read({ type: 'text', text: messages.join(',') },
                     'questionAnswer', 'tap', {
                     max: 1, min: 1, block_asterisk: true,
                     digits_allowed: question.allowed_digits?.split(',') || [0, 1]
