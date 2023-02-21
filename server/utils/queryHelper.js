@@ -70,7 +70,7 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
         if (!answerByQuestion[ans.question_id]) {
             answerByQuestion[ans.question_id] = [[false, false]];
         }
-        answerByQuestion[ans.question_id][ans.answer] = true;
+        answerByQuestion[ans.question_id][Number(!!Number(ans.answer))] = true;
     });
     return questions.filter(question => {
         return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] || answerByQuestion[question.id]?.[1]) ||
