@@ -70,6 +70,7 @@ export function getManhaTotalPay(prices) {
         getCoalesceAndPrice('how_many_yalkut_lessons', prices[53]),
         getCoalesceAndPrice('how_many_discussing_lessons', prices[54]),
         getCoalesceAndPrice('how_many_students_help_teached', prices[55]),
+        getCoalesceAndPrice('how_many_methodic', prices[56]),
     ].join(' + ')
 }
 
