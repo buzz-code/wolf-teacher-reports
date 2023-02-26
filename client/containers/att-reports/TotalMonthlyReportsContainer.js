@@ -24,22 +24,23 @@ const getColumns = (handleEditComment) => [
   // { field: 'was_students_exit_on_time', title: 'האם יצאו בזמן?', type: 'boolean' },
   // { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
   { field: 'total_pay', title: 'שכר למורה' },
+  { field: 'salary_report_name', title: 'דוח שכר' },
   // {
   //   field: 'salary_month',
   //   title: 'חודש שכר',
   //   type: 'date',
   //   render: ({ salary_month }) => (salary_month ? moment(salary_month).format('MM-yyyy') : ''),
   // },
-  // {
-  //   field: 'comment',
-  //   title: 'הערה לשכר',
-  //   render: (rowData) => (
-  //     <>
-  //       <EditIcon onClick={() => handleEditComment(rowData)} />
-  //       {rowData.comment}
-  //     </>
-  //   ),
-  // },
+  {
+    field: 'comment',
+    title: 'הערה לשכר',
+    render: (rowData) => (
+      <>
+        <EditIcon onClick={() => handleEditComment(rowData)} />
+        {rowData.comment}
+      </>
+    ),
+  },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
@@ -52,47 +53,38 @@ const getFilters = () => [
   // { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
   // { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
 ];
-const getActions = (handleUpdateSalaryMonth) => [
-  // {
-  //   icon: 'fact_check',
-  //   tooltip: 'עדכן חודש שכר',
-  //   isFreeAction: true,
-  //   onClick: handleUpdateSalaryMonth,
-  // },
+const getActions = (handleCreateSalaryReport) => [
+  {
+    icon: 'fact_check',
+    tooltip: 'העבר לשכר',
+    onClick: handleCreateSalaryReport,
+  },
 ];
 
 const TotalMonthlyReportsContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     data,
-    POST: { '../updateSalaryMonth': updateSalaryMonth },
+    POST: { '../createSalaryReport': createSalaryReport },
   } = useSelector((state) => state[entity]);
 
   const [refreshButton, setRefreshButton] = useState(null);
   const [conditions, setConditions] = useState({});
 
   useEffect(() => {
-    if (updateSalaryMonth && refreshButton) {
+    if (createSalaryReport && refreshButton) {
       refreshButton.click();
     }
-  }, [updateSalaryMonth]);
+  }, [createSalaryReport]);
 
-  const handleUpdateSalaryMonth = useCallback(
-    (e) => {
+  const handleCreateSalaryReport = useCallback(
+    (e, selectedRows) => {
       const refreshButton = e.currentTarget.previousElementSibling;
       setRefreshButton(refreshButton);
 
-      const ids = data ? data.map((item) => item.id) : [];
-      const salaryMonth = conditions[6]?.value;
+      const ids = selectedRows.map((item) => item.id).join(',');
 
-      if (!ids.length || !salaryMonth) {
-        alert('לא ניתן לעדכן חודש שכר אם אין נתונים או לא נבחר חודש');
-        return;
-      }
-
-      dispatch(
-        crudAction.customHttpRequest(entity, 'POST', '../updateSalaryMonth', { ids, salaryMonth })
-      );
+      dispatch(crudAction.customHttpRequest(entity, 'POST', '../createSalaryReport', { ids }));
     },
     [entity, data, conditions]
   );
@@ -116,7 +108,7 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
 
   const columns = useMemo(() => getColumns(handleEditComment), [handleEditComment]);
   const filters = useMemo(() => getFilters(), []);
-  const actions = useMemo(() => getActions(handleUpdateSalaryMonth), [handleUpdateSalaryMonth]);
+  const actions = useMemo(() => getActions(handleCreateSalaryReport), [handleCreateSalaryReport]);
 
   return (
     <Table
@@ -129,6 +121,7 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
       disableUpdate={true}
       disableDelete={true}
       onConditionUpdate={setConditions}
+      isBulkDelete={true}
     />
   );
 };

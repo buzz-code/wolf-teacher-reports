@@ -1,4 +1,4 @@
-import { Teacher, AttReport, User, Question, Answer, WorkingDate, Student, Price } from "../models";
+import { Teacher, AttReport, User, Question, Answer, WorkingDate, Student, Price, SalaryReport } from "../models";
 
 import moment from 'moment';
 
@@ -41,6 +41,12 @@ export function updateSalaryMonthByUserId(user_id, ids, salary_month) {
 }
 
 export function updateSalaryCommentByUserId(user_id, id, comment) {
+    if (id?.includes?.(',')) {
+        return new AttReport().query()
+            .where({ user_id })
+            .whereIn('id', id.split(','))
+            .update({ comment });
+    }
     return new AttReport().query()
         .where({ user_id, id })
         .update({ comment });
@@ -131,4 +137,17 @@ export async function getPrices(user_id) {
         .then(result => result.toJSON());
     const dict = data.reduce((a, b) => ({ ...a, [b.key]: b.price }), {});
     return dict;
+}
+
+export async function createSalaryReportByUserId(user_id, ids) {
+    const salaryReport = await new SalaryReport({
+        user_id,
+        ids: ids.toString(),
+        date: new Date()
+    })
+        .save();
+    const reports = await new AttReport().query()
+        .where({ user_id })
+        .whereIn('id', ids.split(','))
+        .update({ salaryReport: salaryReport.id });
 }

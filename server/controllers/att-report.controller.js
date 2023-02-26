@@ -1,9 +1,9 @@
 import HttpStatus from 'http-status-codes';
-import { AttReport, AttType, Teacher, TeacherType } from '../models';
+import { AttReport, AttType, SalaryReportWithName, Teacher, TeacherType } from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
 import { getTotalPay, getTotalPayForAllTeachers } from '../utils/reportHelper';
-import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices } from '../utils/queryHelper';
+import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices, createSalaryReportByUserId } from '../utils/queryHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 
 /**
@@ -33,14 +33,15 @@ export async function findAll(req, res) {
  * @returns {*}
  */
 export async function getEditData(req, res) {
-    const [teachers, attTypes, teacherTypes] = await Promise.all([
+    const [teachers, attTypes, teacherTypes, salaryReports] = await Promise.all([
         getListFromTable(Teacher, req.currentUser.id),
         getListFromTable(AttType, req.currentUser.id),
         getListFromTable(TeacherType, req.currentUser.id, 'key'),
+        getListFromTable(SalaryReportWithName, req.currentUser.id),
     ]);
     res.json({
         error: null,
-        data: { teachers, attTypes, teacherTypes }
+        data: { teachers, attTypes, teacherTypes, salaryReports }
     });
 }
 
@@ -210,10 +211,12 @@ export async function getTotalPayMonthlyReport(req, res) {
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
+            qb.leftJoin('salary_reports_view', 'salary_reports_view.id', 'att_reports.salaryReport')
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name', 'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)')];
+    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name',
+        'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)'), 'att_reports.salaryReport'];
 
     const countQuery = dbQuery.clone().query()
         .countDistinct({ count: groupByColumns })
@@ -222,10 +225,13 @@ export async function getTotalPayMonthlyReport(req, res) {
     dbQuery.query(qb => {
         qb.groupBy(groupByColumns)
         qb.select({
+            id: bookshelf.knex.raw('GROUP_CONCAT(att_reports.id)'),
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_salary_type: 'teacher_salary_types.name',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
+            salary_report_name: 'salary_reports_view.report_name',
+            comment: bookshelf.knex.raw('GROUP_CONCAT(distinct comment)'),
         })
         // qb.select('report_date', 'update_date')
         // qb.select('salary_month', 'comment')
@@ -257,6 +263,23 @@ export async function updateSalaryComment(req, res) {
 
     try {
         await updateSalaryCommentByUserId(req.currentUser.id, id, comment);
+    } catch (e) {
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            error: e.message,
+        });
+    }
+
+    res.json({
+        error: null,
+        data: { message: 'הנתונים נשמרו בהצלחה.' }
+    });
+}
+
+export async function createSalaryReport(req, res) {
+    const { body: { ids } } = req;
+
+    try {
+        await createSalaryReportByUserId(req.currentUser.id, ids);
     } catch (e) {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             error: e.message,

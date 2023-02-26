@@ -62,6 +62,11 @@ const router = genericRouteWithController('att-report', 'AttReport', (router, ct
             ctrl.updateSalaryComment(req, res);
         });
 
+    router.route('/createSalaryReport')
+        .post((req, res) => {
+            ctrl.createSalaryReport(req, res);
+        });
+
 });
 
 export default router;

@@ -73,3 +73,15 @@ export const WorkingDate = createModel('working_dates', {
         return this.belongsTo(User);
     }
 })
+
+export const SalaryReport = createModel('salary_reports', {
+    user() {
+        return this.belongsTo(User);
+    }
+})
+
+export const SalaryReportWithName = createModel('salary_reports_view', {
+    user() {
+        return this.belongsTo(User);
+    }
+})
