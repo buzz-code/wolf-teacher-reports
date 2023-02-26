@@ -5,15 +5,16 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
+import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
-const getColumns = (handleEditComment) => [
+const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salaryReports }) => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
-  // {
-  //   field: 'teacher_training_teacher',
-  //   title: 'מורה מנחה',
-  //   columnOrder: 'teachers.training_teacher',
-  // },
+  {
+    field: 'teacher_type_id',
+    title: 'סוג המורה',
+    ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
+  },
   { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_month', title: 'חודש הדיווח', type: 'date' },
   // { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
@@ -46,15 +47,15 @@ const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
   { field: 'teachers.name', label: 'שם מורה', type: 'text', operator: 'like' },
   { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
   {
-    field: 'teachers.tz',
+    field: 'teachers.id',
     label: 'מורה',
     type: 'list',
     list: teachers,
     operator: 'eq',
-    idField: 'tz',
+    idField: 'id',
   },
   {
-    field: 'teacher_types.key',
+    field: 'teacher_type_id',
     label: 'סוג מורה',
     type: 'list',
     list: teacherTypes,
@@ -68,6 +69,8 @@ const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
     list: salaryReports,
     operator: 'eq',
   },
+  { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
+  { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
 ];
 const getActions = (handleCreateSalaryReport) => [
   {
@@ -127,7 +130,10 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
     [entity]
   );
 
-  const columns = useMemo(() => getColumns(handleEditComment), [handleEditComment]);
+  const columns = useMemo(() => editData && getColumns(handleEditComment, editData), [
+    handleEditComment,
+    editData,
+  ]);
   const filters = useMemo(() => editData && getFilters(editData), [editData]);
   const actions = useMemo(() => getActions(handleCreateSalaryReport), [handleCreateSalaryReport]);
 

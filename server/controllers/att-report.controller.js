@@ -215,7 +215,7 @@ export async function getTotalPayMonthlyReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['teachers.name', 'teachers.tz', 'teacher_salary_types.name',
+    const groupByColumns = ['teachers.id', 'teacher_salary_types.name',
         'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)'), 'att_reports.salaryReport'];
 
     const countQuery = dbQuery.clone().query()
@@ -228,6 +228,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             id: bookshelf.knex.raw('GROUP_CONCAT(att_reports.id)'),
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
+            teacher_type_id: 'teachers.teacher_type_id',
             teacher_salary_type: 'teacher_salary_types.name',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
             salary_report_name: 'salary_reports_view.name',
