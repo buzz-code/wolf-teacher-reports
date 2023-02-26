@@ -37,7 +37,7 @@ export async function getEditData(req, res) {
         getListFromTable(Teacher, req.currentUser.id),
         getListFromTable(AttType, req.currentUser.id),
         getListFromTable(TeacherType, req.currentUser.id, 'key'),
-        getListFromTable(SalaryReportWithName, req.currentUser.id),
+        getListFromTable(SalaryReportWithName, req.currentUser.id, 'id'),
     ]);
     res.json({
         error: null,
@@ -230,7 +230,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             teacher_tz: 'teachers.tz',
             teacher_salary_type: 'teacher_salary_types.name',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
-            salary_report_name: 'salary_reports_view.report_name',
+            salary_report_name: 'salary_reports_view.name',
             comment: bookshelf.knex.raw('GROUP_CONCAT(distinct comment)'),
         })
         // qb.select('report_date', 'update_date')

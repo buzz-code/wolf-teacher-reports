@@ -42,16 +42,32 @@ const getColumns = (handleEditComment) => [
     ),
   },
 ];
-const getFilters = () => [
-  { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
-  { field: 'teachers.tz', label: 'תז', type: 'text', operator: 'like' },
-  // { field: 'teachers.training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
+const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
+  { field: 'teachers.name', label: 'שם מורה', type: 'text', operator: 'like' },
   { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
-  // { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
-  // { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
-  // { field: 'salary_month', label: 'חודש שכר', type: 'date', operator: null },
-  // { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
-  // { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
+  {
+    field: 'teachers.tz',
+    label: 'מורה',
+    type: 'list',
+    list: teachers,
+    operator: 'eq',
+    idField: 'tz',
+  },
+  {
+    field: 'teacher_types.key',
+    label: 'סוג מורה',
+    type: 'list',
+    list: teacherTypes,
+    operator: 'eq',
+    idField: 'key',
+  },
+  {
+    field: 'att_reports.salaryReport',
+    label: 'דוח שכר',
+    type: 'list',
+    list: salaryReports,
+    operator: 'eq',
+  },
 ];
 const getActions = (handleCreateSalaryReport) => [
   {
@@ -65,11 +81,16 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
     data,
+    GET: { '../get-edit-data': editData },
     POST: { '../createSalaryReport': createSalaryReport },
   } = useSelector((state) => state[entity]);
 
   const [refreshButton, setRefreshButton] = useState(null);
   const [conditions, setConditions] = useState({});
+
+  useEffect(() => {
+    dispatch(crudAction.customHttpRequest(entity, 'GET', '../get-edit-data'));
+  }, []);
 
   useEffect(() => {
     if (createSalaryReport && refreshButton) {
@@ -107,7 +128,7 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
   );
 
   const columns = useMemo(() => getColumns(handleEditComment), [handleEditComment]);
-  const filters = useMemo(() => getFilters(), []);
+  const filters = useMemo(() => editData && getFilters(editData), [editData]);
   const actions = useMemo(() => getActions(handleCreateSalaryReport), [handleCreateSalaryReport]);
 
   return (
