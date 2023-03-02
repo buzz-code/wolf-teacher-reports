@@ -9,6 +9,7 @@ const getColumns = ({ teacherTypes, teacherSalaryTypes, questions }) => [
   { field: 'tz', title: 'תעודת זהות', columnOrder: 'teachers.tz' },
   { field: 'name', title: 'שם', columnOrder: 'teachers.name' },
   { field: 'phone', title: 'מספר טלפון' },
+  { field: 'email', title: 'כתובת מייל' },
   { field: 'school', title: 'בית ספר' },
   {
     field: 'teacher_type_id',
