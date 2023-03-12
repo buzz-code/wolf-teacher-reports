@@ -10,6 +10,7 @@ import { getPropsForAutoComplete } from '../../../common-modules/client/utils/fo
 const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salaryReports }) => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
+  { field: 'report_teacher_name', title: 'שם המורה המדווחת', columnOrder: 'report_teachers.name' },
   {
     field: 'teacher_type_id',
     title: 'סוג המורה',
@@ -49,6 +50,14 @@ const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
   {
     field: 'teachers.id',
     label: 'מורה',
+    type: 'list',
+    list: teachers,
+    operator: 'eq',
+    idField: 'id',
+  },
+  {
+    field: 'report_teachers.id',
+    label: 'מורה מדווחת',
     type: 'list',
     list: teachers,
     operator: 'eq',

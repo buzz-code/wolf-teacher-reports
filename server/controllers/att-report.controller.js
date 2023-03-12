@@ -210,12 +210,13 @@ export async function getTotalPayMonthlyReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin({ 'report_teachers': 'teachers' }, 'report_teachers.id', 'att_reports.teacher_to_report_for')
             qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
             qb.leftJoin('salary_reports_view', 'salary_reports_view.id', 'att_reports.salaryReport')
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['teachers.id', 'teacher_salary_types.name',
+    const groupByColumns = ['teachers.id', 'report_teachers.id', 'teacher_salary_types.name',
         'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)'), 'att_reports.salaryReport'];
 
     const countQuery = dbQuery.clone().query()
@@ -228,6 +229,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             id: bookshelf.knex.raw('GROUP_CONCAT(att_reports.id)'),
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
+            report_teacher_name: 'report_teachers.name',
             teacher_type_id: 'teachers.teacher_type_id',
             teacher_salary_type: 'teacher_salary_types.name',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
