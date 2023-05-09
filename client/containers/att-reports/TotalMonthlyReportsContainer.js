@@ -64,7 +64,7 @@ const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
     idField: 'id',
   },
   {
-    field: 'teacher_type_id',
+    field: 'teachers.teacher_type_id',
     label: 'סוג מורה',
     type: 'list',
     list: teacherTypes,
