@@ -568,18 +568,27 @@ export class YemotCall extends CallBase {
         }
         const startReportsDate = moment(`01.${month}.${year}`, 'DD.MM.YYYY');
         const endReportsDate = moment(startReportsDate).endOf('month');
-        const previousReports = await queryHelper.getPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
+        const previousReports = await queryHelper.getUnconfirmedPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
 
-        const messages = previousReports.map(this.getReportMessage.bind(this));
-
-        if (messages.length == 0) {
-            messages.push(
+        if (previousReports.length == 0) {
+            await this.send(
                 this.id_list_message({ type: 'text', text: this.texts.noReportFound }),
-            )
+                this.hangup()
+            );
+        } else {
+            for (const report of previousReports) {
+                await this.send(
+                    this.read({ type: 'text', text: this.getReportMessage(report) },
+                        'previousReportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+                );
+                if (this.params.reportConfirm == 1) {
+                    await queryHelper.saveReportAsConfirmed(report.id);
+                }
+            }
         }
 
         await this.send(
-            ...messages,
+            this.id_list_message({ type: 'text', text: this.texts.goodbyeToManhaTeacher }),
             this.hangup()
         );
     }

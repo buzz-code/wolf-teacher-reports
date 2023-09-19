@@ -37,6 +37,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   },
   { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
+  { field: 'is_confirmed', title: 'דיווח שאושר', type: 'boolean' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות' },
   {

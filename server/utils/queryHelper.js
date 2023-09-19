@@ -1,3 +1,4 @@
+import bookshelf from "../../common-modules/server/config/bookshelf";
 import { Teacher, AttReport, User, Question, Answer, WorkingDate, Student, Price, SalaryReport } from "../models";
 
 import moment from 'moment';
@@ -25,12 +26,19 @@ export function getReportByTeacherIdAndToday(user_id, teacher_id, report_date) {
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {
+export function getUnconfirmedPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {
     return new AttReport().where({ user_id, teacher_id })
         .where('report_date', '>=', start_report_date.format('YYYY-MM-DD'))
         .where('report_date', '<=', end_report_date.format('YYYY-MM-DD'))
+        .where(bookshelf.knex.raw('COALESCE(is_confirmed, 0)'), '=', 0)
         .fetchAll()
         .then(result => result.toJSON());
+}
+
+export function saveReportAsConfirmed(id) {
+    return new AttReport().query()
+        .where({ id })
+        .update({ is_confirmed: 1 });
 }
 
 export function updateSalaryMonthByUserId(user_id, ids, salary_month) {
