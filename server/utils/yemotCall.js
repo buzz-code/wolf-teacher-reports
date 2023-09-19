@@ -518,19 +518,32 @@ export class YemotCall extends CallBase {
     }
 
     async showReports() {
-        // הקישי תאריך התחלה
-        await this.send(
-            this.read({ type: 'text', text: this.texts.chooseStartReportsDate },
-                'startReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
-        );
-        const startReportsDate = moment(this.params.startReportsDate, 'DDMMYYYY');
-        // הקישי תאריך סיום
-        await this.send(
-            this.read({ type: 'text', text: this.texts.chooseEndReportsDate },
-                'endReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
-        );
-        const endReportsDate = moment(this.params.endReportsDate, 'DDMMYYYY');
+        // // הקישי תאריך התחלה
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.chooseStartReportsDate },
+        //         'startReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+        // );
+        // const startReportsDate = moment(this.params.startReportsDate, 'DDMMYYYY');
+        // // הקישי תאריך סיום
+        // await this.send(
+        //     this.read({ type: 'text', text: this.texts.chooseEndReportsDate },
+        //         'endReportsDate', 'tap', { max: 8, min: 8, block_asterisk: true })
+        // );
+        // const endReportsDate = moment(this.params.endReportsDate, 'DDMMYYYY');
 
+        // על איזה חודש תרצי לשמוע דיווחים
+        await this.send(
+            this.read({ type: 'text', text: this.texts.chooseReportsMonth },
+                'reportsMonth', 'tap', { max: 2, min: 1, block_asterisk: true })
+        );
+
+        const month = Number(this.params.reportsMonth);
+        let year = new Date().getFullYear();
+        if (month > new Date().getMonth() + 1) {
+            year -= 1;
+        }
+        const startReportsDate = moment(`01.${month}.${year}`, 'DD.MM.YYYY');
+        const endReportsDate = moment(startReportsDate).endOf('month');
         const previousReports = await queryHelper.getPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
 
         const messages = previousReports.map(this.getReportMessage.bind(this));
