@@ -19,7 +19,11 @@ export async function findAll(req, res) {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin('teacher_types', { 'teacher_types.key': 'teachers.teacher_type_id', 'teacher_types.user_id': 'teachers.user_id' })
             qb.select('att_reports.*')
-            qb.select({ teacher_type_name: 'teacher_types.name', teacher_training_teacher: 'teachers.training_teacher' })
+            qb.select({
+                report_date_weekday: bookshelf.knex.raw("ELT(DAYOFWEEK(report_date), 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש')"),
+                teacher_type_name: 'teacher_types.name',
+                teacher_training_teacher: 'teachers.training_teacher'
+            })
         });
     applyFilters(dbQuery, req.query.filters);
     fetchPage({ dbQuery }, req.query, res);
