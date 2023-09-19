@@ -14,6 +14,7 @@ const getColumns = (handleEditComment) => [
   },
   { field: 'teacher_to_report_for_tz', title: 'תז', columnOrder: 'teacher_to_report_for.tz' },
   { field: 'teacher_name', title: 'שם המורה המנחה', columnOrder: 'teachers.name' },
+  { field: 'teacher_tz', title: 'תז המורה המנחה', columnOrder: 'teachers.tz' },
   { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
