@@ -100,6 +100,7 @@ const AttReportsContainer = ({ entity, title }) => {
     update_date: dataToSave.update_date && moment(dataToSave.update_date).format('yyyy-MM-DD'),
     teacher_type_name: undefined,
     teacher_training_teacher: undefined,
+    report_date_weekday: undefined,
   });
 
   useEffect(() => {
