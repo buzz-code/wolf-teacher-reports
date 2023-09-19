@@ -141,6 +141,11 @@ export class YemotCall extends CallBase {
                     this.globalMsg = this.texts.validationErrorCannotReportOnSalaryReport;
                     return this.getAndValidateReportDate();
                 }
+                // לא ניתן לשנות דיווח שאושר
+                if (this.existingReport.is_confirmed) {
+                    this.globalMsg = this.texts.validationErrorCannotReportOnConfirmedReport;
+                    return this.getAndValidateReportDate();
+                }
                 this.globalMsg = this.texts.existingReportWillBeDeleted;
             }
         }
