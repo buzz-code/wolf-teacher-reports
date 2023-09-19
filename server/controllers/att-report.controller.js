@@ -54,7 +54,6 @@ export async function getSeminarKitaReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 1 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -63,7 +62,6 @@ export async function getSeminarKitaReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
-            teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -97,7 +95,6 @@ export async function getManhaReport(req, res) {
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin({ 'teacher_to_report_for': 'teachers' }, 'teacher_to_report_for.id', 'att_reports.teacher_to_report_for')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -106,7 +103,6 @@ export async function getManhaReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
-            teacher_salary_type: 'teacher_salary_types.name',
             teacher_to_report_for_name: 'teacher_to_report_for.name',
             teacher_to_report_for_tz: 'teacher_to_report_for.tz',
         })
@@ -141,7 +137,6 @@ export async function getPdsReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 5 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -150,7 +145,6 @@ export async function getPdsReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
-            teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -165,7 +159,6 @@ export async function getSpecialEducationReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 7 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -174,7 +167,6 @@ export async function getSpecialEducationReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
-            teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -189,7 +181,6 @@ export async function getKindergartenReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 6 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -198,7 +189,6 @@ export async function getKindergartenReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
-            teacher_salary_type: 'teacher_salary_types.name'
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -215,12 +205,11 @@ export async function getTotalPayMonthlyReport(req, res) {
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin({ 'report_teachers': 'teachers' }, 'report_teachers.id', 'att_reports.teacher_to_report_for')
-            qb.leftJoin('teacher_salary_types', 'teacher_salary_types.id', 'teachers.teacher_salary_type_id')
             qb.leftJoin('salary_reports_view', 'salary_reports_view.id', 'att_reports.salaryReport')
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['teachers.id', 'report_teachers.id', 'teacher_salary_types.name',
+    const groupByColumns = ['teachers.id', 'report_teachers.id',
         'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)'), 'att_reports.salaryReport'];
 
     const countQuery = dbQuery.clone().query()
@@ -235,7 +224,6 @@ export async function getTotalPayMonthlyReport(req, res) {
             teacher_tz: 'teachers.tz',
             report_teacher_name: 'report_teachers.name',
             teacher_type_id: 'teachers.teacher_type_id',
-            teacher_salary_type: 'teacher_salary_types.name',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
             salary_report_name: 'salary_reports_view.name',
             comment: bookshelf.knex.raw('GROUP_CONCAT(distinct comment)'),

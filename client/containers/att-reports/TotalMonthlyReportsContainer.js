@@ -16,7 +16,6 @@ const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salar
     title: 'סוג המורה',
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
-  { field: 'teacher_salary_type', title: 'סוג שכר', columnOrder: 'teacher_salary_types.name' },
   { field: 'report_month', title: 'חודש הדיווח', type: 'date' },
   // { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   // { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
@@ -46,7 +45,6 @@ const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salar
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
   { field: 'teachers.name', label: 'שם מורה', type: 'text', operator: 'like' },
-  { field: 'teacher_salary_types.name', label: 'סוג שכר', type: 'text', operator: 'like' },
   {
     field: 'teachers.id',
     label: 'מורה',
