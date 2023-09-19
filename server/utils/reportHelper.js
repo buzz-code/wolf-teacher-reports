@@ -64,11 +64,13 @@ export function getTrainingTeacherSalary() {
 
 export function getSeminarKitaTotalPay(prices) {
     return joinMultiplePrices(
-        getCoalesceAndPrice('how_many_watch_or_individual', prices[11]),
-        getCoalesceAndPrice('how_many_teached_or_interfering', prices[12]),
-        getCoalesceAndPrice('how_many_discussing_lessons', prices[13]),
-        getCoalesceAndPrice('was_kamal', prices[14]),
-        getCoalesceAndPrice('how_many_lessons_absence', prices[15]),
+        joinMultiplePrices(
+            getCoalesceAndPrice('how_many_watch_or_individual', prices[11]),
+            getCoalesceAndPrice('how_many_teached_or_interfering', prices[12]),
+            getCoalesceAndPrice('how_many_discussing_lessons', prices[13]),
+            getCoalesceAndPrice('was_kamal', prices[14]),
+            getCoalesceAndPrice('how_many_lessons_absence', prices[15]),
+        ) + ' * GREATEST(0.5 * COALESCE(how_many_students, 0), 1)',
         getAnswersPrice(),
     );
 }
