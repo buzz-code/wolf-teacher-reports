@@ -4,7 +4,10 @@ import moment from 'moment';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
-import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
+import {
+  getPropsForAutoComplete,
+  getPropsForHebrewDate,
+} from '../../../common-modules/client/utils/formUtil';
 
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   {
@@ -26,6 +29,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     editable: 'never',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  { field: 'report_date', title: 'תאריך דיווח עברי', ...getPropsForHebrewDate('report_date') },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_methodic', title: 'שיעורי מתודיקה', type: 'numeric' },
   { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות' },
