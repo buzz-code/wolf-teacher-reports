@@ -54,6 +54,7 @@ export async function getSeminarKitaReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 1 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -75,6 +76,7 @@ export function getTrainingReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 2 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -95,6 +97,7 @@ export async function getManhaReport(req, res) {
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin({ 'teacher_to_report_for': 'teachers' }, 'teacher_to_report_for.id', 'att_reports.teacher_to_report_for')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -137,6 +140,7 @@ export async function getPdsReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 5 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -159,6 +163,7 @@ export async function getSpecialEducationReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 7 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -181,6 +186,7 @@ export async function getKindergartenReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 6 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
@@ -206,6 +212,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
             qb.leftJoin({ 'report_teachers': 'teachers' }, 'report_teachers.id', 'att_reports.teacher_to_report_for')
             qb.leftJoin('salary_reports_view', 'salary_reports_view.id', 'att_reports.salaryReport')
+            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
         })
     applyFilters(dbQuery, req.query.filters);
 

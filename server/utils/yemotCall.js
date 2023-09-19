@@ -230,10 +230,12 @@ export class YemotCall extends CallBase {
                 what_speciality: this.params.whatIsYourSpeciality,
                 teacher_to_report_for: this.teacherToReportFor?.id,
             };
-            await new AttReport(attReport).save();
+            const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
                 await new AttReport().where({ id: this.existingReport.id }).destroy();
             }
+
+            await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
 
             await this.finishSavingReport();
         }

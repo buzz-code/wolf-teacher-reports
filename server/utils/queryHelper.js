@@ -97,6 +97,13 @@ export function saveAnswerForQuestion(user_id, teacher_id, question_id, answer) 
         .save();
 }
 
+export function updateReportIdForAnswers(user_id, teacher_id, report_id) {
+    return new Answer().query()
+        .where({ user_id, teacher_id, answer_date: moment().format('YYYY-MM-DD') })
+        .where({ report_id: null })
+        .update({ report_id });
+}
+
 export function getAbsencesCountForTeacher(user_id, teacher_id, report_date) {
     return new AttReport().where({ user_id, teacher_id })
         .query()
