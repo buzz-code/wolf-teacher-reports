@@ -494,6 +494,7 @@ export class YemotCall extends CallBase {
 
     async finishSavingReport() {
         const isManhaAndOnOthers = this.teacher.teacher_type_id == 3 && this.params.manhaReportType == 2;
+        const isSeminarKita = this.teacher.teacher_type_id == 1;
         if (isManhaAndOnOthers) {
             //בסיום האם תרצי לדווח על מורה נוספת   
             await this.send(
@@ -503,6 +504,21 @@ export class YemotCall extends CallBase {
             );
             if (this.params.anotherTeacherReport == 1) {
                 return this.askForReportDataAndSave();
+            } else {
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.goodbyeToManhaTeacher }),
+                    this.hangup()
+                );
+            }
+        } else if (isSeminarKita) {
+            // האם תרצי לדווח על יום נוסף
+            await this.send(
+                this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                this.read({ type: 'text', text: this.texts.askForAnotherDateReport },
+                    'anotherDateReport', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            if (this.params.anotherDateReport == 1) {
+                return this.getAndValidateReportDate(false);
             } else {
                 await this.send(
                     this.id_list_message({ type: 'text', text: this.texts.goodbyeToManhaTeacher }),
