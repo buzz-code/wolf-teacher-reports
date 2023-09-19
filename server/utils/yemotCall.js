@@ -136,6 +136,11 @@ export class YemotCall extends CallBase {
             //אזהרה אם כבר יש דיווח באותו תאריך
             this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
             if (this.existingReport) {
+                // אם הדיווח כבר מקושר לחודש שכר, לא ניתן לשנות אותו
+                if (this.existingReport.salaryReport) {
+                    this.globalMsg = this.texts.validationErrorCannotReportOnSalaryReport;
+                    return this.getAndValidateReportDate();
+                }
                 this.globalMsg = this.texts.existingReportWillBeDeleted;
             }
         }
