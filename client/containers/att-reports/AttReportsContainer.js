@@ -9,6 +9,8 @@ import {
   getPropsForHebrewDate,
 } from '../../../common-modules/client/utils/formUtil';
 
+import { defaultYear, yearsList } from '../../services/yearService';
+
 const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   {
     field: 'teacher_id',
@@ -84,6 +86,14 @@ const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
   { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
   { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
+  {
+    field: 'year',
+    label: 'שנה',
+    type: 'list',
+    operator: 'eq',
+    list: yearsList,
+    defaultValue: defaultYear,
+  },
 ];
 
 const AttReportsContainer = ({ entity, title }) => {

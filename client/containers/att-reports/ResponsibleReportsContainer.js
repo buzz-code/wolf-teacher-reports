@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 
 import Table from '../../../common-modules/client/components/table/Table';
 
+import { defaultYear, yearsList } from '../../services/yearService';
+
 const getColumns = () => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
@@ -17,6 +19,14 @@ const getFilters = () => [
   { field: 'att_types.name', label: 'סוג פעילות', type: 'text', operator: 'like' },
   { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
   { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
+  {
+    field: 'year',
+    label: 'שנה',
+    type: 'list',
+    operator: 'eq',
+    list: yearsList,
+    defaultValue: defaultYear,
+  },
 ];
 
 const ResponsibleReportsContainer = ({ entity, title }) => {

@@ -6,6 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 
+import { defaultYear, yearsList } from '../../services/yearService';
+
 const getColumns = (handleEditComment) => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
@@ -46,6 +48,14 @@ const getFilters = () => [
   { field: 'salary_month', label: 'חודש שכר', type: 'date', operator: null },
   { field: 'update_date', label: 'מתאריך עדכון', type: 'date', operator: 'date-before' },
   { field: 'update_date', label: 'עד תאריך עדכון', type: 'date', operator: 'date-after' },
+  {
+    field: 'year',
+    label: 'שנה',
+    type: 'list',
+    operator: 'eq',
+    list: yearsList,
+    defaultValue: defaultYear,
+  },
 ];
 const getActions = (handleUpdateSalaryMonth) => [
   {
