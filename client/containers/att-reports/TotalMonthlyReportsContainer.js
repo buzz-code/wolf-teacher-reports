@@ -7,6 +7,8 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
+import { defaultYear, yearsList } from '../../services/yearService';
+
 const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salaryReports }) => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
@@ -78,6 +80,14 @@ const getFilters = ({ teachers, attTypes, teacherTypes, salaryReports }) => [
   },
   { field: 'report_date', label: 'מתאריך', type: 'date', operator: 'date-before' },
   { field: 'report_date', label: 'עד תאריך', type: 'date', operator: 'date-after' },
+  {
+    field: 'year',
+    label: 'שנה',
+    type: 'list',
+    operator: 'eq',
+    list: yearsList,
+    defaultValue: defaultYear,
+  },
 ];
 const getActions = (handleCreateSalaryReport) => [
   {
