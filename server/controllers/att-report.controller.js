@@ -220,7 +220,7 @@ export async function getTotalPayMonthlyReport(req, res) {
         'teachers.teacher_type_id', bookshelf.knex.raw('MONTHNAME(report_date)'), 'att_reports.salaryReport'];
 
     const countQuery = dbQuery.clone().query()
-        .countDistinct({ count: groupByColumns })
+        .countDistinct({ count: groupByColumns.map(c => typeof c === 'string' ? bookshelf.knex.raw(`COALESCE(${c}, 0)`) : c) })
         .then(res => res[0].count);
 
     dbQuery.query(qb => {
