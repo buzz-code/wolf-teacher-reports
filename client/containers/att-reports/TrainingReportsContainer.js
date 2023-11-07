@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import Table from '../../../common-modules/client/components/table/Table';
+import { getPropsForHebrewDate } from '../../../common-modules/client/utils/formUtil';
 
 import { defaultYear, yearsList } from '../../services/yearService';
 
@@ -13,6 +14,13 @@ const getColumns = () => [
     columnOrder: 'teachers.training_teacher',
   },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  {
+    field: 'report_date',
+    title: 'תאריך דיווח עברי',
+    ...getPropsForHebrewDate('report_date'),
+    editable: 'never',
+  },
+  { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_watched', title: 'כמה שיעורים צפו אצלך?' },
   { field: 'how_many_student_teached', title: 'כמה שיעורים מסרו אצלך?' },

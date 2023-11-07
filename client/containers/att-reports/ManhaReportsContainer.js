@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
+import { getPropsForHebrewDate } from '../../../common-modules/client/utils/formUtil';
 
 import { defaultYear, yearsList } from '../../services/yearService';
 
@@ -18,6 +19,13 @@ const getColumns = (handleEditComment) => [
   { field: 'teacher_name', title: 'שם המורה המנחה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז המורה המנחה', columnOrder: 'teachers.tz' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
+  {
+    field: 'report_date',
+    title: 'תאריך דיווח עברי',
+    ...getPropsForHebrewDate('report_date'),
+    editable: 'never',
+  },
+  { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   // { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
   { field: 'how_many_watched_lessons', title: 'שיעורי צפיה או מטלה' },

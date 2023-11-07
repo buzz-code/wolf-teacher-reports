@@ -6,6 +6,8 @@ import { getTotalPay, getTotalPayForAllTeachers } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices, createSalaryReportByUserId } from '../utils/queryHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 
+const report_date_weekday = bookshelf.knex.raw("ELT(DAYOFWEEK(report_date), 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש')");
+
 /**
  * Find all the items
  *
@@ -20,7 +22,7 @@ export async function findAll(req, res) {
             qb.leftJoin('teacher_types', { 'teacher_types.key': 'teachers.teacher_type_id', 'teacher_types.user_id': 'teachers.user_id' })
             qb.select('att_reports.*')
             qb.select({
-                report_date_weekday: bookshelf.knex.raw("ELT(DAYOFWEEK(report_date), 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש')"),
+                report_date_weekday,
                 teacher_type_name: 'teacher_types.name',
                 teacher_training_teacher: 'teachers.training_teacher'
             })
@@ -60,6 +62,7 @@ export async function getSeminarKitaReport(req, res) {
     dbQuery.query(qb => {
         qb.select({
             id: 'att_reports.id',
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
@@ -81,6 +84,7 @@ export function getTrainingReport(req, res) {
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher'
@@ -103,6 +107,7 @@ export async function getManhaReport(req, res) {
     dbQuery.query(qb => {
         qb.select({
             id: 'att_reports.id',
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
@@ -126,6 +131,7 @@ export function getResponsibleReport(req, res) {
     applyFilters(dbQuery, req.query.filters);
     dbQuery.query(qb => {
         qb.select({
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             activity_type_name: 'att_types.name'
@@ -146,6 +152,7 @@ export async function getPdsReport(req, res) {
     dbQuery.query(qb => {
         qb.select({
             id: 'att_reports.id',
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
@@ -169,6 +176,7 @@ export async function getSpecialEducationReport(req, res) {
     dbQuery.query(qb => {
         qb.select({
             id: 'att_reports.id',
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
@@ -192,6 +200,7 @@ export async function getKindergartenReport(req, res) {
     dbQuery.query(qb => {
         qb.select({
             id: 'att_reports.id',
+            report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
