@@ -303,11 +303,11 @@ export class YemotCall extends CallBase {
 
 
         // if (this.params.wasKamal == 0) {
-            // כמה שיעורי דיון
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
-                    'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
-            );
+        // כמה שיעורי דיון
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
+                'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
+        );
         // }
 
         // כמה שיעורים התלמידות חסרו מסיבות אישיות
@@ -409,6 +409,8 @@ export class YemotCall extends CallBase {
             this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
                 'howManyDiscussingLessons', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [0, 1] })
         );
+
+        await this.validatePdsReport();
 
         // //כמה שיעורי צפיה היו?
         // await this.send(
@@ -704,6 +706,24 @@ export class YemotCall extends CallBase {
                     this.params.howManyYalkutLessons,
                     this.params.howManyDiscussingLessons,
                     this.params.howManyStudentsHelpTeached,
+                )
+            },
+                'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.reportConfirm == 2) {
+            return this.askForReportDataAndSave();
+        }
+    }
+
+    async validatePdsReport() {
+        await this.send(
+            this.read({
+                type: 'text', text: format(
+                    this.texts.validationConfirmPdsReport,
+                    this.teacherToReportFor.name,
+                    this.params.howManyWatchOrIndividual,
+                    this.params.howManyTeachedOrInterfering,
+                    this.params.howManyDiscussingLessons,
                 )
             },
                 'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
