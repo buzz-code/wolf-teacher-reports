@@ -720,7 +720,6 @@ export class YemotCall extends CallBase {
             this.read({
                 type: 'text', text: format(
                     this.texts.validationConfirmPdsReport,
-                    this.teacherToReportFor.name,
                     this.params.howManyWatchOrIndividual,
                     this.params.howManyTeachedOrInterfering,
                     this.params.howManyDiscussingLessons,
