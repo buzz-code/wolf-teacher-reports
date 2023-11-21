@@ -27,7 +27,7 @@ const getColumns = (handleEditComment) => [
   { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   { field: 'how_many_watch_or_individual', title: 'כמה שיעורי צפיה או פרטני' },
-  { field: 'how_many_teached_or_interfering', title: 'כמה שיעור צפיה או מעורבות' },
+  { field: 'how_many_teached_or_interfering', title: 'כמה שיעור מסירה או מעורבות' },
   { field: 'how_many_discussing_lessons', title: 'כמה שיעורי דיון' },
   { field: 'total_pay', title: 'שכר למורה' },
   {
