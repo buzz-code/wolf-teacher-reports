@@ -48,6 +48,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     ...getPropsForAutoComplete('teacher_to_report_for', teachers),
   },
   { field: 'is_taarif_hulia', title: 'תעריף חוליה' },
+  { field: 'is_taarif_hulia2', title: 'חוליה גדולה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעורי ילקוט' },
   { field: 'how_many_discussing_lessons', title: 'שיעורי דיון' },
   { field: 'how_many_students_help_teached', title: 'עזרה בשיעורי מרתון' },

@@ -220,6 +220,7 @@ export class YemotCall extends CallBase {
                 how_many_methodic: this.params.howManyMethodic,
                 four_last_digits_of_teacher_phone: this.params.fourLastDigitsOfTeacherPhone,
                 is_taarif_hulia: this.params.isTaarifHulia,
+                is_taarif_hulia2: this.params.isTaarifHulia2,
                 teached_student_tz: this.params.teachedStudentTz,
                 how_many_yalkut_lessons: this.params.howManyYalkutLessons,
                 how_many_discussing_lessons: this.params.howManyDiscussingLessons,
@@ -344,11 +345,16 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
-            // //האם תעריף חוליה או תעריף כיתתי?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
-            //         'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
+            //כמה שיעורי צפיה בחוליה רגילה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
+                    'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            //כמה שעורי צפיה בחוליה גדולה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia2 },
+                    'isTaarifHulia2', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //כמה שיעורי צפיה?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
@@ -701,6 +707,7 @@ export class YemotCall extends CallBase {
                     this.texts.validationConfirmManhaReport,
                     this.teacherToReportFor.name,
                     this.params.isTaarifHulia,
+                    this.params.isTaarifHulia2,
                     this.params.howManyWatchedLessons,
                     this.params.howManyStudentsTeached,
                     this.params.howManyYalkutLessons,

@@ -116,7 +116,7 @@ export async function getManhaReport(req, res) {
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
-        qb.select('four_last_digits_of_teacher_phone', 'teacher_to_report_for', 'how_many_watched_lessons', 'how_many_students_teached', 'how_many_yalkut_lessons', 'how_many_students_help_teached', 'how_many_discussing_lessons')
+        qb.select('four_last_digits_of_teacher_phone', 'teacher_to_report_for', 'how_many_watched_lessons', 'how_many_students_teached', 'how_many_yalkut_lessons', 'how_many_students_help_teached', 'how_many_discussing_lessons', 'is_taarif_hulia', 'is_taarif_hulia2')
         qb.select({ total_pay: bookshelf.knex.raw(getTotalPay(3, prices)) })
     });
     fetchPage({ dbQuery }, req.query, res);

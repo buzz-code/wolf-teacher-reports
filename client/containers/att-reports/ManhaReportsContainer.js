@@ -28,6 +28,8 @@ const getColumns = (handleEditComment) => [
   { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   // { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
+  { field: 'is_taarif_hulia', title: 'חוליה רגילה' },
+  { field: 'is_taarif_hulia2', title: 'חוליה גדולה' },
   { field: 'how_many_watched_lessons', title: 'שיעורי צפיה או מטלה' },
   { field: 'how_many_students_teached', title: 'שיעורי מסירה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
