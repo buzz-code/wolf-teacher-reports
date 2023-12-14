@@ -18,6 +18,7 @@ const supportedEntities = [
       'price',
       'training_teacher',
       'email',
+      'student_count',
     ],
   },
   { value: entities.STUDENTS, title: titles.STUDENTS, columns: ['tz', 'name'] },

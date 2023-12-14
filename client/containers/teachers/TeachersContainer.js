@@ -23,6 +23,7 @@ const getColumns = ({ teacherTypes, questions }) => [
     title: 'שאלה מיוחדת',
     ...getPropsForAutoComplete('special_question', questions),
   },
+  { field: 'student_count', title: 'מספר תלמידות' },
 ];
 const getFilters = () => [
   { field: 'teachers.tz', label: 'תעודת זהות', type: 'text', operator: 'like' },

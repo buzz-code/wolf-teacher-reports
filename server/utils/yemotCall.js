@@ -271,11 +271,15 @@ export class YemotCall extends CallBase {
     }
 
     async getSeminarKitaReport() {
-        // כמה תלמידות היו אצלך היום
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askHowManyStudentsSeminarKita },
-                'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
+        this.params.howManyStudents = this.teacher.student_count;
+        if (!this.params.howManyStudents) {
+            // כמה תלמידות היו אצלך היום
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyStudentsSeminarKita },
+                    'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+        }
+
 
         //על כמה שיעורי סמינר כתה תרצי לדווח
         await this.send(
