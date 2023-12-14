@@ -6,6 +6,8 @@ import Table from '../../../common-modules/client/components/table/Table';
 import * as crudAction from '../../../common-modules/client/actions/crudAction';
 import { getPropsForAutoComplete } from '../../../common-modules/client/utils/formUtil';
 
+import { defaultYear, yearsList } from '../../services/yearService';
+
 const getColumns = ({ teacherTypes }) => [
   {
     field: 'teacher_type_id',
@@ -22,6 +24,14 @@ const getFilters = ({ teacherTypes }) => [
     list: teacherTypes,
     operator: 'eq',
     idField: 'key',
+  },
+  {
+    field: 'year',
+    label: 'שנה',
+    type: 'list',
+    operator: 'eq',
+    list: yearsList,
+    defaultValue: defaultYear,
   },
 ];
 
