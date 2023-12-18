@@ -104,7 +104,7 @@ export class YemotCall extends CallBase {
         }
 
         //תאריך לא חוקי
-        const reportDateIsValid = reportDate.isValid;
+        const reportDateIsValid = reportDate.isValid();
         if (reportDateIsValid === false) {
             this.globalMsg = this.texts.validationErrorReportDateIsInvalid;
             return this.getAndValidateReportDate();
