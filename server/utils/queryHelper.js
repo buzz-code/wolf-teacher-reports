@@ -87,7 +87,7 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
         answerByQuestion[ans.question_id][Number(!!Number(ans.answer))] = true;
     });
     return questions.filter(question => {
-        return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] || answerByQuestion[question.id]?.[1]) ||
+        return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] != true && answerByQuestion[question.id]?.[1] != true) ||
             question.question_type_key == 2 && answerByQuestion[question.id]?.[1] != true ||
             question.question_type_key == 3 && answerByQuestion[question.id]?.[0] != true ||
             question.question_type_key == 4 && teacher_special_question == question.id
