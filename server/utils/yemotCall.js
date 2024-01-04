@@ -117,7 +117,7 @@ export class YemotCall extends CallBase {
         const unconfirmedPreviousReports = await queryHelper.getUnconfirmedPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
         if (unconfirmedPreviousReports.length > 0) {
             this.globalMsg = this.texts.validationErrorHasUnconfirmedReports;
-            return this.getAndValidateReportDate();
+            return this.getReportDate();
         }
 
         //אי אפשר לדווח על חודש לועזי שעבר
