@@ -117,6 +117,7 @@ export class YemotCall extends CallBase {
         const unconfirmedPreviousReports = await queryHelper.getUnconfirmedPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
         if (unconfirmedPreviousReports.length > 0) {
             this.globalMsg = this.texts.validationErrorHasUnconfirmedReports;
+            delete this.report_date;
             return this.getReportDate();
         }
 
