@@ -772,6 +772,6 @@ export class YemotCall extends CallBase {
             7: [report_date, how_many_students, how_many_students_watched, how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality],
         };
 
-        return this.id_list_message({ type: 'text', text: format(reportMessages[this.teacher.teacher_type_id], ...params[this.teacher.teacher_type_id]) });
+        return format(reportMessages[this.teacher.teacher_type_id], ...params[this.teacher.teacher_type_id]);
     }
 }
