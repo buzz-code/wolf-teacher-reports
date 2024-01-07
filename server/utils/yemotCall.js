@@ -110,15 +110,18 @@ export class YemotCall extends CallBase {
             return this.getAndValidateReportDate();
         }
 
-        // לא ניתן לדווח לפני אישור דיווחים קודמים
-        // check if there are reports for other months
-        const startReportsDate = moment(`01.01.1970`, 'DD.MM.YYYY');
-        const endReportsDate = moment().startOf('month').add(-1, 'millisecond');
-        const unconfirmedPreviousReports = await queryHelper.getUnconfirmedPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
-        if (unconfirmedPreviousReports.length > 0) {
-            this.globalMsg = this.texts.validationErrorHasUnconfirmedReports;
-            delete this.report_date;
-            return this.getReportDate();
+        //לא למורות מנחות
+        if (this.teacher.teacher_type_id != 3) {
+            // לא ניתן לדווח לפני אישור דיווחים קודמים
+            // check if there are reports for other months
+            const startReportsDate = moment(`01.01.1970`, 'DD.MM.YYYY');
+            const endReportsDate = moment().startOf('month').add(-1, 'millisecond');
+            const unconfirmedPreviousReports = await queryHelper.getUnconfirmedPreviousReportsByTeacherAndDates(this.user.id, this.teacher.id, startReportsDate, endReportsDate);
+            if (unconfirmedPreviousReports.length > 0) {
+                this.globalMsg = this.texts.validationErrorHasUnconfirmedReports;
+                delete this.report_date;
+                return this.getReportDate();
+            }
         }
 
         //אי אפשר לדווח על חודש לועזי שעבר
