@@ -105,6 +105,12 @@ export function saveAnswerForQuestion(user_id, teacher_id, question_id, answer) 
         .save();
 }
 
+export function updateReportIdForExistingReportAnswers(previous_report_id, report_id) {
+    return new Answer().query()
+        .where({ report_id: previous_report_id })
+        .update({ report_id });
+}
+
 export function updateReportIdForAnswers(user_id, teacher_id, report_id) {
     return new Answer().query()
         .where({ user_id, teacher_id, answer_date: moment().format('YYYY-MM-DD') })

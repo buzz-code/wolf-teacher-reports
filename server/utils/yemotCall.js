@@ -253,7 +253,8 @@ export class YemotCall extends CallBase {
             const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
                 await new AttReport().where({ id: this.existingReport.id }).destroy();
-                            }
+                await queryHelper.updateReportIdForExistingReportAnswers(this.existingReport.id, savedReport.id);
+            }
 
             await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
 
@@ -614,7 +615,11 @@ export class YemotCall extends CallBase {
                 );
                 if (this.params.previousReportConfirm == 9) {
                     await queryHelper.saveReportAsConfirmed(report.id);
-                                }
+                } else {
+                    this.existingReport = report;
+                    this.report_date = moment(report.report_date).format('YYYY-MM-DD');
+                    return this.getReportAndSave();
+                }
             }
         }
 
