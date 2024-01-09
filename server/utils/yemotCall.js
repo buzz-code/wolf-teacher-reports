@@ -612,7 +612,7 @@ export class YemotCall extends CallBase {
                     this.read({ type: 'text', text: this.getReportMessage(report) },
                         'previousReportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
                 );
-                if (this.params.previousReportConfirm == 1) {
+                if (this.params.previousReportConfirm == 9) {
                     await queryHelper.saveReportAsConfirmed(report.id);
                 }
             }
