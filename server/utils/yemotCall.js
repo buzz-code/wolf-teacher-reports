@@ -253,7 +253,7 @@ export class YemotCall extends CallBase {
             const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
                 await new AttReport().where({ id: this.existingReport.id }).destroy();
-            }
+                            }
 
             await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
 
@@ -614,7 +614,7 @@ export class YemotCall extends CallBase {
                 );
                 if (this.params.previousReportConfirm == 9) {
                     await queryHelper.saveReportAsConfirmed(report.id);
-                }
+                                }
             }
         }
 
@@ -772,7 +772,7 @@ export class YemotCall extends CallBase {
             4: [],
             5: [report_date, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons],
             6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time],
-            7: [report_date, how_many_students, how_many_students_watched, how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality],
+            7: [report_date, how_many_lessons, how_many_students_watched, how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality],
         };
 
         return format(reportMessages[this.teacher.teacher_type_id], ...params[this.teacher.teacher_type_id]);
