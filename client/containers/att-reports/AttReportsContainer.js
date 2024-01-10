@@ -110,6 +110,7 @@ const AttReportsContainer = ({ entity, title }) => {
     ...dataToSave,
     report_date: dataToSave.report_date && moment(dataToSave.report_date).format('yyyy-MM-DD'),
     update_date: dataToSave.update_date && moment(dataToSave.update_date).format('yyyy-MM-DD'),
+    salary_month: dataToSave.salary_month && moment(dataToSave.salary_month).format('yyyy-MM-DD'),
     teacher_type_name: undefined,
     teacher_training_teacher: undefined,
     report_date_weekday: undefined,
