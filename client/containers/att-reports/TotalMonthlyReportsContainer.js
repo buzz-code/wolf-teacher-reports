@@ -26,6 +26,7 @@ const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salar
   // { field: 'was_students_enter_on_time', title: 'האם נכנסו בזמן?', type: 'boolean' },
   // { field: 'was_students_exit_on_time', title: 'האם יצאו בזמן?', type: 'boolean' },
   // { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
+  { field: 'is_confirmed', title: 'דיווח שאושר', type: 'boolean' },
   { field: 'total_pay', title: 'שכר למורה' },
   { field: 'salary_report_name', title: 'דוח שכר' },
   // {
