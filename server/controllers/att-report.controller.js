@@ -243,7 +243,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),
             salary_report_name: 'salary_reports_view.name',
             comment: bookshelf.knex.raw('GROUP_CONCAT(distinct comment)'),
-            is_confirmed: bookshelf.knex.raw('MIN(COALESCE(is_confirmed, 0))')
+            is_confirmed: bookshelf.knex.raw('MIN(COALESCE(is_confirmed, 0))'),
         })
         // qb.select('report_date', 'update_date')
         // qb.select('salary_month', 'comment')
