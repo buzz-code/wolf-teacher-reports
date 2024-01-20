@@ -125,11 +125,11 @@ export class YemotCall extends CallBase {
         }
 
         //אי אפשר לדווח על חודש לועזי שעבר
-        const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
-        if (reportDateIsPrevMonth && false) {
-            this.globalMsg = this.texts.validationErrorCannotReportOnPrevMonth;
-            return this.getAndValidateReportDate();
-        }
+        // const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
+        // if (reportDateIsPrevMonth) {
+        //     this.globalMsg = this.texts.validationErrorCannotReportOnPrevMonth;
+        //     return this.getAndValidateReportDate();
+        // }
 
         //אי אפשר לדווח על העתיד
         const reportDateIsFuture = reportDate.isAfter(moment());
