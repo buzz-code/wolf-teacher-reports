@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import { AttReport, AttType, SalaryReportWithName, Teacher, TeacherType } from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
 import { getListFromTable } from '../../common-modules/server/utils/common';
-import { getTotalPay, getTotalPayForAllTeachers } from '../utils/reportHelper';
+import { getTotalPay, getTotalPayForAllTeachers, getAnswersPrice } from '../utils/reportHelper';
 import { updateSalaryMonthByUserId, updateSalaryCommentByUserId, getPrices, createSalaryReportByUserId } from '../utils/queryHelper';
 import bookshelf from '../../common-modules/server/config/bookshelf';
 
@@ -247,7 +247,11 @@ export async function getTotalPayMonthlyReport(req, res) {
         })
         // qb.select('report_date', 'update_date')
         // qb.select('salary_month', 'comment')
-        qb.sum({ total_pay: getTotalPayForAllTeachers(prices) })
+        qb.sum({
+            regular_pay: getTotalPayForAllTeachers(prices, false),
+            extra_pay: getAnswersPrice(),
+            total_pay: getTotalPayForAllTeachers(prices, true),
+        })
     });
     fetchPage({ dbQuery, countQuery }, req.query, res);
 }

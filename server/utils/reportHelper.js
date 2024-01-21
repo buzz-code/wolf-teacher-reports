@@ -5,7 +5,7 @@ export function getCoalesceAndPrice(column, price) {
     return `COALESCE(${column}, 0) * ${price ?? 0}`;
 }
 
-function getAnswersPrice() {
+export function getAnswersPrice() {
     return getCoalesceAndPrice('answers_price.answers_price', 1);
 }
 
@@ -13,9 +13,9 @@ function joinMultiplePrices(...args) {
     return '(' + args.join(' + ') + ')';
 }
 
-export function getTotalPayForAllTeachers(prices) {
+export function getTotalPayForAllTeachers(prices, withExtra = true) {
     function getCaseOneLike(number) {
-        return `WHEN teachers.teacher_type_id = ${number} THEN ${getTotalPay(number, prices)}`
+        return `WHEN teachers.teacher_type_id = ${number} THEN ${getTotalPay(number, prices, withExtra)}`
     }
 
     return bookshelf.knex.raw(`
@@ -32,37 +32,37 @@ export function getTotalPayForAllTeachers(prices) {
 }
 
 
-export function getTotalPay(teacher_type_id, prices) {
+export function getTotalPay(teacher_type_id, prices, withExtra = true) {
     switch (teacher_type_id) {
         case 1:
-            return getSeminarKitaTotalPay(prices);
+            return getSeminarKitaTotalPay(prices, withExtra);
         case 2:
-            return getTrainingTeacherSalary();
+            return getTrainingTeacherSalary(withExtra);
         case 3:
-            return getManhaTotalPay(prices);
+            return getManhaTotalPay(prices, withExtra);
         case 4:
             return '0';
         case 5:
-            return getPdsTotalPay(prices);
+            return getPdsTotalPay(prices, withExtra);
         case 6:
-            return getKindergartenTotalPay(prices);
+            return getKindergartenTotalPay(prices, withExtra);
         case 7:
-            return getSpecialEducationTotalPay(prices);
+            return getSpecialEducationTotalPay(prices, withExtra);
     }
 }
 
 
-export function getTrainingTeacherSalary() {
+export function getTrainingTeacherSalary(withExtra) {
     return joinMultiplePrices(
         getCoalesceAndPrice('how_many_watched', trainingPrices.watch),
         getCoalesceAndPrice('how_many_student_teached', trainingPrices.teach),
         getCoalesceAndPrice('was_discussing', trainingPrices.discuss),
         getCoalesceAndPrice('how_many_private_lessons', trainingPrices.privateLesson),
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }
 
-export function getSeminarKitaTotalPay(prices) {
+export function getSeminarKitaTotalPay(prices, withExtra) {
     return joinMultiplePrices(
         joinMultiplePrices(
             getCoalesceAndPrice('how_many_watch_or_individual', prices[11]),
@@ -71,11 +71,11 @@ export function getSeminarKitaTotalPay(prices) {
             getCoalesceAndPrice('was_kamal', prices[14]),
             getCoalesceAndPrice('how_many_lessons_absence', prices[15]),
         ) + ' * GREATEST(0.5 * COALESCE(how_many_students, 0), 1)',
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }
 
-export function getManhaTotalPay(prices) {
+export function getManhaTotalPay(prices, withExtra) {
     return joinMultiplePrices(
         getCoalesceAndPrice('how_many_watched_lessons', prices[51]),
         getCoalesceAndPrice('how_many_students_teached', prices[52]),
@@ -85,32 +85,32 @@ export function getManhaTotalPay(prices) {
         getCoalesceAndPrice('how_many_methodic', prices[56]),
         getCoalesceAndPrice('is_taarif_hulia', prices[57]),
         getCoalesceAndPrice('is_taarif_hulia2', prices[58]),
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }
 
-export function getPdsTotalPay(prices) {
+export function getPdsTotalPay(prices, withExtra) {
     return joinMultiplePrices(
         getCoalesceAndPrice('how_many_watch_or_individual', prices[40]),
         getCoalesceAndPrice('how_many_teached_or_interfering', prices[42]),
         getCoalesceAndPrice('how_many_discussing_lessons', prices[41]),
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }
 
-export function getSpecialEducationTotalPay(prices) {
+export function getSpecialEducationTotalPay(prices, withExtra) {
     return joinMultiplePrices(
         getCoalesceAndPrice('how_many_lessons', 1) + '*' + getCoalesceAndPrice('how_many_students_watched', 1) + '*' + (prices[26] ?? 0),
         getCoalesceAndPrice('how_many_students_teached', prices[27]),
         getCoalesceAndPrice('was_phone_discussing', prices[28]),
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }
 
-export function getKindergartenTotalPay(prices) {
+export function getKindergartenTotalPay(prices, withExtra) {
     return joinMultiplePrices(
         getCoalesceAndPrice('how_many_students', prices[24]),
         getCoalesceAndPrice('was_discussing', prices[25]),
-        getAnswersPrice(),
+        withExtra ? getAnswersPrice() : '0',
     );
 }

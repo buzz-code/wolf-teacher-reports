@@ -27,7 +27,9 @@ const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salar
   // { field: 'was_students_exit_on_time', title: 'האם יצאו בזמן?', type: 'boolean' },
   // { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
   { field: 'is_confirmed', title: 'דיווח שאושר', type: 'boolean' },
-  { field: 'total_pay', title: 'שכר למורה' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
   { field: 'salary_report_name', title: 'דוח שכר' },
   // {
   //   field: 'salary_month',
