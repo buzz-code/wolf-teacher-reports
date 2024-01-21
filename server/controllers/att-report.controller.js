@@ -249,7 +249,7 @@ export async function getTotalPayMonthlyReport(req, res) {
         // qb.select('salary_month', 'comment')
         qb.sum({
             regular_pay: getTotalPayForAllTeachers(prices, false),
-            extra_pay: getAnswersPrice(),
+            extra_pay: bookshelf.knex.raw(getAnswersPrice()),
             total_pay: getTotalPayForAllTeachers(prices, true),
         })
     });
