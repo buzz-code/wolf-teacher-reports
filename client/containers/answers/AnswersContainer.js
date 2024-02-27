@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import Table from '../../../common-modules/client/components/table/Table';
 
 const getColumns = () => [
-  { field: 'question_name', title: 'שאלה' },
-  { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
-  { field: 'teacher_tz', title: 'תז המורה', columnOrder: 'teachers.tz' },
-  { field: 'answer_date', title: 'תאריך', type: 'date' },
+  { field: 'question_name', title: 'שאלה', editable: 'never' },
+  { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name', editable: 'never' },
+  { field: 'teacher_tz', title: 'תז המורה', columnOrder: 'teachers.tz', editable: 'never' },
+  { field: 'answer_date', title: 'תאריך', type: 'date', editable: 'never' },
   { field: 'answer', title: 'תשובה' },
 ];
 const getFilters = () => [
