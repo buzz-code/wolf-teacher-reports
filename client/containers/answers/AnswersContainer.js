@@ -21,7 +21,24 @@ const AnswersContainer = ({ entity, title }) => {
   const columns = useMemo(() => getColumns(), []);
   const filters = useMemo(() => getFilters(), []);
 
-  return <Table entity={entity} title={title} columns={columns} filters={filters} />;
+  const manipulateDataToSave = (dataToSave) => ({
+    ...dataToSave,
+    question_name: undefined,
+    teacher_name: undefined,
+    teacher_tz: undefined,
+    answer_date: undefined,
+  });
+
+  return (
+    <Table
+      entity={entity}
+      title={title}
+      columns={columns}
+      filters={filters}
+      manipulateDataToSave={manipulateDataToSave}
+      disableAdd={true}
+    />
+  );
 };
 
 export default AnswersContainer;
