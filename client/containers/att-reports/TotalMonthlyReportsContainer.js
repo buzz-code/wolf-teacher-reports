@@ -18,7 +18,7 @@ const getColumns = (handleEditComment, { teachers, attTypes, teacherTypes, salar
     title: 'סוג המורה',
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
-  { field: 'report_month', title: 'חודש הדיווח', type: 'date' },
+  { field: 'report_month', title: 'חודש הדיווח' },
   // { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   // { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
   // { field: 'how_many_students', title: 'כמה תלמידות?' },
