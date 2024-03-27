@@ -24,7 +24,8 @@ export async function findAll(req, res) {
             qb.select({
                 report_date_weekday,
                 teacher_type_name: 'teacher_types.name',
-                teacher_training_teacher: 'teachers.training_teacher'
+                teacher_training_teacher: 'teachers.training_teacher',
+                teacher_school: 'teachers.school',
             })
         });
     applyFilters(dbQuery, req.query.filters);
@@ -238,6 +239,7 @@ export async function getTotalPayMonthlyReport(req, res) {
             id: bookshelf.knex.raw('GROUP_CONCAT(att_reports.id)'),
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
+            teacher_school: 'teachers.school',
             report_teacher_name: 'report_teachers.name',
             teacher_type_id: 'teachers.teacher_type_id',
             report_month: bookshelf.knex.raw('MONTHNAME(report_date)'),

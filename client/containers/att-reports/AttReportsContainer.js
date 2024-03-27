@@ -30,6 +30,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     columnOrder: 'teachers.training_teacher',
     editable: 'never',
   },
+  { field: 'teacher_school', title: 'בית ספר', columnOrder: 'teachers.school' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   {
     field: 'report_date',
@@ -113,6 +114,7 @@ const AttReportsContainer = ({ entity, title }) => {
     salary_month: dataToSave.salary_month && moment(dataToSave.salary_month).format('yyyy-MM-DD'),
     teacher_type_name: undefined,
     teacher_training_teacher: undefined,
+    teacher_school: undefined,
     report_date_weekday: undefined,
   });
 
