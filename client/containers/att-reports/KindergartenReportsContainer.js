@@ -26,6 +26,7 @@ const getColumns = (handleEditComment) => [
   },
   { field: 'report_date_weekday', title: 'יום בשבוע', editable: 'never' },
   { field: 'update_date', title: 'תאריך עדכון', type: 'date' },
+  { field: 'was_collective_watch', title: 'צפיה קולקטיבית' },
   { field: 'how_many_students', title: 'כמה תלמידות?' },
   { field: 'was_students_good', title: 'האם התנהגו כראוי?' },
   { field: 'was_students_enter_on_time', title: 'האם נכנסו בזמן?', type: 'boolean' },

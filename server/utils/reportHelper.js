@@ -109,6 +109,7 @@ export function getSpecialEducationTotalPay(prices, withExtra) {
 
 export function getKindergartenTotalPay(prices, withExtra) {
     return joinMultiplePrices(
+        getCoalesceAndPrice('was_collective_watch', prices[60]),
         getCoalesceAndPrice('how_many_students', prices[24]),
         getCoalesceAndPrice('was_discussing', prices[25]),
         withExtra ? getAnswersPrice() : '0',

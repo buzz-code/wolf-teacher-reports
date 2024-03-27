@@ -249,6 +249,7 @@ export class YemotCall extends CallBase {
                 your_training_teacher: this.params.whoIsYourTrainingTeacher,
                 what_speciality: this.params.whatIsYourSpeciality,
                 teacher_to_report_for: this.teacherToReportFor?.id,
+                was_collective_watch: this.params.wasCollectiveWatch,
             };
             const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
@@ -470,32 +471,39 @@ export class YemotCall extends CallBase {
     }
 
     async getKindergartenReport() {
-        //כמה בנות היו בצפיה בגן?
+        //האם הייתה צפיה קולקטיבית?
         await this.send(
             this.globalMsgIfExists(),
-            this.read({ type: 'text', text: this.texts.askHowManyStudents },
-                'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
+            this.read({ type: 'text', text: this.texts.askWasCollectiveWatch },
+                'wasCollectiveWatch', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
-        // //האם היה דיון?
-        // await this.send(
-        //     this.read({ type: 'text', text: this.texts.askWasDiscussing },
-        //         'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
-        // );
-        //האם תפקוד הבנות ענה על ציפיותיך?
-        await this.send(
-            this.read({ type: 'text', text: this.texts.askWasStudentsGood },
-                'wasStudentsGood', 'tap', { max: 1, min: 1, block_asterisk: true })
-        );
-        // //האם התלמידות היו בגן בזמן?
-        // await this.send(
-        //     this.read({ type: 'text', text: this.texts.askWasStudentsEnterOnTime },
-        //         'wasStudentsEnterOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
-        // );
-        // //האם התלמידות יצאו בזמן?
-        // await this.send(
-        //     this.read({ type: 'text', text: this.texts.askWasStudentsExitOnTime },
-        //         'wasStudentsExitOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
-        // );
+        if (this.params.wasCollectiveWatch != 1) {
+            //כמה בנות היו בצפיה בגן?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyStudents },
+                    'howManyStudents', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            // //האם היה דיון?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askWasDiscussing },
+            //         'wasDiscussing', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            //האם תפקוד הבנות ענה על ציפיותיך?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askWasStudentsGood },
+                    'wasStudentsGood', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            // //האם התלמידות היו בגן בזמן?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askWasStudentsEnterOnTime },
+            //         'wasStudentsEnterOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            // //האם התלמידות יצאו בזמן?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askWasStudentsExitOnTime },
+            //         'wasStudentsExitOnTime', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+        }
     }
 
     async getSpecialEducationReport() {
@@ -758,7 +766,7 @@ export class YemotCall extends CallBase {
         how_many_watched_lessons, was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
         how_many_watch_or_individual, how_many_teached_or_interfering, how_many_students, was_students_good,
         was_students_enter_on_time, was_students_exit_on_time, how_many_lessons, how_many_students_watched,
-        how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality
+        how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality, was_collective_watch
     }) {
         const reportMessages = {
             1: this.texts.seminarKitaPreviousReports,
@@ -776,7 +784,7 @@ export class YemotCall extends CallBase {
             3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, is_taarif_hulia2, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached],
             4: [],
             5: [report_date, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons],
-            6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time],
+            6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time, was_collective_watch],
             7: [report_date, how_many_lessons, how_many_students_watched, how_many_students_teached, was_phone_discussing, your_training_teacher, what_speciality],
         };
 

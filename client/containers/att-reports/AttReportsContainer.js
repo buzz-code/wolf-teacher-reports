@@ -62,6 +62,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'how_many_interfering', title: 'התערבות' },
   { field: 'how_many_watch_or_individual', title: 'צפיה או פרטני' },
   { field: 'how_many_teached_or_interfering', title: 'מסירה או מעורבות' },
+  { field: 'was_collective_watch', title: 'צפיה קולקטיבית' },
   { field: 'how_many_students', title: 'תלמידות' },
   { field: 'was_students_good', title: 'תפקוד הבנות' },
   { field: 'was_students_enter_on_time', title: 'הגעה בזמן' },
