@@ -8,6 +8,7 @@ import { defaultYear, yearsList } from '../../services/yearService';
 const getColumns = () => [
   { field: 'teacher_name', title: 'שם המורה', columnOrder: 'teachers.name' },
   { field: 'teacher_tz', title: 'תז', columnOrder: 'teachers.tz' },
+  { field: 'teacher_school', title: 'בית ספר', columnOrder: 'teachers.school' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   {
     field: 'report_date',

@@ -13,6 +13,7 @@ const getColumns = () => [
     title: 'מורה מנחה',
     columnOrder: 'teachers.training_teacher',
   },
+  { field: 'teacher_school', title: 'בית ספר', columnOrder: 'teachers.school' },
   { field: 'report_date', title: 'תאריך הדיווח', type: 'date' },
   {
     field: 'report_date',

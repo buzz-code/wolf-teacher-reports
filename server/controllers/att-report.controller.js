@@ -67,6 +67,7 @@ export async function getSeminarKitaReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -88,7 +89,8 @@ export function getTrainingReport(req, res) {
             report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
-            teacher_training_teacher: 'teachers.training_teacher'
+            teacher_training_teacher: 'teachers.training_teacher',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date', 'how_many_watched', 'how_many_student_teached', 'was_discussing', 'how_many_private_lessons', 'att_reports.training_teacher')
         qb.select({ teacher_salary: bookshelf.knex.raw(getTotalPay(2)) })
@@ -114,6 +116,7 @@ export async function getManhaReport(req, res) {
             teacher_training_teacher: 'teachers.training_teacher',
             teacher_to_report_for_name: 'teacher_to_report_for.name',
             teacher_to_report_for_tz: 'teacher_to_report_for.tz',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -135,7 +138,8 @@ export function getResponsibleReport(req, res) {
             report_date_weekday,
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
-            activity_type_name: 'att_types.name'
+            activity_type_name: 'att_types.name',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
     });
@@ -157,6 +161,7 @@ export async function getPdsReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -181,6 +186,7 @@ export async function getSpecialEducationReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
@@ -205,10 +211,11 @@ export async function getKindergartenReport(req, res) {
             teacher_name: 'teachers.name',
             teacher_tz: 'teachers.tz',
             teacher_training_teacher: 'teachers.training_teacher',
+            teacher_school: 'teachers.school',
         })
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
-        qb.select('how_many_students', 'was_discussing', 'was_students_good', 'was_students_enter_on_time', 'was_students_exit_on_time')
+        qb.select('was_collective_watch', 'how_many_students', 'was_discussing', 'was_students_good', 'was_students_enter_on_time', 'was_students_exit_on_time')
         qb.select({ total_pay: bookshelf.knex.raw(getTotalPay(6, prices)) })
     });
     fetchPage({ dbQuery }, req.query, res);
