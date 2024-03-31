@@ -130,6 +130,9 @@ const AttReportsContainer = ({ entity, title }) => {
       columns={columns}
       filters={filters}
       manipulateDataToSave={manipulateDataToSave}
+      customMaterialOptions={{
+        pageSize: 10,
+      }}
     />
   );
 };
