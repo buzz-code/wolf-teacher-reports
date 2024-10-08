@@ -15,6 +15,7 @@ const getColumns = ({ teacherTypes }) => [
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
   { field: 'working_date', title: 'תאריך', type: 'date' },
+  { field: 'year', title: 'שנה' },
 ];
 const getFilters = ({ teacherTypes }) => [
   {
@@ -53,6 +54,7 @@ const WorkingDatesContainer = ({ entity, title }) => {
     working_date: dataToSave.working_date
       ? moment(dataToSave.working_date).format('yyyy-MM-DD')
       : null,
+    year: dataToSave.year ?? defaultYear,
   });
 
   return (
