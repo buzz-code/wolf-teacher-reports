@@ -117,6 +117,7 @@ const AttReportsContainer = ({ entity, title }) => {
     teacher_training_teacher: undefined,
     teacher_school: undefined,
     report_date_weekday: undefined,
+    year: dataToSave.year ?? defaultYear,
   });
 
   useEffect(() => {

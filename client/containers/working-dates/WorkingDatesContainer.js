@@ -15,7 +15,6 @@ const getColumns = ({ teacherTypes }) => [
     ...getPropsForAutoComplete('teacher_type_id', teacherTypes, 'key'),
   },
   { field: 'working_date', title: 'תאריך', type: 'date' },
-  { field: 'year', title: 'שנה' },
 ];
 const getFilters = ({ teacherTypes }) => [
   {
