@@ -33,7 +33,9 @@ const getColumns = (handleEditComment) => [
   { field: 'was_students_enter_on_time', title: 'האם נכנסו בזמן?', type: 'boolean' },
   { field: 'was_students_exit_on_time', title: 'האם יצאו בזמן?', type: 'boolean' },
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
-  { field: 'total_pay', title: 'שכר למורה' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
   {
     field: 'salary_month',
     title: 'חודש שכר',

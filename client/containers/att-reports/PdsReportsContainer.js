@@ -30,7 +30,9 @@ const getColumns = (handleEditComment) => [
   { field: 'how_many_watch_or_individual', title: 'כמה שיעורי צפיה או פרטני' },
   { field: 'how_many_teached_or_interfering', title: 'כמה שיעור מסירה או מעורבות' },
   { field: 'how_many_discussing_lessons', title: 'כמה שיעורי דיון' },
-  { field: 'total_pay', title: 'שכר למורה' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
   {
     field: 'salary_month',
     title: 'חודש שכר',

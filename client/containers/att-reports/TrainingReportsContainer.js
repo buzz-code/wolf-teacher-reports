@@ -28,7 +28,9 @@ const getColumns = () => [
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
   { field: 'how_many_private_lessons', title: 'כמה שיעורים פרטיים?' },
   { field: 'training_teacher', title: 'מורה מאמנת', columnOrder: 'att_reports.training_teacher' },
-  { field: 'teacher_salary', title: 'שכר למורה' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
 ];
 const getFilters = () => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },

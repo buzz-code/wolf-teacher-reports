@@ -36,7 +36,9 @@ const getColumns = (handleEditComment) => [
   { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
   { field: 'how_many_students_help_teached', title: 'עזרה במרתון או צפיית כיתה שלמה' },
   { field: 'how_many_discussing_lessons', title: 'דיון' },
-  { field: 'total_pay', title: 'שכר למורה' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
   {
     field: 'salary_month',
     title: 'חודש שכר',
