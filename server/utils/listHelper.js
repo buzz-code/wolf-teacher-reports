@@ -1,4 +1,3 @@
-const startOfYear = new Date('2000-08-01');
 const startOfAvailableYear = new Date('2000-06-01');
 const firstAvailableYear = 5782;
 
@@ -12,10 +11,6 @@ const getCurrentGregorianYearByStartDate = (yearStartDate) => {
 
 const getHebrewYearByGregorianYear = (gregorianYear) => {
     return gregorianYear + 3760;
-}
-
-const getCurrentGregorianYear = () => {
-    return getCurrentGregorianYearByStartDate(startOfYear);
 }
 
 const getLastAvailableGregorianYear = () => {
@@ -42,12 +37,11 @@ const getYearName = (year) => {
 }
 
 const getYearList = () => {
-    const firstYear = firstAvailableYear;
     const lastGregorianYear = getLastAvailableGregorianYear();
     const lastYear = getHebrewYearByGregorianYear(lastGregorianYear);
 
     const choices = [];
-    for (let year = firstYear; year <= lastYear; year++) {
+    for (let year = firstAvailableYear; year <= lastYear; year++) {
         choices.push({
             id: year,
             name: getYearName(year),
@@ -56,6 +50,6 @@ const getYearList = () => {
     return choices;
 }
 
-export const getYearsList = getYearList;
+export const yearsList = getYearList();
 
-export const defaultYear = getYearList()[getYearList().length - 1].id;
+export const defaultYear = yearsList[yearsList.length - 1].id;
