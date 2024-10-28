@@ -33,7 +33,9 @@ const getColumns = (handleEditComment) => [
   { field: 'was_kamal', title: 'קמל' },
   { field: 'how_many_discussing_lessons', title: 'כמה שיעורי דיון' },
   { field: 'how_many_lessons_absence', title: 'כמה שיעורים התלמידה חסרה' },
-  { field: 'total_pay', title: 'סה"כ לתשלום' },
+  { field: 'regular_pay', title: 'שכר רגיל' },
+  { field: 'extra_pay', title: 'שכר מיוחד' },
+  { field: 'total_pay', title: 'סה"כ שכר' },
   {
     field: 'salary_month',
     title: 'חודש שכר',

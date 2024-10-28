@@ -72,7 +72,11 @@ export async function getSeminarKitaReport(req, res) {
         qb.select('report_date', 'update_date')
         qb.select('salary_month', 'comment')
         qb.select('how_many_students', 'how_many_watch_or_individual', 'how_many_teached_or_interfering', 'was_kamal', 'how_many_discussing_lessons', 'how_many_lessons_absence')
-        qb.select({ total_pay: bookshelf.knex.raw(getTotalPay(1, prices)) })
+        qb.select({ 
+            regular_pay: getTotalPay(1, prices, false),
+            extra_pay: bookshelf.knex.raw(getAnswersPrice()),
+            total_pay: getTotalPay(1, prices, true),
+         })
     });
     fetchPage({ dbQuery }, req.query, res);
 }
