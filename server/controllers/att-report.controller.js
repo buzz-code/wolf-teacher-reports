@@ -57,10 +57,18 @@ export async function getSeminarKitaReport(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id, 'teachers.teacher_type_id': 1 })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
-            qb.leftJoin('answers_price', 'answers_price.report_id', 'att_reports.id')
+            qb.leftJoin('answers_price', 'answers_price.teacher_id', 'att_reports.teacher_id')
         })
     applyFilters(dbQuery, req.query.filters);
+
+    const groupByColumns = ['att_reports.id', 'teachers.id', 'answers_price.report_id'];
+
+    const countQuery = dbQuery.clone().query()
+        .countDistinct({ count: groupByColumns })
+        .then(res => res[0].count);
+
     dbQuery.query(qb => {
+        qb.groupBy(groupByColumns)
         qb.select({
             id: 'att_reports.id',
             report_date_weekday,
@@ -74,7 +82,7 @@ export async function getSeminarKitaReport(req, res) {
         qb.select('how_many_students', 'how_many_watch_or_individual', 'how_many_teached_or_interfering', 'was_kamal', 'how_many_discussing_lessons', 'how_many_lessons_absence')
         qb.select({ total_pay: bookshelf.knex.raw(getTotalPay(1, prices)) })
     });
-    fetchPage({ dbQuery }, req.query, res);
+    fetchPage({ dbQuery, countQuery }, req.query, res);
 }
 
 export function getTrainingReport(req, res) {
