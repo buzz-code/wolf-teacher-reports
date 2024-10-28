@@ -61,7 +61,7 @@ export async function getSeminarKitaReport(req, res) {
         })
     applyFilters(dbQuery, req.query.filters);
 
-    const groupByColumns = ['att_reports.id', 'teachers.id', 'answers_price.report_id'];
+    const groupByColumns = ['att_reports.id', 'teachers.id', 'answers_price.report_id', 'answers_price.teacher_id'];
 
     const countQuery = dbQuery.clone().query()
         .countDistinct({ count: groupByColumns })
