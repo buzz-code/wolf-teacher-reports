@@ -1,6 +1,5 @@
 import { Answer } from '../models';
 import { applyFilters, fetchPage } from '../../common-modules/server/controllers/generic.controller';
-import { getListFromTable } from '../../common-modules/server/utils/common';
 
 /**
  * Find all the items
