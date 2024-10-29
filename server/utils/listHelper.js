@@ -1,4 +1,4 @@
-const startOfAvailableYear = new Date('2000-06-01');
+const startOfYear = new Date('2000-08-01');
 const firstAvailableYear = 5782;
 
 const getCurrentGregorianYearByStartDate = (yearStartDate) => {
@@ -14,7 +14,7 @@ const getHebrewYearByGregorianYear = (gregorianYear) => {
 }
 
 const getLastAvailableGregorianYear = () => {
-    return getCurrentGregorianYearByStartDate(startOfAvailableYear);
+    return getCurrentGregorianYearByStartDate(startOfYear);
 }
 
 const tensLetterArr = [
