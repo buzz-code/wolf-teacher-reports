@@ -8,6 +8,7 @@ const getColumns = () => [
   { field: 'teacher_tz', title: 'תז המורה', columnOrder: 'teachers.tz', editable: 'never' },
   { field: 'answer_date', title: 'תאריך', type: 'date', editable: 'never' },
   { field: 'answer', title: 'תשובה' },
+  { field: 'report_id', title: 'האם מחובר לדיווח?', type: 'boolean', editable: 'never' },
 ];
 const getFilters = () => [
   { field: 'questions.name', label: 'שאלה', type: 'text', operator: 'like' },
