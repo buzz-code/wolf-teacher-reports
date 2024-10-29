@@ -19,6 +19,7 @@ export async function findAll(req, res) {
                 teacher_name: 'teachers.name',
                 teacher_tz: 'teachers.tz'
             })
+            .whereNotNull('report_id')
         });
     applyFilters(dbQuery, req.query.filters);
     fetchPage({ dbQuery }, req.query, res);

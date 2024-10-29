@@ -63,7 +63,14 @@ export class YemotCall extends CallBase {
                 })
             );
             await queryHelper.saveAnswerForQuestion(this.user.id, this.teacher.id, question.id, this.params.questionAnswer);
-            this.hasAnswers = true;
+
+            if (question.is_standalone) {
+                await this.createEmptyReportForAnswers();
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.dataWasSavedSuccessfully }),
+                    this.hangup()
+                );
+            }
         }
     }
 
@@ -254,19 +261,18 @@ export class YemotCall extends CallBase {
                 teacher_to_report_for: this.teacherToReportFor?.id,
                 was_collective_watch: this.params.wasCollectiveWatch,
             };
-            this.savedReport = await new AttReport(attReport).save();
+            const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
                 await new AttReport().where({ id: this.existingReport.id }).destroy();
-                await queryHelper.updateReportIdForExistingReportAnswers(this.existingReport.id, this.savedReport.id);
+                await queryHelper.updateReportIdForExistingReportAnswers(this.existingReport.id, savedReport.id);
             }
 
-            await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, this.savedReport.id);
+            await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
 
             await this.finishSavingReport();
         }
         catch (e) {
             console.log('catch yemot exception', e);
-            await this.createEmptyReportForAnswers();
             await this.send(
                 this.id_list_message({ type: 'text', text: this.texts.dataWasNotSaved }),
                 this.hangup()
@@ -642,19 +648,15 @@ export class YemotCall extends CallBase {
     }
 
     async createEmptyReportForAnswers() {
-        if (this.savedReport || !this.hasAnswers) {
-            return;
-        }
-
         const emptyReport = {
             user_id: this.user.id,
             teacher_id: this.teacher.id,
-            report_date: this.report_date || new Date(),
+            report_date: new Date(),
             update_date: new Date(),
             year: defaultYear,
         };
-        this.savedReport = await new AttReport(emptyReport).save();
-        await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, this.savedReport.id);
+        const savedReport = await new AttReport(emptyReport).save();
+        await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
     }
 
     //helpers

@@ -22,6 +22,7 @@ const getColumns = ({ questionTypes, teacherTypes }) => [
   { field: 'allowed_digits', title: 'תשובה אפשרית' },
   { field: 'price', title: 'תעריף', type: 'numeric' },
   { field: 'is_mul_price', title: 'האם להכפיל מחיר', type: 'boolean' },
+  { field: 'is_standalone', title: 'האם שאלה עצמאית', type: 'boolean' },
   { field: 'start_date', title: 'תאריך התחלה', type: 'date' },
   { field: 'end_date', title: 'תאריך סיום', type: 'date' },
 ];

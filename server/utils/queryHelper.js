@@ -64,6 +64,7 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
     const [answers, questions] = await Promise.all([
         new Answer()
             .where({ user_id, teacher_id })
+            .whereNotNull('report_id')
             .fetchAll()
             .then(result => result.toJSON()),
         new Question()
