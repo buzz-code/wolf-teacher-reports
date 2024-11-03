@@ -655,6 +655,7 @@ export class YemotCall extends CallBase {
             report_date: new Date(),
             update_date: new Date(),
             year: defaultYear,
+            is_confirmed: 1,
         };
         const savedReport = await new AttReport(emptyReport).save();
         await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
