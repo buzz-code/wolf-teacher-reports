@@ -119,8 +119,16 @@ export class YemotCall extends CallBase {
             return this.getAndValidateReportDate();
         }
 
+        const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
+        //אי אפשר לדווח על חודש לועזי שעבר
+        // if (reportDateIsPrevMonth) {
+        //     this.globalMsg = this.texts.validationErrorCannotReportOnPrevMonth;
+        //     return this.getAndValidateReportDate();
+        // }
+
         //לא למורות מנחות
-        if (this.teacher.teacher_type_id != 3) {
+        // אפשר לדווח חודש קודם לפני שמאשרים
+        if (this.teacher.teacher_type_id != 3 && !reportDateIsPrevMonth) {
             // לא ניתן לדווח לפני אישור דיווחים קודמים
             // check if there are reports for other months
             const startReportsDate = moment(`01.01.1970`, 'DD.MM.YYYY');
@@ -132,13 +140,6 @@ export class YemotCall extends CallBase {
                 return this.getReportDate();
             }
         }
-
-        //אי אפשר לדווח על חודש לועזי שעבר
-        // const reportDateIsPrevMonth = reportDate.isBefore(moment().startOf('month'));
-        // if (reportDateIsPrevMonth) {
-        //     this.globalMsg = this.texts.validationErrorCannotReportOnPrevMonth;
-        //     return this.getAndValidateReportDate();
-        // }
 
         //אי אפשר לדווח על העתיד
         const reportDateIsFuture = reportDate.isAfter(moment());
