@@ -159,6 +159,14 @@ export class YemotCall extends CallBase {
         if (this.teacher.teacher_type_id != 3) {
             //אזהרה אם כבר יש דיווח באותו תאריך
             this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
+
+            // דיווח ריק (שאלות בלבד) לא נחשב כדיווח קיים
+            const relevantFields = ['how_many_students', 'how_many_methodic', 'is_taarif_hulia', 'how_many_watch_or_individual', 'was_collective_watch', 'how_many_lessons'];
+            const hasSomeData = relevantFields.some(field => this.existingReport?.[field] !== null && this.existingReport?.[field] !== undefined);
+            if (!hasSomeData) {
+                delete this.existingReport;
+            }
+
             if (this.existingReport) {
                 // אם הדיווח כבר מקושר לחודש שכר, לא ניתן לשנות אותו
                 if (this.existingReport.salaryReport) {
