@@ -244,6 +244,7 @@ export class YemotCall extends CallBase {
                 four_last_digits_of_teacher_phone: this.params.fourLastDigitsOfTeacherPhone,
                 is_taarif_hulia: this.params.isTaarifHulia,
                 is_taarif_hulia2: this.params.isTaarifHulia2,
+                is_taarif_hulia3: this.params.isTaarifHulia3,
                 teached_student_tz: this.params.teachedStudentTz,
                 how_many_yalkut_lessons: this.params.howManyYalkutLessons,
                 how_many_discussing_lessons: this.params.howManyDiscussingLessons,
@@ -374,26 +375,26 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
-            //כמה שיעורי צפיה בחוליה רגילה?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
-                    'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
-            //כמה שעורי צפיה בחוליה גדולה?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askIsTaarifHulia2 },
-                    'isTaarifHulia2', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //כמה שיעורי צפיה בחוליה רגילה?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
+            //         'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
+            // //כמה שעורי צפיה בחוליה גדולה?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia2 },
+            //         'isTaarifHulia2', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             // //כמה שיעורי צפיה?
             // await this.send(
             //     this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
             //         'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
-            //כמה בנות מסרו היום שיעור?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
-                    'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //כמה בנות מסרו היום שיעור?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
+            //         'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             //אם התשובה גדולה מ0 אז  
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
             // if (this.params.howManyStudentsTeached != 0) {
@@ -402,15 +403,20 @@ export class YemotCall extends CallBase {
             //         this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
             //     }
             // }
-            //כמה שיעורי ילקוט הרועים?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
-                    'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
+            // //כמה שיעורי ילקוט הרועים?
+            // await this.send(
+            //     this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
+            //         'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            // );
             //כמה שיעורי מרתון עזרת לתלמידות למסור?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyStudentsHelpTeached },
                     'howManyStudentsHelpTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            //כמה שיעורים היו בחוליה ה 2?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia3 },
+                    'isTaarifHulia3', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
             // //כמה שיעורי דיון?
             // await this.send(
@@ -766,6 +772,7 @@ export class YemotCall extends CallBase {
                     this.params.howManyYalkutLessons,
                     this.params.howManyDiscussingLessons,
                     this.params.howManyStudentsHelpTeached,
+                    this.params.isTaarifHulia3,
                 )
             },
                 'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
@@ -793,7 +800,8 @@ export class YemotCall extends CallBase {
     }
 
     getReportMessage({
-        report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, is_taarif_hulia2, teached_student_tz,
+        report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, is_taarif_hulia2,
+        is_taarif_hulia3, teached_student_tz,
         how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached, how_many_lessons_absence,
         how_many_watched_lessons, was_discussing, how_many_teached, how_many_individual, was_kamal, how_many_interfering,
         how_many_watch_or_individual, how_many_teached_or_interfering, how_many_students, was_students_good,
@@ -813,7 +821,7 @@ export class YemotCall extends CallBase {
         const params = {
             1: [report_date, how_many_lessons, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons, how_many_lessons_absence, was_kamal, how_many_students],
             2: [],
-            3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, is_taarif_hulia2, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached],
+            3: [report_date, how_many_methodic, four_last_digits_of_teacher_phone, is_taarif_hulia, is_taarif_hulia2, how_many_watched_lessons, how_many_students_teached, teached_student_tz, how_many_yalkut_lessons, how_many_discussing_lessons, how_many_students_help_teached, is_taarif_hulia3],
             4: [],
             5: [report_date, how_many_watch_or_individual, how_many_teached_or_interfering, how_many_discussing_lessons],
             6: [report_date, how_many_students, was_discussing, was_students_good, was_students_enter_on_time, was_students_exit_on_time, was_collective_watch],

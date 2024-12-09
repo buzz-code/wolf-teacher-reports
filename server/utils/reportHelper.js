@@ -85,6 +85,7 @@ export function getManhaTotalPay(prices, withExtra) {
         getCoalesceAndPrice('how_many_methodic', prices[56]),
         getCoalesceAndPrice('is_taarif_hulia', prices[57]),
         getCoalesceAndPrice('is_taarif_hulia2', prices[58]),
+        getCoalesceAndPrice('is_taarif_hulia3', prices[59]),
         withExtra ? getAnswersPrice() : '0',
     );
 }

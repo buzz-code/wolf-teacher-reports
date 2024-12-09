@@ -31,6 +31,7 @@ const getColumns = (handleEditComment) => [
   // { field: 'four_last_digits_of_teacher_phone', title: '4 ספרות אחרונות' },
   { field: 'is_taarif_hulia', title: 'חוליה רגילה' },
   { field: 'is_taarif_hulia2', title: 'חוליה גדולה' },
+  { field: 'is_taarif_hulia3', title: 'חוליה שניה' },
   { field: 'how_many_watched_lessons', title: 'שיעורי צפיה או מטלה' },
   { field: 'how_many_students_teached', title: 'שיעורי מסירה' },
   { field: 'how_many_yalkut_lessons', title: 'שיעור ילקוט' },
