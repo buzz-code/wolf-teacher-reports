@@ -375,26 +375,31 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
-            // //כמה שיעורי צפיה בחוליה רגילה?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
-            //         'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
-            // //כמה שעורי צפיה בחוליה גדולה?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askIsTaarifHulia2 },
-            //         'isTaarifHulia2', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
+            //כמה שיעורי צפיה בחוליה רגילה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
+                    'isTaarifHulia', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            //כמה שעורי צפיה בחוליה גדולה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia2 },
+                    'isTaarifHulia2', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
+            //כמה שיעורים היו בחוליה ה 2?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askIsTaarifHulia3 },
+                    'isTaarifHulia3', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             // //כמה שיעורי צפיה?
             // await this.send(
             //     this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
             //         'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
-            // //כמה בנות מסרו היום שיעור?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
-            //         'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
+            //כמה בנות מסרו היום שיעור?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
+                    'howManyStudentsTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //אם התשובה גדולה מ0 אז  
             //הקישי את מ.ז. של התלמידה-  וחוזר על עצמו כמספר התלמידות שהמורה הקלידה שמסרו.
             // if (this.params.howManyStudentsTeached != 0) {
@@ -403,21 +408,16 @@ export class YemotCall extends CallBase {
             //         this.params.teachedStudentTz = (this.params.teachedStudentTz || '') + this.params.partialTeachedStudentTz + ',';
             //     }
             // }
-            // //כמה שיעורי ילקוט הרועים?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
-            //         'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
+            //כמה שיעורי ילקוט הרועים?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyYalkutLessons },
+                    'howManyYalkutLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             // //כמה שיעורי מרתון עזרת לתלמידות למסור?
             // await this.send(
             //     this.read({ type: 'text', text: this.texts.askHowManyStudentsHelpTeached },
             //         'howManyStudentsHelpTeached', 'tap', { max: 1, min: 1, block_asterisk: true })
             // );
-            //כמה שיעורים היו בחוליה ה 2?
-            await this.send(
-                this.read({ type: 'text', text: this.texts.askIsTaarifHulia3 },
-                    'isTaarifHulia3', 'tap', { max: 1, min: 1, block_asterisk: true })
-            );
             // //כמה שיעורי דיון?
             // await this.send(
             //     this.read({ type: 'text', text: this.texts.askHowManyDiscussingLessons },
