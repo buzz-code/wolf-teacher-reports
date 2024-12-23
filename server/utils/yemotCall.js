@@ -390,11 +390,11 @@ export class YemotCall extends CallBase {
                 this.read({ type: 'text', text: this.texts.askIsTaarifHulia3 },
                     'isTaarifHulia3', 'tap', { max: 1, min: 1, block_asterisk: true })
             );
-            // //כמה שיעורי צפיה?
-            // await this.send(
-            //     this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
-            //         'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
-            // );
+            //כמה שיעורי צפיה?
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askHowManyWatchedLessons },
+                    'howManyWatchedLessons', 'tap', { max: 1, min: 1, block_asterisk: true })
+            );
             //כמה בנות מסרו היום שיעור?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askHowManyStudentsTeached },
