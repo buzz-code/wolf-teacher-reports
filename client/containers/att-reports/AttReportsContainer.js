@@ -55,7 +55,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'how_many_discussing_lessons', title: 'שיעורי דיון' },
   { field: 'how_many_students_help_teached', title: 'עזרה בשיעורי מרתון' },
   { field: 'how_many_lessons_absence', title: 'העדרות' },
-  { field: 'how_many_watched_lessons', title: 'צפיה' },
+  { field: 'how_many_watched_lessons', title: 'מס\' מסירות סבב ב' },
   { field: 'was_discussing', title: 'האם היה דיון?', type: 'boolean' },
   { field: 'how_many_teached', title: 'כמה מסרו' },
   { field: 'how_many_individual', title: 'כמה אינדיוידואלי' },
