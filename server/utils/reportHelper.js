@@ -70,7 +70,7 @@ export function getSeminarKitaTotalPay(prices, withExtra) {
             getCoalesceAndPrice('how_many_discussing_lessons', prices[13]),
             getCoalesceAndPrice('was_kamal', prices[14]),
             getCoalesceAndPrice('how_many_lessons_absence', prices[15]),
-        ) + ' * GREATEST(0.5 * COALESCE(how_many_students, 0), 1)',
+        ) + ' * (0.5 * COALESCE(how_many_students, 0))',
         withExtra ? getAnswersPrice() : '0',
     );
 }
