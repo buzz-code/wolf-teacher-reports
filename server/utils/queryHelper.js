@@ -87,10 +87,18 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
         answerByQuestion[ans.question_id][Number(!!Number(ans.answer))] = true;
     });
     return questions.filter(question => {
-        return question.question_type_key == 1 && (answerByQuestion[question.id]?.[0] != true && answerByQuestion[question.id]?.[1] != true) ||
-            question.question_type_key == 2 && answerByQuestion[question.id]?.[1] != true ||
-            question.question_type_key == 3 && answerByQuestion[question.id]?.[0] != true ||
-            question.question_type_key == 4 && teacher_special_question == question.id
+        const FALSE = 0, TRUE = 1;
+        const questionTypeValidators = {
+            1: answer => !answer?.[FALSE] && !answer?.[TRUE],
+            2: answer => !answer?.[TRUE],
+            3: answer => !answer?.[FALSE],
+            4: (answer, questionId) => teacher_special_question == questionId
+        };
+
+        return questionTypeValidators[question.question_type_key]?.(
+            answerByQuestion[question.id], 
+            question.id
+        ) ?? false;
     });
 }
 
