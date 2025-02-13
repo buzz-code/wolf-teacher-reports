@@ -92,7 +92,7 @@ export async function getQuestionsForTeacher(user_id, teacher_id, teacher_type_i
             1: answer => !answer?.[FALSE] && !answer?.[TRUE],
             2: answer => !answer?.[TRUE],
             3: answer => !answer?.[FALSE],
-            4: (answer, questionId) => teacher_special_question == questionId
+            4: (answer, questionId) => teacher_special_question == questionId && !answer?.[TRUE],
         };
 
         return questionTypeValidators[question.question_type_key]?.(
