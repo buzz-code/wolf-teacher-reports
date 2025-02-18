@@ -180,6 +180,8 @@ export class YemotCall extends CallBase {
                     return this.getAndValidateReportDate();
                 }
                 this.globalMsg = this.texts.existingReportWillBeDeleted;
+            } else {
+                console.log('no existing report for this date');
             }
         }
 
