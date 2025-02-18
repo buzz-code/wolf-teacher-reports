@@ -169,6 +169,7 @@ export class YemotCall extends CallBase {
             }
 
             if (this.existingReport) {
+                console.log('existing report for this date', this.existingReport);
                 // אם הדיווח כבר מקושר לחודש שכר, לא ניתן לשנות אותו
                 if (this.existingReport.salaryReport) {
                     this.globalMsg = this.texts.validationErrorCannotReportOnSalaryReport;
@@ -188,6 +189,7 @@ export class YemotCall extends CallBase {
         //בדיקת תאריך עברי
         const hebrewDate = formatJewishDateHebrew(getJewishDate(reportDate.toDate()))
         await this.send(
+            this.globalMsgIfExists(),
             this.read({ type: 'text', text: format(this.texts.askReportDateConfirm, hebrewDate) },
                 'reportDateConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
         );
