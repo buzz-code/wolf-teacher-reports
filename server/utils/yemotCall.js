@@ -164,12 +164,11 @@ export class YemotCall extends CallBase {
             const relevantFields = ['how_many_students', 'how_many_methodic', 'is_taarif_hulia', 'how_many_watch_or_individual', 'was_collective_watch', 'how_many_lessons'];
             const hasSomeData = relevantFields.some(field => this.existingReport?.[field] !== null && this.existingReport?.[field] !== undefined);
             if (!hasSomeData) {
-                console.log('empty report, probably only questions', this.existingReport);
+                console.log('empty report, probably only questions', this.existingReport.id);
                 delete this.existingReport;
             }
 
             if (this.existingReport) {
-                console.log('existing report for this date', this.existingReport);
                 // אם הדיווח כבר מקושר לחודש שכר, לא ניתן לשנות אותו
                 if (this.existingReport.salaryReport) {
                     this.globalMsg = this.texts.validationErrorCannotReportOnSalaryReport;
@@ -181,8 +180,6 @@ export class YemotCall extends CallBase {
                     return this.getAndValidateReportDate();
                 }
                 this.globalMsg = this.texts.existingReportWillBeDeleted;
-            } else {
-                console.log('no existing report for this date');
             }
         }
 
