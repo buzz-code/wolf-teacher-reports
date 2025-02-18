@@ -164,7 +164,7 @@ export class YemotCall extends CallBase {
             const relevantFields = ['how_many_students', 'how_many_methodic', 'is_taarif_hulia', 'how_many_watch_or_individual', 'was_collective_watch', 'how_many_lessons'];
             const hasSomeData = relevantFields.some(field => this.existingReport?.[field] !== null && this.existingReport?.[field] !== undefined);
             if (!hasSomeData) {
-                console.log('empty report, probably only questions');
+                console.log('empty report, probably only questions', this.existingReport);
                 delete this.existingReport;
             }
 
