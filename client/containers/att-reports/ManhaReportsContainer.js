@@ -153,6 +153,9 @@ const ManhaReportsContainer = ({ entity, title }) => {
       disableDelete={true}
       onConditionUpdate={setConditions}
       isExportPdfLandscape={true}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

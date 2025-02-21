@@ -63,6 +63,9 @@ const WorkingDatesContainer = ({ entity, title }) => {
       columns={columns}
       filters={filters}
       manipulateDataToSave={manipulateDataToSave}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

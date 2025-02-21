@@ -170,6 +170,9 @@ const TotalMonthlyReportsContainer = ({ entity, title }) => {
       disableDelete={true}
       onConditionUpdate={setConditions}
       isBulkDelete={true}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

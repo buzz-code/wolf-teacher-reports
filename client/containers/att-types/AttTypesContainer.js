@@ -24,6 +24,9 @@ const AttTypesContainer = ({ entity, title }) => {
       disableAdd={true}
       disableUpdate={true}
       disableDelete={true}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

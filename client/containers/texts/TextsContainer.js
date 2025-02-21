@@ -38,6 +38,9 @@ const TextsContainer = ({ entity, title }) => {
       disableAdd={true}
       disableDelete={true}
       validateRow={validateRow}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

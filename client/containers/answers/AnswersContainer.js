@@ -38,6 +38,9 @@ const AnswersContainer = ({ entity, title }) => {
       filters={filters}
       manipulateDataToSave={manipulateDataToSave}
       disableAdd={true}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

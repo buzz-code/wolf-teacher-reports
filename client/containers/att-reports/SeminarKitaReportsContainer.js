@@ -148,6 +148,9 @@ const SeminarKitaReportsContainer = ({ entity, title }) => {
       disableUpdate={true}
       disableDelete={true}
       onConditionUpdate={setConditions}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };

@@ -148,6 +148,9 @@ const KindergartenReportsContainer = ({ entity, title }) => {
       disableUpdate={true}
       disableDelete={true}
       onConditionUpdate={setConditions}
+      customMaterialOptions={{
+        pageSize: 200,
+      }}
     />
   );
 };
