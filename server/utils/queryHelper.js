@@ -20,10 +20,10 @@ export function getTeacherByUserIdAndPhone(user_id, phone) {
         .then(res => res ? res.toJSON() : null);
 }
 
-export function getReportByTeacherIdAndToday(user_id, teacher_id, report_date) {
+export function getReportsByTeacherIdAndToday(user_id, teacher_id, report_date) {
     return new AttReport().where({ user_id, teacher_id, report_date })
-        .fetch({ require: false })
-        .then(res => res ? res.toJSON() : null);
+        .fetchAll()
+        .then(result => result.toJSON());
 }
 
 export function getUnconfirmedPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {

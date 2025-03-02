@@ -158,14 +158,19 @@ export class YemotCall extends CallBase {
         //לא למורות מנחות
         if (this.teacher.teacher_type_id != 3) {
             //אזהרה אם כבר יש דיווח באותו תאריך
-            this.existingReport = await queryHelper.getReportByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
+            const existingReports = await queryHelper.getReportsByTeacherIdAndToday(this.user.id, this.teacher.id, reportDate.format('YYYY-MM-DD'));
 
             // דיווח ריק (שאלות בלבד) לא נחשב כדיווח קיים
             const relevantFields = ['how_many_students', 'how_many_methodic', 'is_taarif_hulia', 'how_many_watch_or_individual', 'was_collective_watch', 'how_many_lessons'];
-            const hasSomeData = relevantFields.some(field => this.existingReport?.[field] !== null && this.existingReport?.[field] !== undefined);
-            if (!hasSomeData) {
-                console.log('empty report, probably only questions', this.existingReport?.id);
-                delete this.existingReport;
+            this.existingReport = existingReports.find(report => relevantFields.some(field => report[field] !== null && report[field] !== undefined));
+            if (!this.existingReport) {
+                if (existingReports.length > 0) {
+                    console.log('empty report, probably only questions', existingReports.map(r => r.id));
+                } else {
+                    console.log('no reports found');
+                }
+            } else {
+                console.log('Existing report found:', this.existingReport.id);
             }
 
             if (this.existingReport) {
