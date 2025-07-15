@@ -1,4 +1,4 @@
-const startOfYear = new Date('2000-08-01');
+const startOfYear = new Date('2000-07-01');
 const firstAvailableYear = 5782;
 
 const getCurrentGregorianYearByStartDate = (yearStartDate) => {
