@@ -3,6 +3,10 @@
 ## Overview
 The Wolf Teacher Reports system is a comprehensive teacher reporting and salary calculation platform designed for educational institutions. The system manages multiple types of teachers, tracks their activities, calculates salaries based on complex business rules, and provides reporting capabilities. The system integrates with phone services (Yemot) for voice-based reporting.
 
+## Related Documentation
+- **[Functional Requirements](FUNCTIONAL_REQUIREMENTS.md)** - Complete functional specifications for both web UI and phone system
+- **[Yemot Phone Flow](YEMOT_PHONE_FLOW.md)** - Detailed phone system call flow documentation
+
 ## System Architecture
 
 ### Technology Stack
