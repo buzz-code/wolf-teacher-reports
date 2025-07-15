@@ -16,6 +16,7 @@ The Wolf Teacher Reports system is a comprehensive teacher reporting and salary 
 - **PDF Generation**: html-pdf 3.0.1
 - **Excel Processing**: xlsx 0.16.9
 - **Build System**: Webpack 4.43.0, Babel 7.x
+- **Shared Architecture**: Git submodule `common-modules` providing foundational components and utilities
 
 ### Core Dependencies
 - Material-UI 4.12.3 for UI components with Hebrew locale
@@ -34,6 +35,44 @@ The Wolf Teacher Reports system is a comprehensive teacher reporting and salary 
 - Prettier for code formatting
 - Webpack dev server for hot reloading
 - Nodemon/babel-watch for development server
+
+### Shared Modules (common-modules)
+The system relies heavily on a shared library (`common-modules`) that provides foundational architecture and reusable components across the application.
+
+#### Server-side Shared Components
+- **Generic CRUD Controllers**: Standardized pagination, filtering, and data fetching with `fetchPage()` and `applyFilters()`
+- **Authentication Middleware**: JWT token verification and user authentication with `authenticate.js`
+- **Error Handling**: Centralized error responses and Joi validation with `errorHandler.js` and `joiErrorHandler.js`
+- **Database Configuration**: Bookshelf ORM and Knex configuration setup
+- **Model Utilities**: `createModel()` function for consistent model creation patterns
+- **Call Base System**: Framework for handling Yemot phone system calls with `CallListHandler` and `CallBase` classes
+- **Logging Configuration**: Winston logging setup with configurable levels
+- **Email Utilities**: Email sending capabilities with template support
+- **Query Utilities**: Database query building helpers and common operations
+
+#### Client-side Shared Components
+- **Table Component**: Material-UI based data tables with built-in filtering, sorting, pagination, and export capabilities
+- **Authentication Components**: Login forms, token management, and protected route handling
+- **CRUD Actions/Reducers**: Redux actions and reducers for standardized CRUD operations
+- **Form Utilities**: Form validation helpers, autocomplete configurations, and field management
+- **HTTP Utilities**: Axios-based HTTP client with automatic authentication header injection
+- **Export Utilities**: CSV and PDF export functionality with customizable formatting
+- **Router Configuration**: Redux router setup with history management
+- **Storage Utilities**: Local storage management for user preferences and session data
+
+#### Configuration and Build Tools
+- **Webpack Configurations**: Separate development and production build configurations
+- **Template System**: EJS templates for PDF exports and email notifications
+- **Shared Constants**: Common configuration values and API endpoints
+
+#### Key Features Provided by common-modules
+1. **Standardized CRUD Operations**: All entities use the same pattern for create, read, update, delete operations
+2. **Consistent UI/UX**: Shared components ensure uniform look and feel across all modules
+3. **Phone System Integration**: Reusable framework for voice-based interactions
+4. **Authentication & Authorization**: Centralized security implementation
+5. **Data Export**: Consistent export functionality across all data tables
+6. **Error Handling**: Uniform error messaging and validation responses
+7. **Hebrew/RTL Support**: Built-in right-to-left language support in all components
 
 ## Database Schema
 
@@ -516,9 +555,12 @@ TOKEN_SECRET_KEY=secretkeyforjsonwebtoken
 
 ## Open Questions
 
-1. **Common-modules dependency**: The system relies on a git submodule `common-modules` that contains shared components and utilities. What is the exact content and structure of this dependency?
+1. **Common-modules Migration Strategy**: The system heavily depends on the `common-modules` shared library. For the new technology stack:
+   - Should common-modules be migrated as-is, modernized, or replaced with modern alternatives?
+   - Are there newer libraries that could replace the shared functionality (e.g., modern React table libraries, state management tools)?
+   - How should the shared architecture be maintained across multiple projects?
 
-2. **Database Migration Strategy**: Only one migration file exists. Are there additional migrations in the common-modules or are they managed differently?
+2. **Database Migration Strategy**: Only one migration file exists in the main project. Are there additional migrations in the common-modules or are they managed differently?
 
 3. **Yemot API Integration**: What are the exact API specifications and authentication requirements for the Yemot phone system?
 
