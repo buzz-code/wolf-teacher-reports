@@ -47,6 +47,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
     field: 'teacher_to_report_for',
     title: 'שם המורה לדיווח',
     ...getPropsForAutoComplete('teacher_to_report_for', teachers),
+    columnOrder: 'reported_teachers.name',
   },
   { field: 'is_taarif_hulia', title: 'תעריף חוליה' },
   { field: 'is_taarif_hulia2', title: 'חוליה גדולה' },
@@ -77,7 +78,7 @@ const getColumns = ({ teachers, attTypes, teacherTypes }) => [
 ];
 const getFilters = ({ teachers, attTypes, teacherTypes }) => [
   { field: 'teachers.name', label: 'מורה', type: 'text', operator: 'like' },
-  { field: 'teachers.training_teacher', label: 'מורה מנחה', type: 'text', operator: 'like' },
+  { field: 'reported_teachers.name', label: 'שם המורה לדיווח', type: 'text', operator: 'like' },
   {
     field: 'teacher_types.key',
     label: 'סוג מורה',

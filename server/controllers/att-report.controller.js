@@ -19,6 +19,7 @@ export async function findAll(req, res) {
     const dbQuery = new AttReport().where({ 'att_reports.user_id': req.currentUser.id })
         .query(qb => {
             qb.leftJoin('teachers', 'teachers.id', 'att_reports.teacher_id')
+            qb.leftJoin('teachers as reported_teachers', 'reported_teachers.id', 'att_reports.teacher_to_report_for')
             qb.leftJoin('teacher_types', { 'teacher_types.key': 'teachers.teacher_type_id', 'teacher_types.user_id': 'teachers.user_id' })
             qb.select('att_reports.*')
             qb.select({
