@@ -52,4 +52,11 @@ const getYearList = () => {
 
 export const yearsList = getYearList();
 
-export const defaultYear = yearsList[yearsList.length - 1].id;
+export const getYearsList = () => getYearList();
+
+export const getDefaultYear = () => {
+    const choices = getYearList();
+    return choices[choices.length - 1].id;
+};
+
+export const defaultYear = getDefaultYear();

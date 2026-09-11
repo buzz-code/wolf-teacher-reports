@@ -4,7 +4,7 @@ import moment from "moment";
 import * as queryHelper from './queryHelper';
 import { AttReport } from "../models";
 import { formatJewishDateHebrew, getJewishDate } from "jewish-dates-core";
-import { defaultYear } from "./listHelper";
+import { getDefaultYear } from "./listHelper";
 
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
@@ -246,7 +246,7 @@ export class YemotCall extends CallBase {
                 teacher_id: this.teacher.id,
                 report_date: this.report_date,
                 update_date: new Date(),
-                year: defaultYear,
+                year: getDefaultYear(),
                 how_many_methodic: this.params.howManyMethodic,
                 four_last_digits_of_teacher_phone: this.params.fourLastDigitsOfTeacherPhone,
                 is_taarif_hulia: this.params.isTaarifHulia,
@@ -675,7 +675,7 @@ export class YemotCall extends CallBase {
             teacher_id: this.teacher.id,
             report_date: new Date(),
             update_date: new Date(),
-            year: defaultYear,
+            year: getDefaultYear(),
             is_confirmed: 1,
         };
         const savedReport = await new AttReport(emptyReport).save();
