@@ -26,6 +26,19 @@ export function getReportsByTeacherIdAndToday(user_id, teacher_id, report_date) 
         .then(result => result.toJSON());
 }
 
+export function getLessonReport(user_id, teacher_id, report_date, lesson_number) {
+    return new AttReport()
+        .query(qb => {
+            qb.where({ user_id, report_date, lesson_number })
+            qb.where(qb2 => {
+                qb2.where('teacher_id', teacher_id)
+                    .orWhere('teacher_to_report_for', teacher_id)
+            })
+        })
+        .fetch({ require: false })
+        .then(result => result ? result.toJSON() : null);
+}
+
 export function getUnconfirmedPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {
     return new AttReport().where({ user_id, teacher_id })
         .where('report_date', '>=', start_report_date.format('YYYY-MM-DD'))

@@ -247,6 +247,7 @@ export class YemotCall extends CallBase {
                 report_date: this.report_date,
                 update_date: new Date(),
                 year: getDefaultYear(),
+                lesson_number: this.params.lessonNumber,
                 how_many_methodic: this.params.howManyMethodic,
                 four_last_digits_of_teacher_phone: this.params.fourLastDigitsOfTeacherPhone,
                 is_taarif_hulia: this.params.isTaarifHulia,
@@ -278,11 +279,7 @@ export class YemotCall extends CallBase {
                 teacher_to_report_for: this.teacherToReportFor?.id,
                 was_collective_watch: this.params.wasCollectiveWatch,
             };
-            const savedReport = await new AttReport(attReport).save();
-            if (this.existingReport) {
-                await new AttReport().where({ id: this.existingReport.id }).destroy();
-                await queryHelper.updateReportIdForExistingReportAnswers(this.existingReport.id, savedReport.id);
-            }
+            const savedReport = await this.saveReportWithDuplicateCheck(attReport);
 
             await queryHelper.updateReportIdForAnswers(this.user.id, this.teacher.id, savedReport.id);
 
@@ -382,6 +379,7 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
+            await this.getLessonNumber()
             //כמה שיעורי צפיה בחוליה רגילה?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
@@ -572,6 +570,32 @@ export class YemotCall extends CallBase {
         );
     }
 
+    //בדיקת דיווח על אותו שיעור שכבר תוקף - אפשרות 2: לשאול אם להוסיף או למחוק
+    async saveReportWithDuplicateCheck(attReport) {
+        const lessonNumber = this.params.lessonNumber;
+        const reportedTeacherId = this.teacherToReportFor?.id || this.teacher.id;
+        if (lessonNumber && this.report_date) {
+            const existingLessonReport = await queryHelper.getLessonReport(this.user.id, reportedTeacherId, this.report_date, lessonNumber);
+            if (existingLessonReport && existingLessonReport.id !== this.existingReport?.id) {
+                await this.send(
+                    this.id_list_message({ type: 'text', text: this.texts.lessonAlreadyValidated }),
+                    this.read({ type: 'text', text: this.texts.askAddOrDeleteLesson },
+                        'addOrDeleteLesson', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [1, 2] })
+                );
+                if (this.params.addOrDeleteLesson == 2) {
+                    //מחיקת הקודם
+                    await new AttReport().where({ id: existingLessonReport.id }).destroy();
+                }
+            }
+        }
+        const savedReport = await new AttReport(attReport).save();
+        if (this.existingReport) {
+            await new AttReport().where({ id: this.existingReport.id }).destroy();
+            await queryHelper.updateReportIdForExistingReportAnswers(this.existingReport.id, savedReport.id);
+        }
+        return savedReport;
+    }
+
     async finishSavingReport() {
         const isManhaAndOnOthers = this.teacher.teacher_type_id == 3 && this.params.manhaReportType == 2;
         const isSeminarKita = this.teacher.teacher_type_id == 1;
@@ -683,6 +707,15 @@ export class YemotCall extends CallBase {
     }
 
     //helpers
+    async getLessonNumber() {
+        //הקישי את מספר השיעור
+        await this.send(
+            this.globalMsgIfExists(),
+            this.read({ type: 'text', text: this.texts.askLessonNumber },
+                'lessonNumber', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: [1, 2, 3, 4, 5, 6, 7, 8] })
+        );
+    }
+
     async getTeacherFourLastDigits() {
         //הקישי 4 ספרות אחרונות של הטלפון של המורה
         await this.send(
