@@ -26,6 +26,16 @@ export function getReportsByTeacherIdAndToday(user_id, teacher_id, report_date) 
         .then(result => result.toJSON());
 }
 
+// Ofek meeting is paid once a month per reported teacher
+export async function hasOfekMeetingInMonth(user_id, teacher_to_report_for, report_date) {
+    const month = moment(report_date);
+    const report = await new AttReport().where({ user_id, teacher_to_report_for, ofek_meeting: true })
+        .where('report_date', '>=', month.clone().startOf('month').format('YYYY-MM-DD'))
+        .where('report_date', '<=', month.clone().endOf('month').format('YYYY-MM-DD'))
+        .fetch({ require: false });
+    return !!report;
+}
+
 export function getUnconfirmedPreviousReportsByTeacherAndDates(user_id, teacher_id, start_report_date, end_report_date) {
     return new AttReport().where({ user_id, teacher_id })
         .where('report_date', '>=', start_report_date.format('YYYY-MM-DD'))

@@ -6,6 +6,10 @@ import { AttReport } from "../models";
 import { formatJewishDateHebrew, getJewishDate } from "jewish-dates-core";
 import { getDefaultYear } from "./listHelper";
 
+// Params of one manha route, cleared when the other route is chosen (a call can report on several teachers)
+const huliaParams = ['isTaarifHulia', 'isTaarifHulia2', 'isTaarifHulia3', 'howManyWatchedLessons', 'howManyStudentsTeached', 'howManyYalkutLessons', 'howManyStudentsHelpTeached', 'howManyDiscussingLessons'];
+const ofekParams = ['ofekLessons', 'ofekDiscussingLessons', 'ofekMeeting'];
+
 export class YemotCall extends CallBase {
     constructor(params, callId, user) {
         super(params, callId, user);
@@ -277,6 +281,10 @@ export class YemotCall extends CallBase {
                 what_speciality: this.params.whatIsYourSpeciality,
                 teacher_to_report_for: this.teacherToReportFor?.id,
                 was_collective_watch: this.params.wasCollectiveWatch,
+                is_ofek: this.params.ofekOrHulia == 1 ? true : null,
+                ofek_lessons: this.params.ofekLessons,
+                ofek_discussing_lessons: this.params.ofekDiscussingLessons,
+                ofek_meeting: this.params.ofekMeeting == 1 ? true : null,
             };
             const savedReport = await new AttReport(attReport).save();
             if (this.existingReport) {
@@ -382,6 +390,16 @@ export class YemotCall extends CallBase {
         } else {
             //מדווחת על מורות אחרות
             await this.getTeacherFourLastDigits()
+            //לתוכנית אופק 1, לתוכנית החוליות 2
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askOfekOrHulia },
+                    'ofekOrHulia', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: ['1', '2'] })
+            );
+            if (this.params.ofekOrHulia == 1) {
+                this.clearParams(huliaParams);
+                return this.getOfekReport();
+            }
+            this.clearParams(ofekParams);
             //כמה שיעורי צפיה בחוליה רגילה?
             await this.send(
                 this.read({ type: 'text', text: this.texts.askIsTaarifHulia },
@@ -433,6 +451,53 @@ export class YemotCall extends CallBase {
 
             await this.validateManhaReport();
         }
+    }
+
+    async getOfekReport() {
+        //כמה שיעורים היו אצל מורה זו?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askOfekLessons },
+                'ofekLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
+        );
+        //כמה שיעורי דיון מסרה מורה זו?
+        await this.send(
+            this.read({ type: 'text', text: this.texts.askOfekDiscussingLessons },
+                'ofekDiscussingLessons', 'tap', { max: 2, min: 1, block_asterisk: true })
+        );
+        //אסיפת הערכות - משולמת פעם בחודש לכל מורה, לכן נשאלת רק אם עוד לא דווחה החודש
+        const meetingAlreadyReported = await queryHelper.hasOfekMeetingInMonth(this.user.id, this.teacherToReportFor.id, this.report_date);
+        if (meetingAlreadyReported) {
+            this.params.ofekMeeting = null;
+        } else {
+            await this.send(
+                this.read({ type: 'text', text: this.texts.askOfekMeeting },
+                    'ofekMeeting', 'tap', { max: 1, min: 1, block_asterisk: true, digits_allowed: ['1', '9'] })
+            );
+        }
+
+        await this.validateOfekReport();
+    }
+
+    async validateOfekReport() {
+        await this.send(
+            this.read({
+                type: 'text', text: format(
+                    this.texts.validationConfirmOfekReport,
+                    this.teacherToReportFor.name,
+                    this.params.ofekLessons,
+                    this.params.ofekDiscussingLessons,
+                    this.params.ofekMeeting == 1 ? 'כן' : 'לא',
+                )
+            },
+                'reportConfirm', 'tap', { max: 1, min: 1, block_asterisk: true })
+        );
+        if (this.params.reportConfirm == 2) {
+            return this.askForReportDataAndSave();
+        }
+    }
+
+    clearParams(names) {
+        names.forEach(name => delete this.params[name]);
     }
 
     async getReponsibleReport() {

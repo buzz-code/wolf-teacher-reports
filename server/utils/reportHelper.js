@@ -86,6 +86,9 @@ export function getManhaTotalPay(prices, withExtra) {
         getCoalesceAndPrice('is_taarif_hulia', prices[57]),
         getCoalesceAndPrice('is_taarif_hulia2', prices[58]),
         getCoalesceAndPrice('is_taarif_hulia3', prices[59]),
+        getCoalesceAndPrice('ofek_lessons', prices[60]),
+        getCoalesceAndPrice('ofek_discussing_lessons', prices[61]),
+        getCoalesceAndPrice('ofek_meeting', prices[62]),
         withExtra ? getAnswersPrice() : '0',
     );
 }
