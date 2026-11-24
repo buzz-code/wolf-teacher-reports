@@ -88,6 +88,12 @@ const getActions = (handleUpdateSalaryMonth) => [
   },
 ];
 
+// Export only columns that have a value in at least one row, so the PDF fits the page
+const getColumnsWithData = (columns) => (data) =>
+  columns.filter((column) =>
+    data.some((row) => row[column.field] !== null && row[column.field] !== undefined && row[column.field] !== '')
+  );
+
 const ManhaReportsContainer = ({ entity, title }) => {
   const dispatch = useDispatch();
   const {
@@ -156,6 +162,7 @@ const ManhaReportsContainer = ({ entity, title }) => {
       disableUpdate={true}
       disableDelete={true}
       onConditionUpdate={setConditions}
+      getExportColumns={getColumnsWithData(columns)}
       isExportPdfLandscape={true}
       customMaterialOptions={{
         pageSize: 200,
